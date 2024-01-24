@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import Navbar from './components/Navbar';
 // import axios from 'axios';
-import Test from './components/Test';
+// import Test from './components/Test';
 
 const token = import.meta.env.VITE_INFLUXDB_TOKEN;
 const url = import.meta.env.VITE_INFLUXDB_URL;
@@ -12,6 +14,43 @@ from(bucket: "${bucket}")
   |> range(start: -1d)
   |> filter(fn: (r) => r._measurement == "logEntry")
   |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
+`;
+
+const Root = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background: #090a0f;
+  padding: ;
+`;
+
+const Content = styled.div`
+  display: flex;
+  height: 100%;
+  gap: 42px;
+`;
+
+const Menu = styled.div`
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+  max-width: 320px;
+  gap: 16px;
+  padding-bottom: 86px;
+`;
+
+const MenuItem = styled.p`
+  color: #fff;
+  font-family: Manrope;
+  font-size: 16px;
+  font-weight: 500;
+`;
+
+const Main = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 1100px;
 `;
 
 function App() {
@@ -49,9 +88,18 @@ function App() {
   // }, []);
 
   return (
-    <div style={{ background: 'black' }}>
-      <Test />
-    </div>
+    <Root>
+      <Navbar />
+      <Content>
+        <Menu>
+          <MenuItem>Decentralized Shared Sequencing Layer</MenuItem>
+          <MenuItem>MEV / Censorship Resistance</MenuItem>
+          <MenuItem>Sequencer Liveness</MenuItem>
+          <MenuItem>Multi-Rollup Sequencing </MenuItem>
+        </Menu>
+        <Main></Main>
+      </Content>
+    </Root>
   );
 }
 

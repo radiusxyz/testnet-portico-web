@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { dbData, initialIDs, colors, filters, paths } from '../assets/data';
+import { dbData, initialIDs, colors, filters, paths } from '../../assets/data';
 import Defs from './Defs';
 import U from './U';
 import F1 from './F1';
@@ -22,7 +22,6 @@ import UL from './UL';
 import LR0 from './LR0';
 import LR1 from './LR1';
 import Circle from './Circle';
-import cuid from 'cuid';
 
 const getColor = (data) => colors[data] || '#5C5B5E';
 const getFilter = (data, node) => filters[data]?.[node] || 'none';

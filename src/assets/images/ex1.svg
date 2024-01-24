@@ -1,0 +1,12 @@
+<svg width="500" height="500" xmlns="http://www.w3.org/2000/svg">
+    <!-- Define a path -->
+    <path id="myPath" d="M150 0 Q 300 300 150 600 T 150 0" fill="none" stroke="black"/>
+
+    <!-- Animated object -->
+    <circle cx="0" cy="0" r="20" fill="red">
+        <!-- Animate the circle along the path -->
+        <animateMotion dur="6s" repeatCount="indefinite">
+            <mpath href="#myPath"/>
+        </animateMotion>
+    </circle>
+</svg>

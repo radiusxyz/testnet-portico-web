@@ -1,0 +1,18 @@
+<svg width="400" height="200" xmlns="http://www.w3.org/2000/svg">
+    <!-- Define the path (invisible, used only for animation) -->
+    <path id="transactionPath" d="M 20,50 Q 300,0 380,100" fill="none" stroke="red" stroke-width="2"/>
+
+    <!-- Source Object -->
+    <circle cx="20" cy="50" r="10" fill="blue"/>
+
+    <!-- Destination Object -->
+    <circle cx="380" cy="100" r="10" fill="green"/>
+
+    <!-- Transaction Element -->
+    <circle r="5" fill="gold">
+        <!-- Animate the Transaction Element along the path -->
+        <animateMotion dur="4s" repeatCount="indefinite">
+            <mpath href="#transactionPath"/>
+        </animateMotion>
+    </circle>
+</svg>

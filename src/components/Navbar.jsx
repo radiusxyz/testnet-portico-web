@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import globe from '../assets/images/globe.svg';
 import x from '../assets/images/x.svg';
+import logo from '../assets/images/logo.svg';
 
 const Wrapper = styled.div`
   display: flex;
@@ -63,7 +64,7 @@ const Follow = styled.span`
 const Navbar = () => {
   return (
     <Wrapper>
-      <Title>radius testnet</Title>
+      <img src={logo} alt='radiius testnet' />
       <IconAndLink>
         <img src={globe} alt='globe_icon' />
         <FollowLink>

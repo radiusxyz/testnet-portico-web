@@ -20,7 +20,7 @@ const Title = styled.div`
   color: #fff;
   leading-trim: both;
   text-edge: cap;
-  font-family: 'Cabinet Grotesk Variable';
+  font-family: 'area-variable';
   font-size: 28px;
   font-weight: 700;
   line-height: 90px;
@@ -63,7 +63,7 @@ const Follow = styled.span`
 const Navbar = () => {
   return (
     <Wrapper>
-      <Title>Radius Testnet</Title>
+      <Title>radius testnet</Title>
       <IconAndLink>
         <img src={globe} alt='globe_icon' />
         <FollowLink>

@@ -9,6 +9,7 @@ import to from './assets/images/to.svg';
 import key from './assets/images/key.svg';
 import asterisk from './assets/images/asterisk.svg';
 import cuid from 'cuid';
+import Liveness from './components/animation/Liveness';
 // import axios from 'axios';
 // import Test from './components/Test';
 
@@ -71,6 +72,7 @@ const MainWrapper = styled.div`
 const Main = styled.div`
   display: flex;
   justify-content: center;
+  align-items: flex-start;
   width: 100%;
   max-width: 1100px;
   flex-direction: column;
@@ -80,7 +82,7 @@ const views = [
   {
     id: 0,
     header: 'Decentralized \n Shared Sequencing Layer',
-    body: first,
+    body: <img src={first} />,
     linksAndButtons: [{ type: 0, text: 'Docs', icon: to, link: 'https://mindful-subtasks-250940.framer.app/' }],
   },
   {
@@ -90,7 +92,7 @@ const views = [
       text: 'MEV and Censorship Resistance',
     },
     header: 'Leader-based Shared Sequencer Network',
-    body: second,
+    body: <img src={second} />,
     linksAndButtons: [
       { type: 1, text: 'Learn more', icon: to, link: 'https://mindful-subtasks-250940.framer.app/' },
       { type: 0, text: 'See Demo', link: 'https://mindful-subtasks-250940.framer.app/' },
@@ -103,7 +105,7 @@ const views = [
       text: 'Sequencer Liveness',
     },
     header: 'Encrypted Mempool, \n Zero Knowledge Proof',
-    body: third,
+    body: <Liveness />,
     linksAndButtons: [
       { type: 1, text: 'Learn more', icon: to, link: 'https://mindful-subtasks-250940.framer.app/' },
       { type: 0, text: 'View Real-Time Logs', link: 'https://mindful-subtasks-250940.framer.app/' },
@@ -112,7 +114,7 @@ const views = [
   {
     id: 3,
     header: 'Multi-Rollup Sequencing',
-    body: fourth,
+    body: <img src={fourth} />,
     linksAndButtons: [{ type: 0, text: 'Learn more', icon: to, link: 'https://mindful-subtasks-250940.framer.app/' }],
   },
 ];
@@ -159,6 +161,7 @@ const LinksButtons = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 24px;
+  width: 100%;
 `;
 
 const BaseBtn = styled.button`
@@ -264,9 +267,7 @@ function App() {
             )}
             <Head>{view.header}</Head>
             <Body>
-              <ImgWrapper>
-                <img src={view.body} />
-              </ImgWrapper>
+              <ImgWrapper>{view.body}</ImgWrapper>
             </Body>
             <LinksButtons>
               {view.linksAndButtons.map((btn) =>

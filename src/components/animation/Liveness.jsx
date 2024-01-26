@@ -40,7 +40,7 @@ function getHighlightColor(log, node) {
 function getFilterColor(log, node) {
   return log.from === node || log.to === node ? getFilter(log.data, node) : 'none';
 }
-const Test = () => {
+const Liveness = () => {
   const [IDs, setIDs] = useState(initialIDs);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [duration] = useState(2000);
@@ -163,4 +163,4 @@ const Test = () => {
   );
 };
 
-export default Test;
+export default Liveness;

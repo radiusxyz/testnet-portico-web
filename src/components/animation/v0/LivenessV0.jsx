@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { dbData } from '../assets/data';
+import { dbData } from '../../../assets/data';
 
 const duration = 3000;
 

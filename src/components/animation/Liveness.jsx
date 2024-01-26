@@ -156,6 +156,7 @@ const Liveness = () => {
         filterColor={getFilterColor(currentLog, 'r1')}
         highlightColor={getHighlightColor(currentLog, 'r1')}
       />
+      <circle r='5' fill='#090a0f'></circle>
       {/* Message is the text box appearing on the path */}
       <Message currentLog={currentLog} />
       <Defs />

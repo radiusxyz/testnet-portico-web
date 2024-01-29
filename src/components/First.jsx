@@ -5,26 +5,6 @@ const Wrapper = styled.div`
   position: relative;
 `;
 
-// const Pulse = styled.div`
-//   position: absolute;
-//   left: 589px;
-//   top: 112px;
-//   transform: translateX(-50%);
-//   width: 208px;
-//   height: 42px;
-//   border-radius: 6px;
-//   border: 1px solid #8cf900;
-//   background: transparent;
-//   opacity: 1;
-//   transition: opacity 1s ease, transform 1s ease;
-
-//   &.active {
-//     opacity: 0;
-//     transform-origin: 50% 50%;
-//     transform: scale(2);
-//   }
-// `;
-
 const pulseAnimation = keyframes`
   0% {
     transform: scale(1) translateX(-50%);

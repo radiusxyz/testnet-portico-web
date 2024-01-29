@@ -223,38 +223,6 @@ const IconWrapper = styled.div`
   justify-content: center;
 `;
 
-// Dot animation
-
-const loopRippleAnimation = keyframes`
-  0% {
-    opacity: 1;
-    transform: scale(5);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1);
-  }
-`;
-
-const animationDuration = '1.8s';
-
-const Beat = styled.div`
-  --animation-duration: ${animationDuration};
-  border-radius: 50%;
-  width: 6px;
-  height: 6px;
-  background-color: #ffb800; // Assuming you want the beat to be this color
-  transform-origin: 50% 50%;
-  animation: ${loopRippleAnimation} var(--animation-duration) infinite cubic-bezier(0.215, 0.61, 0.355, 1);
-
-  // If Beat is the second child and you want to apply the delay
-  ${(props) =>
-    props.isSecondChild &&
-    css`
-      animation-delay: calc(var(--animation-duration) / -2);
-    `}
-`;
-// Ends here
 function App() {
   const handleMenuItem = (e) => {
     e.preventDefault();

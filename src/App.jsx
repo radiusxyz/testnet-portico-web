@@ -273,25 +273,36 @@ function App() {
 
     return () => clearTimeout(timeoutId);
   }, [view]);
+
   useEffect(() => {
+    let isThrottled = false;
+    const throttleDuration = 300; // Time in milliseconds
+
     const changeView = (direction) => {
-      setView((prevView) => {
-        const currentIndex = views.findIndex((view) => prevView.id === view.id);
-        let newIndex = currentIndex;
+      if (!isThrottled) {
+        isThrottled = true;
+        setView((prevView) => {
+          const currentIndex = views.findIndex((view) => prevView.id === view.id);
+          let newIndex = currentIndex;
 
-        if (direction === 'up' && currentIndex > 0) {
-          newIndex = currentIndex - 1;
-        } else if (direction === 'down' && currentIndex < views.length - 1) {
-          newIndex = currentIndex + 1;
-        }
+          if (direction === 'up' && currentIndex > 0) {
+            newIndex = currentIndex - 1;
+          } else if (direction === 'down' && currentIndex < views.length - 1) {
+            newIndex = currentIndex + 1;
+          }
 
-        if (newIndex !== currentIndex) {
-          setActive(false);
-          return views[newIndex];
-        }
+          if (newIndex !== currentIndex) {
+            setActive(false);
+            return views[newIndex];
+          }
 
-        return prevView;
-      });
+          return prevView;
+        });
+
+        setTimeout(() => {
+          isThrottled = false;
+        }, throttleDuration);
+      }
     };
 
     const handleKeyDown = (event) => {
@@ -317,7 +328,7 @@ function App() {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('wheel', handleScroll);
     };
-  }, [views]); // Include 'views' in the dependency array if it's not static
+  }, [views]);
 
   return (
     <Root>

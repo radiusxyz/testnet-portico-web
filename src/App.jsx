@@ -101,9 +101,7 @@ const Menu = styled.div`
 `;
 
 const MenuItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  position: relative;
 `;
 
 const MenuText = styled.p`
@@ -113,6 +111,7 @@ const MenuText = styled.p`
   font-weight: 500;
   width: 100%;
   cursor: pointer;
+  margin-left: 16px;
   &:hover {
     color: ${({ $active }) => ($active && '#fff') || 'rgba(255, 255, 255, 0.46)'};
   }

@@ -7,6 +7,10 @@ const ncLoopRippleAnim = keyframes`
 `;
 
 const StyledDot = styled.div`
+  display: inline;
+  transform: translateX(-50%);
+  position: absolute;
+
   svg {
     height: ${(props) => (props.$active ? '24px' : '6px')};
     width: ${(props) => (props.$active ? '24px' : '6px')};

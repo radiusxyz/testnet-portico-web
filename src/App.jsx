@@ -126,6 +126,15 @@ const MainWrapper = styled.div`
 `;
 
 const Main = styled.div`
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s ease, transform 1s ease;
+
+  &.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -281,10 +290,22 @@ function App() {
   // }, []);
 
   const handleMenuItem = (e) => {
-    e.preventDefault;
+    e.preventDefault();
+    setActive(false);
     setView(views[e.target.id]);
   };
   const [view, setView] = useState(views[0]);
+  const [active, setActive] = useState(false);
+
+  useEffect(() => {
+    // First, deactivate the class to reset the state
+    setActive(false);
+
+    // Then, after a short delay, activate it to trigger the transition
+    const timeoutId = setTimeout(() => setActive(true), 50); // Adjust delay as needed
+
+    return () => clearTimeout(timeoutId);
+  }, [view]);
 
   return (
     <Root>
@@ -302,7 +323,7 @@ function App() {
           ))}
         </Menu>
         <MainWrapper>
-          <Main>
+          <Main key={view.id} className={active ? 'active' : ''}>
             {view.tag && (
               <Tag>
                 <img src={view.tag.icon} />

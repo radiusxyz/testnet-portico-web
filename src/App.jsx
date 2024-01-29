@@ -13,6 +13,8 @@ import Liveness from './components/animation/Liveness';
 import RippleAnim from './components/Dot';
 import Dot from './components/Dot';
 import First from './components/First';
+import Table from './components/TableSection';
+import TableSection from './components/TableSection';
 // import axios from 'axios';
 // import Test from './components/Test';
 
@@ -59,7 +61,7 @@ const views = [
   {
     id: 3,
     header: 'Multi-Rollup Sequencing',
-    body: <img src={fourth} />,
+    body: <TableSection />,
     linksAndButtons: [{ type: 0, text: 'Learn more', icon: to, link: 'https://mindful-subtasks-250940.framer.app/' }],
   },
 ];

@@ -50,7 +50,7 @@ const U = ({ filterColor, highlightColor, id }) => {
         letterSpacing='0em'
       >
         <tspan x='124' y='229.548'>
-          {id}
+          user
         </tspan>
       </text>
     </g>

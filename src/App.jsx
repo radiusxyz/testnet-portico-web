@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import Navbar from './components/Navbar';
 import first from './assets/images/first.svg';
@@ -107,14 +107,14 @@ const MenuItem = styled.div`
 `;
 
 const MenuText = styled.p`
-  color: ${({ active }) => (active && '#fff') || 'rgba(255, 255, 255, 0.16)'};
+  color: ${({ $active }) => ($active && '#fff') || 'rgba(255, 255, 255, 0.16)'};
   font-family: Manrope;
   font-size: 16px;
   font-weight: 500;
   width: 100%;
   cursor: pointer;
   &:hover {
-    color: ${({ active }) => (active && '#fff') || 'rgba(255, 255, 255, 0.46)'};
+    color: ${({ $active }) => ($active && '#fff') || 'rgba(255, 255, 255, 0.46)'};
   }
 `;
 
@@ -256,39 +256,6 @@ const Beat = styled.div`
 `;
 // Ends here
 function App() {
-  // const [constructed, setConstructed] = useState([]);
-  // const [isDataLoaded, setIsDataLoaded] = useState(false);
-
-  // async function queryData() {
-  //   const headers = {
-  //     Authorization: `Token ${token}`,
-  //     'Content-Type': 'application/json',
-  //   };
-
-  //   const data = {
-  //     query: query,
-  //     type: 'flux',
-  //   };
-
-  //   try {
-  //     const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
-  //     const newData = response.data
-  //       .split('\n')
-  //       .map((line) => line.split(','))
-  //       .filter((arr, index) => arr.length > 1 && index !== 0)
-  //       .map((arr) => ({ data: arr[7], fid: arr[8], from: arr[9], tid: arr[10], to: arr[11].slice(0, -1) }));
-
-  //     setConstructed(newData);
-  //     setIsDataLoaded(true);
-  //   } catch (error) {
-  //     console.error('QUERY ERROR', error);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   queryData();
-  // }, []);
-
   const handleMenuItem = (e) => {
     e.preventDefault();
     setActive(false);
@@ -307,6 +274,36 @@ function App() {
     return () => clearTimeout(timeoutId);
   }, [view]);
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+        setView((prevView) => {
+          const currentIndex = views.findIndex((view) => prevView.id === view.id);
+          let newIndex = currentIndex;
+
+          if (event.key === 'ArrowUp' && currentIndex > 0) {
+            newIndex = currentIndex - 1;
+          } else if (event.key === 'ArrowDown' && currentIndex < views.length - 1) {
+            newIndex = currentIndex + 1;
+          }
+
+          if (newIndex !== currentIndex) {
+            setActive(false);
+            return views[newIndex];
+          }
+
+          return prevView;
+        });
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [views]);
+
   return (
     <Root>
       <Navbar />
@@ -316,7 +313,7 @@ function App() {
             <MenuItem key={cuid()}>
               <Dot active={view.id === item.id} />
               {/* <Beat /> */}
-              <MenuText id={item.id} active={view.id === item.id} onClick={handleMenuItem}>
+              <MenuText id={item.id} $active={+view.id === item.id} onClick={handleMenuItem}>
                 {item.text}
               </MenuText>
             </MenuItem>

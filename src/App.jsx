@@ -273,36 +273,51 @@ function App() {
 
     return () => clearTimeout(timeoutId);
   }, [view]);
-
   useEffect(() => {
+    const changeView = (direction) => {
+      setView((prevView) => {
+        const currentIndex = views.findIndex((view) => prevView.id === view.id);
+        let newIndex = currentIndex;
+
+        if (direction === 'up' && currentIndex > 0) {
+          newIndex = currentIndex - 1;
+        } else if (direction === 'down' && currentIndex < views.length - 1) {
+          newIndex = currentIndex + 1;
+        }
+
+        if (newIndex !== currentIndex) {
+          setActive(false);
+          return views[newIndex];
+        }
+
+        return prevView;
+      });
+    };
+
     const handleKeyDown = (event) => {
-      if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
-        setView((prevView) => {
-          const currentIndex = views.findIndex((view) => prevView.id === view.id);
-          let newIndex = currentIndex;
+      if (event.key === 'ArrowUp') {
+        changeView('up');
+      } else if (event.key === 'ArrowDown') {
+        changeView('down');
+      }
+    };
 
-          if (event.key === 'ArrowUp' && currentIndex > 0) {
-            newIndex = currentIndex - 1;
-          } else if (event.key === 'ArrowDown' && currentIndex < views.length - 1) {
-            newIndex = currentIndex + 1;
-          }
-
-          if (newIndex !== currentIndex) {
-            setActive(false);
-            return views[newIndex];
-          }
-
-          return prevView;
-        });
+    const handleScroll = (event) => {
+      if (event.deltaY < 0) {
+        changeView('up');
+      } else if (event.deltaY > 0) {
+        changeView('down');
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('wheel', handleScroll);
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('wheel', handleScroll);
     };
-  }, [views]);
+  }, [views]); // Include 'views' in the dependency array if it's not static
 
   return (
     <Root>

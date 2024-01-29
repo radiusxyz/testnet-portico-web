@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 const Wrapper = styled.div`
   position: relative;
@@ -25,6 +25,17 @@ const Wrapper = styled.div`
 //   }
 // `;
 
+const pulseAnimation = keyframes`
+  0% {
+    transform: scale(1) translateX(-50%);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.8) translateX(-50%);
+    opacity: 0;
+  }
+`;
+
 const Pulse = styled.div`
   position: absolute;
   left: 589px;
@@ -34,26 +45,14 @@ const Pulse = styled.div`
   border-radius: 6px;
   border: 1px solid #8cf900;
   background: transparent;
-  opacity: ${(props) => (props.$start ? '0' : '1')};
-  transform-origin: left center; // Center the scaling
-  transform: ${(props) => (props.$start ? 'scale(1.8)' : 'scale(1)')} translateX(-50%);
-  transition: ${(props) => props.$start && 'all 1s ease'};
+  transform-origin: left center;
+  animation: ${pulseAnimation} 1.5s ease infinite;
 `;
 
 const First = () => {
-  const [start, setStart] = useState(false);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setStart((prevStart) => !prevStart);
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, []);
-
   return (
     <Wrapper>
-      <Pulse $start={start} />
+      <Pulse />
       <svg width='1100' height='610' viewBox='0 0 1100 610' fill='none' xmlns='http://www.w3.org/2000/svg'>
         <rect x='431' y='119.5' width='315' height='391' rx='11.5' stroke='#222222' />
         <rect x='419' y='107.5' width='339' height='415' rx='15.5' stroke='#222222' strokeOpacity='0.8' />

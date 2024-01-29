@@ -12,6 +12,7 @@ import cuid from 'cuid';
 import Liveness from './components/animation/Liveness';
 import RippleAnim from './components/Dot';
 import Dot from './components/Dot';
+import First from './components/First';
 // import axios from 'axios';
 // import Test from './components/Test';
 
@@ -26,7 +27,7 @@ const views = [
   {
     id: 0,
     header: 'Decentralized \n Shared Sequencing Layer',
-    body: <img src={first} />,
+    body: <First />,
     linksAndButtons: [{ type: 0, text: 'Docs', icon: to, link: 'https://mindful-subtasks-250940.framer.app/' }],
   },
   {

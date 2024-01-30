@@ -61,11 +61,12 @@ const Button = styled.button`
 
 const TableWrapper = styled.div`
   display: flex;
-  padding: 12px;
+  padding: 12px 12px 0 12px;
   flex-direction: column;
   align-items: flex-start;
-  border-radius: 18px;
+  border-radius: 18px 18px 0 0;
   border: 1px solid rgba(255, 255, 255, 0.16);
+  border-bottom: none;
   background: transparent;
   width: 100%;
 `;
@@ -77,6 +78,7 @@ const Table = styled.div`
   width: 100%;
   overflow-y: scroll;
   border: 1px solid #000;
+  border-bottom: none;
 `;
 
 const TR = styled.div`
@@ -147,6 +149,15 @@ const TD = styled.div`
     flex-grow: 0.9;
     border-right: none;
   }
+`;
+
+const Anchor = styled.a`
+  text-decoration: none;
+  color: #337ff1;
+  font-family: 'area-variable';
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
 `;
 
 const data = [
@@ -241,7 +252,7 @@ const TableSection = () => {
           </Button>
         </LabBut>
         <TableWrapper>
-          <Table>
+          <Table onMouseOver={() => {}}>
             <TR>
               <TH>Transaction</TH>
               <TH>Rollup</TH>
@@ -251,9 +262,13 @@ const TableSection = () => {
             </TR>
             {data.map((tx) => (
               <TR key={cuid()}>
-                <TD>{tx.txHash}</TD>
+                <TD>
+                  <Anchor href={'https://www.youtube.com/watch?v=irbJ639rveo'}>{tx.txHash}</Anchor>
+                </TD>
                 <TD>{tx.rollup}</TD>
-                <TD>{tx.block}</TD>
+                <TD>
+                  <Anchor href={tx.block}>{tx.block}</Anchor>
+                </TD>
                 <TD>{tx.order}</TD>
                 <TD>{tx.age}</TD>
               </TR>

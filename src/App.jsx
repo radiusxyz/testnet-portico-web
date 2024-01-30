@@ -145,6 +145,11 @@ const Main = styled.div`
   flex-direction: column;
 `;
 
+const TagContainer = styled.div`
+  display: flex;
+  width: 100%;
+`;
+
 const Tag = styled.div`
   display: flex;
   justify-content: center;
@@ -199,6 +204,7 @@ const BaseBtn = styled.button`
   border: 1px solid rgba(255, 255, 255, 0.4);
   background: rgba(255, 255, 255, 0.1);
   padding: 16px 30px;
+  cursor: pointer;
 `;
 
 const TransButton = styled(BaseBtn)`
@@ -233,6 +239,7 @@ function App() {
   };
   const [view, setView] = useState(views[0]);
   const [active, setActive] = useState(false);
+  const [activeTable, setActiveTable] = useState(false);
 
   useEffect(() => {
     // First, deactivate the class to reset the state
@@ -318,10 +325,12 @@ function App() {
         <MainWrapper>
           <Main key={view.id} className={active ? 'active' : ''}>
             {view.tag && (
-              <Tag>
-                <img src={view.tag.icon} />
-                {view.tag.text}
-              </Tag>
+              <TagContainer>
+                <Tag>
+                  <img src={view.tag.icon} />
+                  {view.tag.text}
+                </Tag>
+              </TagContainer>
             )}
             <Head>{view.header}</Head>
             <Body>

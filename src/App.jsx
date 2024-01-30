@@ -139,7 +139,7 @@ const Main = styled.div`
 
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: stretch;
   width: 100%;
   max-width: 1100px;
   flex-direction: column;

@@ -18,6 +18,12 @@ import TableSection from './components/TableSection';
 // import axios from 'axios';
 // import Test from './components/Test';
 
+// Links to redirect
+
+// globe icon => https://www.theradius.xyz/
+// twitter => https://twitter.com/radius_xyz
+// Docs button => https://github.com/radiusxyz
+
 const menuItems = [
   { id: 0, text: 'Decentralized Shared Sequencing Layer' },
   { id: 1, text: 'MEV / Censorship Resistance' },
@@ -90,10 +96,12 @@ const Content = styled.div`
   display: flex;
   height: 100%;
   padding: 0px 48px;
+  gap: 42px;
 `;
 
 const Menu = styled.div`
   display: flex;
+  margin-right: 42px;
   justify-content: flex-end;
   height: 100%;
   max-width: 320px;
@@ -117,6 +125,9 @@ const MenuText = styled.p`
   margin-left: 16px;
   &:hover {
     color: ${({ $active }) => ($active && '#fff') || 'rgba(255, 255, 255, 0.46)'};
+  }
+  @media (max-width: 1919px) {
+    font-size: 14px;
   }
 `;
 
@@ -143,6 +154,9 @@ const Main = styled.div`
   width: 100%;
   max-width: 1100px;
   flex-direction: column;
+  @media (max-width: 1919px) {
+    max-width: none;
+  }
 `;
 
 const TagContainer = styled.div`
@@ -179,6 +193,11 @@ const Head = styled.p`
   line-height: 72px; /* 138.462% */
   margin-bottom: 64px;
   white-space: pre-line;
+  @media (max-width: 1919px) {
+    font-size: 40px;
+    margin-bottom: 44px;
+    white-space: normal;
+  }
 `;
 
 const ImgWrapper = styled.div`

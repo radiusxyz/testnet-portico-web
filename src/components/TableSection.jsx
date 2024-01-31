@@ -12,6 +12,7 @@ const Container = styled.div`
     rgba(0, 140, 124, 0.16) 31.1743%,
     rgba(25, 156, 140, 0) 64.6344%
   );
+  border-radius: 24px;
 `;
 
 const LabTabButWrapper = styled.div`
@@ -263,11 +264,15 @@ const TableSection = () => {
             {data.map((tx) => (
               <TR key={cuid()}>
                 <TD>
-                  <Anchor href={'https://www.youtube.com/watch?v=irbJ639rveo'}>{tx.txHash}</Anchor>
+                  <Anchor target='_blank' href={'https://www.youtube.com/watch?v=irbJ639rveo'}>
+                    {tx.txHash}
+                  </Anchor>
                 </TD>
                 <TD>{tx.rollup}</TD>
                 <TD>
-                  <Anchor href={tx.block}>{tx.block}</Anchor>
+                  <Anchor target='_blank' href={tx.block}>
+                    {tx.block}
+                  </Anchor>
                 </TD>
                 <TD>{tx.order}</TD>
                 <TD>{tx.age}</TD>

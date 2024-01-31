@@ -22,6 +22,7 @@ import UL from './UL';
 import LR0 from './LR0';
 import LR1 from './LR1';
 import Circle from './Circle';
+import Instructions from './Instructions';
 
 const getColor = (data) => colors[data] || '#5C5B5E';
 const getFilter = (data, node) => filters[data]?.[node] || 'none';
@@ -91,7 +92,7 @@ const Liveness = () => {
   const isReversed = ['l', 'u'].includes(currentLog.to) && ['f0', 'f1', 'f2', 'f3'].includes(currentLog.from);
 
   return (
-    <svg width='1100' height='406' viewBox='0 0 1100 406' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg width='1100' height='548' viewBox='0 0 1100 548' fill='none' xmlns='http://www.w3.org/2000/svg'>
       {/* The following are the paths from one node to another, i.e. UF0 is the path from 'user' to 'follower 0' */}
       <UF0 stroke={getPathColor(currentLog, 'u', 'f0')} />
       <UF1 stroke={getPathColor(currentLog, 'u', 'f1')} />
@@ -160,6 +161,7 @@ const Liveness = () => {
       {/* Message is the text box appearing on the path */}
       <Message currentLog={currentLog} />
       <Defs />
+      <Instructions />
     </svg>
   );
 };

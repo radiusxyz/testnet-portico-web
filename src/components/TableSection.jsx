@@ -243,10 +243,8 @@ const data = [
 ];
 
 const TableSection = () => {
-  const { handle2ndScroll } = usePortico();
-
   return (
-    <Container onMouseEnter={handle2ndScroll} onMouseLeave={handle2ndScroll}>
+    <Container>
       <LabTabButWrapper>
         <LabBut>
           <Label>Shared sequencing layer orders transactions received for Rollups A and B</Label>

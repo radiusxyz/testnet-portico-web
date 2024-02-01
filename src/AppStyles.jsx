@@ -117,6 +117,8 @@ export const Head = styled.p`
 `;
 
 export const ImgWrapper = styled.div`
+  display: flex;
+  justify-content: center;
   border-radius: 24px;
   border: 1px solid rgba(92, 91, 94, 0.4);
 `;

@@ -46,7 +46,6 @@ function App() {
   };
   const [view, setView] = useState(views[0]);
   const [active, setActive] = useState(false);
-  const [activeTable, setActiveTable] = useState(false);
 
   useEffect(() => {
     // First, deactivate the class to reset the state
@@ -130,14 +129,27 @@ function App() {
 
     try {
       const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
-      console.log(response.data);
-      const newData = response.data
-        .split('\n')
-        .map((line) => line.split(','))
-        .filter((arr, index) => arr.length > 1 && index !== 0)
-        .map((arr) => ({ data: arr[7], fid: arr[8], from: arr[9], tid: arr[10], to: arr[11].slice(0, -1) }));
+      const lines = response.data.split('\n');
 
-      setConstructed(newData);
+      const result = lines.map((line) => {
+        const fields = line.split(',');
+        console.log(fields);
+        return {
+          from: fields[9]?.replace(/"/g, ''), // Remove extra quotes
+          fid: fields[10]?.replace(/"/g, ''),
+          to: fields[12]?.replace(/"/g, ''),
+          tid: fields[11]?.replace(/"/g, ''),
+          data: fields[8]?.replace(/"/g, ''),
+        };
+      });
+      // console.log(result);
+      // const newData = response.data
+      //   .split('\n')
+      //   .map((line) => line.split(','))
+      //   .filter((arr, index) => arr.length > 1 && index !== 0)
+      //   .map((arr) => ({ data: arr[7], fid: arr[8], from: arr[9], tid: arr[10], to: arr[11].slice(0, -1) }));
+
+      // setConstructed(newData);
       setIsDataLoaded(true);
     } catch (error) {
       console.error('QUERY ERROR', error);

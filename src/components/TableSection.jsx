@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import refresh from '../assets/images/refresh.svg';
 import cuid from 'cuid';
+import { usePortico } from '../contexts/PorticoCtx';
 
 const Container = styled.div`
   padding: 75px 90px 0;
@@ -242,8 +243,10 @@ const data = [
 ];
 
 const TableSection = () => {
+  const { handle2ndScroll } = usePortico();
+
   return (
-    <Container>
+    <Container onMouseEnter={handle2ndScroll} onMouseLeave={handle2ndScroll}>
       <LabTabButWrapper>
         <LabBut>
           <Label>Shared sequencing layer orders transactions received for Rollups A and B</Label>
@@ -253,7 +256,7 @@ const TableSection = () => {
           </Button>
         </LabBut>
         <TableWrapper>
-          <Table onMouseOver={() => {}}>
+          <Table>
             <TR>
               <TH>Transaction</TH>
               <TH>Rollup</TH>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const U = ({ filterColor, highlightColor, id }) => {
+const U = ({ filterColor, highlightColor }) => {
   return (
     <g filter={filterColor}>
       <rect x='99' y='158' width='76' height='91' rx='12' fill='#090A0F' shapeRendering='crispEdges' />
@@ -50,7 +50,7 @@ const U = ({ filterColor, highlightColor, id }) => {
         letterSpacing='0em'
       >
         <tspan x='124' y='229.548'>
-          user
+          User
         </tspan>
       </text>
     </g>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const R0 = ({ filterColor, highlightColor, id }) => {
+const R0 = ({ filterColor, highlightColor }) => {
   return (
     <g filter={filterColor}>
       <rect x='913' y='98' width='100' height='68' rx='12' fill='#090A0F' />
@@ -37,7 +37,7 @@ const R0 = ({ filterColor, highlightColor, id }) => {
         letterSpacing='0em'
       >
         <tspan x='957.5' y='146.548'>
-          {id}
+          A
         </tspan>
       </text>
     </g>

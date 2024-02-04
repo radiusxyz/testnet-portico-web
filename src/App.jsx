@@ -31,13 +31,6 @@ import { menuItems, views } from './components/imports';
 // twitter => https://twitter.com/radius_xyz
 // Docs button => https://github.com/radiusxyz
 
-const token = import.meta.env.VITE_INFLUXDB_TOKEN;
-const url = import.meta.env.VITE_INFLUXDB_URL;
-const org = 'RadiusLab';
-const bucket = 'sequencer';
-
-const query = `from(bucket: "${bucket}") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> filter(fn: (r) => r["_time"] <= 2024-01-30T02:42:06.51511704Z)`;
-
 function App() {
   const handleMenuItem = (e) => {
     e.preventDefault();
@@ -112,53 +105,6 @@ function App() {
       window.removeEventListener('wheel', handleScroll);
     };
   }, [views]);
-
-  const [constructed, setConstructed] = useState([]);
-  const [isDataLoaded, setIsDataLoaded] = useState(false);
-
-  async function queryData() {
-    const headers = {
-      Authorization: `Token ${token}`,
-      'Content-Type': 'application/json',
-    };
-
-    const data = {
-      query: query,
-      type: 'flux',
-    };
-
-    try {
-      const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
-      const lines = response.data.split('\n');
-
-      const result = lines.map((line) => {
-        const fields = line.split(',');
-        console.log(fields);
-        return {
-          from: fields[9]?.replace(/"/g, ''), // Remove extra quotes
-          fid: fields[10]?.replace(/"/g, ''),
-          to: fields[12]?.replace(/"/g, ''),
-          tid: fields[11]?.replace(/"/g, ''),
-          data: fields[8]?.replace(/"/g, ''),
-        };
-      });
-      // console.log(result);
-      // const newData = response.data
-      //   .split('\n')
-      //   .map((line) => line.split(','))
-      //   .filter((arr, index) => arr.length > 1 && index !== 0)
-      //   .map((arr) => ({ data: arr[7], fid: arr[8], from: arr[9], tid: arr[10], to: arr[11].slice(0, -1) }));
-
-      // setConstructed(newData);
-      setIsDataLoaded(true);
-    } catch (error) {
-      console.error('QUERY ERROR', error);
-    }
-  }
-
-  useEffect(() => {
-    queryData();
-  }, []);
 
   return (
     <Root>

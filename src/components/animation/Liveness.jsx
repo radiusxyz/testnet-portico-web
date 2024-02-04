@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { dbData, initialIDs, colors, filters, paths } from '../../assets/data';
+import { colors, filters, paths } from '../../assets/data';
 import Defs from './Defs';
 import U from './U';
 import F1 from './F1';
@@ -23,6 +23,7 @@ import LR0 from './LR0';
 import LR1 from './LR1';
 import Circle from './Circle';
 import Instructions from './Instructions';
+import { usePortico } from '../../contexts/PorticoCtx';
 
 const getColor = (data) => colors[data] || '#5C5B5E';
 const getFilter = (data, node) => filters[data]?.[node] || 'none';
@@ -41,9 +42,21 @@ function getHighlightColor(log, node) {
 function getFilterColor(log, node) {
   return log.from === node || log.to === node ? getFilter(log.data, node) : 'none';
 }
+
+function getRole(id, roles) {
+  return roles[id];
+}
+
 const Liveness = () => {
-  const [IDs, setIDs] = useState(initialIDs);
+  const { porticoLogs, porticoRoles, porticoLabels } = usePortico();
+
+  const [logs, setLogs] = useState(porticoLogs);
+  const [roles, setRoles] = useState(porticoRoles);
+
+  const [labels, setLabels] = useState(porticoLabels);
+
   const [currentIndex, setCurrentIndex] = useState(0);
+
   const [duration] = useState(2000);
   const [isFinished, setIsFinished] = useState(false);
   const handleIsFinished = useCallback(() => {
@@ -51,7 +64,7 @@ const Liveness = () => {
   }, []);
 
   const updateIndex = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % dbData.length);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % logs.length);
   };
 
   useEffect(() => {
@@ -61,32 +74,39 @@ const Liveness = () => {
     }
   }, [currentIndex, isFinished]);
 
-  const currentLog = dbData[currentIndex];
+  const currentDbLog = logs[currentIndex];
+  console.log(currentDbLog);
+  const currentLog = {
+    from: getRole(currentDbLog.from, roles),
+    to: getRole(currentDbLog.to, roles),
+    data: currentDbLog.data,
+  };
 
   useEffect(() => {
-    const updateIDs = (key, newId) => {
-      if (IDs[key].id !== newId) {
-        setIDs((prevState) => ({
+    if (currentDbLog.data === 'lc') {
+      setRoles((prevState) => {
+        const oldLeader = currentDbLog.from;
+        const newRole = getRole(currentDbLog.to, prevState);
+
+        return {
           ...prevState,
-          [key]: { ...prevState[key], id: newId },
-        }));
-      }
-    };
-
-    updateIDs(currentLog.from, currentLog.fid);
-    updateIDs(currentLog.to, currentLog.tid);
-
-    if (currentLog.data === 'lc') {
-      setIDs((prevState) => ({
-        ...prevState,
-        l: { ...prevState.l, id: currentLog.tid },
-        [currentLog.to]: {
-          ...prevState[currentLog.to],
-          id: currentLog.fid,
-        },
-      }));
+          [oldLeader]: newRole,
+          [currentDbLog.to]: 'l',
+        };
+      });
     }
   }, [currentIndex]);
+
+  useEffect(() => {
+    if (currentDbLog.data === 'lc') {
+      const swapped = {};
+
+      Object.entries(roles).forEach(([key, value]) => {
+        swapped[value] = key;
+      });
+      setLabels({ ...swapped });
+    }
+  }, [roles]);
 
   const motionPath = paths[currentLog.from + currentLog.to];
   const isReversed = ['l', 'u'].includes(currentLog.to) && ['f0', 'f1', 'f2', 'f3'].includes(currentLog.from);
@@ -117,46 +137,34 @@ const Liveness = () => {
         />
       )}
       {/* Entities themselves */}
-      <U
-        id={IDs.u.id}
-        filterColor={getFilterColor(currentLog, 'u')}
-        highlightColor={getHighlightColor(currentLog, 'u')}
-      />
+      <U filterColor={getFilterColor(currentLog, 'u')} highlightColor={getHighlightColor(currentLog, 'u')} />
       <F0
-        id={IDs.f0.id}
+        id={labels.f0}
         filterColor={getFilterColor(currentLog, 'f0')}
         highlightColor={getHighlightColor(currentLog, 'f0')}
       />
       <F1
-        id={IDs.f1.id}
+        id={labels.f1}
         filterColor={getFilterColor(currentLog, 'f1')}
         highlightColor={getHighlightColor(currentLog, 'f1')}
       />
       <F2
-        id={IDs.f2.id}
+        id={labels.f2}
         filterColor={getFilterColor(currentLog, 'f2')}
         highlightColor={getHighlightColor(currentLog, 'f2')}
       />
       <F3
-        id={IDs.f3.id}
+        id={labels.f3}
         filterColor={getFilterColor(currentLog, 'f3')}
         highlightColor={getHighlightColor(currentLog, 'f3')}
       />
       <L
-        id={IDs.l.id}
+        id={labels.l}
         filterColor={getFilterColor(currentLog, 'l')}
         highlightColor={getHighlightColor(currentLog, 'l')}
       />
-      <R0
-        id={IDs.r0.id}
-        filterColor={getFilterColor(currentLog, 'r0')}
-        highlightColor={getHighlightColor(currentLog, 'r0')}
-      />
-      <R1
-        id={IDs.r1.id}
-        filterColor={getFilterColor(currentLog, 'r1')}
-        highlightColor={getHighlightColor(currentLog, 'r1')}
-      />
+      <R0 filterColor={getFilterColor(currentLog, 'r0')} highlightColor={getHighlightColor(currentLog, 'r0')} />
+      <R1 filterColor={getFilterColor(currentLog, 'r1')} highlightColor={getHighlightColor(currentLog, 'r1')} />
       <circle r='5' fill='#090a0f'></circle>
       {/* Message is the text box appearing on the path */}
       <Message currentLog={currentLog} />

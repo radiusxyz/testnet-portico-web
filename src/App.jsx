@@ -23,7 +23,7 @@ import {
   Txt,
   IconWrapper,
 } from './AppStyles';
-import { menuItems, views } from './components/imports';
+import { menuItems, views } from './components/Imports';
 
 // Links to redirect
 

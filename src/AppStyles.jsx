@@ -13,6 +13,9 @@ export const Content = styled.div`
   height: 100%;
   padding: 0px 48px;
   gap: 42px;
+  @media (min-width: 1920px) {
+    position: relative;
+  }
 `;
 
 export const Menu = styled.div`
@@ -25,6 +28,9 @@ export const Menu = styled.div`
   gap: 16px;
   padding-bottom: 86px;
   flex-direction: column;
+  @media (min-width: 1920px) {
+    position: absolute;
+  }
 `;
 
 export const MenuItem = styled.div`

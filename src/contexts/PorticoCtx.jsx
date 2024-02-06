@@ -27,7 +27,8 @@ export const ContextProvider = ({ children }) => {
     const query = `from(bucket: "sequencer") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> filter(fn: (r) => r["at"] > "${timestamp}") |> sort(columns: ["at"])`;
     const headers = {
       Authorization: `Token ${token}`,
-      'Content-Type': 'application/json',
+      Accept: 'application/csv',
+      'Content-type': 'application/vnd.flux',
     };
 
     const data = {
@@ -36,7 +37,7 @@ export const ContextProvider = ({ children }) => {
     };
 
     try {
-      const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
+      const response = await axios.post(`${url}/api/v2/query?org=${org}`, query, { headers });
       const lines = response.data.split('\n');
       const result = lines.map((line) => {
         const fields = line.split(',');
@@ -63,7 +64,8 @@ export const ContextProvider = ({ children }) => {
     const query = `from(bucket: "sequencer_table") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> group(columns: ["id"]) |> last()`;
     const headers = {
       Authorization: `Token ${token}`,
-      'Content-Type': 'application/json',
+      Accept: 'application/csv',
+      'Content-type': 'application/vnd.flux',
     };
 
     const data = {
@@ -72,7 +74,7 @@ export const ContextProvider = ({ children }) => {
     };
 
     try {
-      const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
+      const response = await axios.post(`${url}/api/v2/query?org=${org}`, query, { headers });
       const lines = response.data.split('\n');
       const result = {};
       lines.forEach((line, index, arr) => {
@@ -111,3 +113,30 @@ export const ContextProvider = ({ children }) => {
     </PorticoCtx.Provider>
   );
 };
+
+/* 
+
+const axios = require('axios');
+
+async function queryInfluxDB() {
+    const influxDBUrl = 'http://localhost:8086'; // Replace with your InfluxDB URL
+    const org = 'your_org'; // Replace with your organization name
+    const bucket = 'your_bucket'; // Replace with your bucket name
+    const token = 'your_token'; // Replace with your InfluxDB token
+    const query = `from(bucket: "${bucket}") |> range(start: -1h) |> filter(fn: (r) => r._measurement == "your_measurement")`; // Replace with your Flux query
+
+    try {
+        const response = await axios.post(`${influxDBUrl}/api/v2/query?org=${org}`, { query }, {
+            headers: {
+                'Authorization': `Token ${token}`,
+                'Accept': 'application/csv',
+                'Content-type': 'application/vnd.flux'
+            }
+        });
+        console.log(response.data);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
+
+*/

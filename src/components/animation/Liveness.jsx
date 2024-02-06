@@ -70,7 +70,7 @@ const Liveness = () => {
   }, [isFinished, updateIndex]);
 
   const currentDbLog = porticoLogs[currentIndex] || {}; // Default to empty object to avoid undefined errors
-  console.log(currentDbLog, currentIndex);
+  // console.log(currentDbLog, currentIndex);
   // console.log(currentDbLog);
 
   // You might need a function to map 'from' and 'to' to actual roles/labels
@@ -104,7 +104,7 @@ const Liveness = () => {
           color={getColor(currentLog.data)}
           isFinished={isFinished}
           motionPath={motionPath}
-          duration={5000}
+          duration={2000}
           isReversed={isReversed}
           handleIsFinished={handleIsFinished}
         />

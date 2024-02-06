@@ -16,6 +16,7 @@ export const PorticoCtx = createContext({
 });
 
 export const usePortico = () => useContext(PorticoCtx);
+let statelessRoles = {};
 
 export const ContextProvider = ({ children }) => {
   const [videoSrc] = useState(mev);
@@ -24,10 +25,10 @@ export const ContextProvider = ({ children }) => {
   const [labels, setLabels] = useState({});
 
   const [isDataLoaded, setIsDataLoaded] = useState(false);
-  const [timestamp, setTimestamp] = useState(0);
+  // const [timestamp, setTimestamp] = useState(0);
 
-  async function queryLogs() {
-    const query = `from(bucket: "sequencer") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> filter(fn: (r) => r["at"] > "${timestamp}") |> sort(columns: ["at"])`;
+  async function queryLogs(timestamp) {
+    const query = `from(bucket: "stompesi_sequencer") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> filter(fn: (r) => r["at"] > "${timestamp}") |> sort(columns: ["at"])`;
     const headers = {
       Authorization: `Token ${token}`,
       'Content-Type': 'application/json',
@@ -55,15 +56,15 @@ export const ContextProvider = ({ children }) => {
       result.pop();
       result.pop();
       setLogs(result);
-      console.log('portico', result);
       setIsDataLoaded(true);
+      console.log('portico', result);
     } catch (error) {
       console.error('QUERY ERROR', error);
     }
   }
 
   async function queryRoles() {
-    const query = `from(bucket: "sequencer_table") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> group(columns: ["id"]) |> last()`;
+    const query = `from(bucket: "stompesi_sequencer_table") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> group(columns: ["id"]) |> last()`;
     const headers = {
       Authorization: `Token ${token}`,
       'Content-Type': 'application/json',
@@ -85,8 +86,8 @@ export const ContextProvider = ({ children }) => {
         }
       });
       setRoles(result);
-      console.log(result);
       setIsDataLoaded(true);
+      statelessRoles = { ...result };
     } catch (error) {
       console.error('QUERY ERROR', error);
     }
@@ -94,8 +95,13 @@ export const ContextProvider = ({ children }) => {
 
   //"1706846834327471337"
   useEffect(() => {
-    queryRoles();
-    queryLogs();
+    async function firstQuery() {
+      await queryRoles();
+      setTimeout(() => {
+        queryLogs(statelessRoles.timestamp);
+      }, 7000);
+    }
+    firstQuery();
   }, []);
 
   useEffect(() => {
@@ -103,7 +109,7 @@ export const ContextProvider = ({ children }) => {
     Object.entries(roles).forEach(([key, value]) => {
       swapped[value] = key;
     });
-    setLabels(swapped); // Update labels state
+    setLabels(swapped);
   }, [roles]);
 
   return (

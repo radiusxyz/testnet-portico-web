@@ -36,24 +36,24 @@ export const ContextProvider = ({ children }) => {
     };
 
     try {
-      const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
-      const lines = response.data.split('\n');
-      const result = lines.map((line) => {
-        const fields = line.split(',');
+      const response = await axios.get(`${url}/logs`, { headers });
+      // const lines = response.data.split('\n');
+      // const result = lines.map((line) => {
+      //   const fields = line.split(',');
 
-        return {
-          data: fields[6]?.replace(/"/g, ''),
-          from: fields[10]?.replace(/"/g, ''),
-          to: fields[11]?.replace(/"/g, '').replace('\r', ''),
-          timestamp: fields[9],
-        };
-      });
-      result.shift();
-      result.pop();
-      result.pop();
-      setLogs(result);
-      console.log('portico', result);
-      setIsDataLoaded(true);
+      //   return {
+      //     data: fields[6]?.replace(/"/g, ''),
+      //     from: fields[10]?.replace(/"/g, ''),
+      //     to: fields[11]?.replace(/"/g, '').replace('\r', ''),
+      //     timestamp: fields[9],
+      //   };
+      // });
+      // result.shift();
+      // result.pop();
+      // result.pop();
+      // setLogs(result);
+      console.log('portico', response);
+      // setIsDataLoaded(true);
     } catch (error) {
       console.error('QUERY ERROR', error);
     }
@@ -83,7 +83,7 @@ export const ContextProvider = ({ children }) => {
       });
       setRoles(result);
       console.log(result);
-      setIsDataLoaded(true);
+      // setIsDataLoaded(true);
     } catch (error) {
       console.error('QUERY ERROR', error);
     }
@@ -91,7 +91,7 @@ export const ContextProvider = ({ children }) => {
 
   //"1706846834327471337"
   useEffect(() => {
-    queryRoles();
+    // queryRoles();
     queryLogs();
   }, []);
 

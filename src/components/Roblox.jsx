@@ -1,0 +1,196 @@
+import React from 'react';
+import styled from 'styled-components';
+import block from '../assets/images/block.svg';
+import cuid from 'cuid';
+
+const Wrapper = styled.div`
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.08);
+  padding: 12px;
+  background: transparent;
+  max-width: 364px;
+  flex: 1;
+`;
+const Container = styled.div`
+  display: flex;
+  padding: 32px 24px 24px 24px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  border-radius: 12px;
+  border: 1px solid rgba(9, 10, 15, 0.08);
+  background: var(--white-100, #fff);
+  box-shadow: 0px 2px 3px 0px rgba(9, 10, 15, 0.1);
+`;
+
+const Title = styled.p`
+  color: #090a0f;
+  font-family: Manrope;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 12px;
+  margin-bottom: 12px;
+`;
+
+const BlockList = styled.div`
+  display: flex;
+  padding: 8px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  align-self: stretch;
+  margin-bottom: 20px;
+
+  border-radius: 6px;
+  border: 1px solid rgba(9, 10, 15, 0.08);
+  background: var(--white-100, #fff);
+`;
+
+const ListItem = styled.div`
+  display: flex;
+  padding: 12px;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+`;
+
+const IconBlock = styled.div`
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const BlockDesc = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+`;
+
+const BlockText = styled.span`
+  color: #090a0f;
+  font-family: Manrope;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 12px; /* 85.714% */
+`;
+const BlockNumber = styled.span`
+  color: #337ff1;
+  font-family: Manrope;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 12px; /* 85.714% */
+`;
+
+const Age = styled.div`
+  display: flex;
+  padding: 6px 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  border-radius: 4px;
+  border: 1px solid rgba(9, 10, 15, 0.08);
+`;
+
+const AgeText = styled.span`
+  color: #090a0f;
+  text-align: center;
+  font-family: Manrope;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 20px; /* 166.667% */
+`;
+
+const ViewAllBtn = styled.button`
+  color: var(--white-100, #fff);
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px; /* 171.429% */
+
+  display: flex;
+  padding: 8px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+  border: none;
+  border-radius: 6px;
+  background: #090a0f;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const Rollup = ({ data }) => {
+  return (
+    <Wrapper>
+      <Container>
+        <Title>Latest Blocks</Title>
+        <BlockList>
+          {data.map((blockData) => (
+            <ListItem key={cuid()}>
+              <IconBlock>
+                <img src={block} alt='cube' />
+                <BlockDesc>
+                  <BlockText>Block</BlockText>
+                  <BlockNumber>{String(blockData.number).padStart(8, '0')}</BlockNumber>
+                </BlockDesc>
+              </IconBlock>
+              <Age>
+                <AgeText>{blockData.age} secs ago</AgeText>
+              </Age>
+            </ListItem>
+          ))}
+        </BlockList>
+        <ViewAllBtn>View All</ViewAllBtn>
+      </Container>
+    </Wrapper>
+  );
+};
+
+const RollupsWrapper = styled.div`
+  display: flex;
+  gap: 40px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(
+    7.07639e-7deg,
+    rgba(0, 4, 255, 0.6) -60.4811%,
+    rgba(0, 140, 124, 0.16) 31.1743%,
+    rgba(25, 156, 140, 0) 64.6344%
+  );
+  height: 632px;
+`;
+
+const blocksA = [
+  { number: 1, age: 15 },
+  { number: 2, age: 10 },
+  { number: 3, age: 5 },
+];
+
+const blocksB = [
+  { number: 1, age: 9 },
+  { number: 2, age: 6 },
+  { number: 3, age: 3 },
+];
+
+const Roblox = () => {
+  return (
+    <RollupsWrapper>
+      <Rollup data={blocksA} />
+      <Rollup data={blocksB} />
+    </RollupsWrapper>
+  );
+};
+
+export default Roblox;

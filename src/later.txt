@@ -38,3 +38,35 @@
       console.error('QUERY ERROR', error);
     }
   }
+
+
+
+    const [roles, setRoles] = useState({
+    '0x0': 'u',
+    '0x1': 'f3',
+    '0x2': 'f0',
+    '0x3': 'f2',
+    '0x4': 'l',
+    '0x5': 'f1',
+    A: 'r0',
+    B: 'r1',
+  });
+  const [labels, setLabels] = useState({
+    u: '0x0',
+    f3: '0x1',
+    f0: '0x2',
+    f2: '0x3',
+    l: '0x4',
+    f1: '0x5',
+    r0: 'A',
+    r1: 'B',
+  });
+
+
+  {
+    "0x1": "f3",
+    "0x2": "f0",
+    "0x3": "f2",
+    "0x4": "l",
+    "0x5": "f1"
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+
 import styled from 'styled-components';
 import globe from '../assets/images/globe.svg';
 import x from '../assets/images/x.svg';

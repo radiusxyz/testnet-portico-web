@@ -1,11 +1,11 @@
 import React from 'react';
-import second from '../assets/images/second.svg';
 import to from '../assets/images/to.svg';
 import key from '../assets/images/key.svg';
 import asterisk from '../assets/images/asterisk.svg';
 import Liveness from '../components/animation/Liveness';
 import First from '../components/First';
-import TableSection from '../components/TableSection';
+import Second from './Second';
+import Roblox from './Roblox';
 
 export const menuItems = [
   { id: 0, text: 'Decentralized Shared Sequencing Layer' },
@@ -28,7 +28,7 @@ export const views = [
       text: 'MEV and Censorship Resistance',
     },
     header: 'Leader-based Shared Sequencer Network',
-    body: <img src={second} />,
+    body: <Second />,
     linksAndButtons: [
       { type: 1, text: 'Learn more', icon: to, link: 'https://mindful-subtasks-250940.framer.app/' },
       { type: 0, text: 'See Demo', link: 'https://mindful-subtasks-250940.framer.app/' },
@@ -50,7 +50,7 @@ export const views = [
   {
     id: 3,
     header: 'Multi-Rollup Sequencing',
-    body: <TableSection />,
+    body: <Roblox />,
     linksAndButtons: [{ type: 0, text: 'Learn more', icon: to, link: 'https://mindful-subtasks-250940.framer.app/' }],
   },
 ];

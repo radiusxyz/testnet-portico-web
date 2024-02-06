@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import refresh from '../assets/images/refresh.svg';
 import cuid from 'cuid';
-import { usePortico } from '../contexts/PorticoCtx';
 
 const Container = styled.div`
   padding: 75px 90px 0;

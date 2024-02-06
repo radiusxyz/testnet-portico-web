@@ -27,8 +27,7 @@ export const ContextProvider = ({ children }) => {
     const query = `from(bucket: "sequencer") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> filter(fn: (r) => r["at"] > "${timestamp}") |> sort(columns: ["at"])`;
     const headers = {
       Authorization: `Token ${token}`,
-      Accept: 'application/csv',
-      'Content-type': 'application/vnd.flux',
+      'Content-Type': 'application/json',
     };
 
     const data = {
@@ -37,7 +36,7 @@ export const ContextProvider = ({ children }) => {
     };
 
     try {
-      const response = await axios.post(`${url}/api/v2/query?org=${org}`, query, { headers });
+      const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
       const lines = response.data.split('\n');
       const result = lines.map((line) => {
         const fields = line.split(',');
@@ -64,8 +63,7 @@ export const ContextProvider = ({ children }) => {
     const query = `from(bucket: "sequencer_table") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> group(columns: ["id"]) |> last()`;
     const headers = {
       Authorization: `Token ${token}`,
-      Accept: 'application/csv',
-      'Content-type': 'application/vnd.flux',
+      'Content-Type': 'application/json',
     };
 
     const data = {
@@ -74,7 +72,7 @@ export const ContextProvider = ({ children }) => {
     };
 
     try {
-      const response = await axios.post(`${url}/api/v2/query?org=${org}`, query, { headers });
+      const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
       const lines = response.data.split('\n');
       const result = {};
       lines.forEach((line, index, arr) => {

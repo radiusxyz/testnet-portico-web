@@ -10,11 +10,12 @@ const RollupContainer = styled.div`
   gap: 12px;
   flex-direction: column;
   align-items: flex-start;
+
+  max-width: 364px;
+  width: 100%;
 `;
 
-const RollupTitle = styled.img`
-  margin-bottom: 12px;
-`;
+const RollupTitle = styled.img``;
 
 const Wrapper = styled.div`
   border-radius: 20px;
@@ -22,8 +23,7 @@ const Wrapper = styled.div`
   background: rgba(255, 255, 255, 0.08);
   padding: 12px;
   background: transparent;
-  max-width: 364px;
-  flex: 1;
+  width: 100%;
 `;
 const Container = styled.div`
   display: flex;
@@ -188,6 +188,14 @@ const RollupsWrapper = styled.div`
   height: 632px;
 `;
 
+const BottomText = styled.p`
+  color: rgba(255, 255, 255, 0.88);
+  font-family: 'Area Normal';
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 14px; /* 87.5% */
+`;
+
 const blocksA = [
   { rollup: 'A', number: 1, age: 15 },
   { rollup: 'A', number: 2, age: 10 },
@@ -202,10 +210,13 @@ const blocksB = [
 
 const Roblox = () => {
   return (
-    <RollupsWrapper>
-      <Rollup data={blocksA} />
-      <Rollup data={blocksB} />
-    </RollupsWrapper>
+    <>
+      <RollupsWrapper>
+        <Rollup data={blocksA} />
+        <Rollup data={blocksB} />
+      </RollupsWrapper>
+      <BottomText>Shared sequencing layer is ordering transactions for Rollup A and B</BottomText>
+    </>
   );
 };
 

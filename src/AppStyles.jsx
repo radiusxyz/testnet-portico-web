@@ -127,6 +127,7 @@ export const ImgWrapper = styled.div`
   justify-content: center;
   border-radius: 24px;
   border: 1px solid rgba(92, 91, 94, 0.4);
+  overflow: hidden;
 `;
 
 export const Body = styled.div``;

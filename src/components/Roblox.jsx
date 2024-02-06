@@ -2,6 +2,19 @@ import React from 'react';
 import styled from 'styled-components';
 import block from '../assets/images/block.svg';
 import cuid from 'cuid';
+import rollupA from '../assets/images/rollupA.svg';
+import rollupB from '../assets/images/rollupB.svg';
+
+const RollupContainer = styled.div`
+  display: flex;
+  gap: 12px;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
+const RollupTitle = styled.img`
+  margin-bottom: 12px;
+`;
 
 const Wrapper = styled.div`
   border-radius: 20px;
@@ -25,7 +38,7 @@ const Container = styled.div`
   box-shadow: 0px 2px 3px 0px rgba(9, 10, 15, 0.1);
 `;
 
-const Title = styled.p`
+const ListTitle = styled.p`
   color: #090a0f;
   font-family: Manrope;
   font-size: 14px;
@@ -132,28 +145,31 @@ const ViewAllBtn = styled.button`
 
 const Rollup = ({ data }) => {
   return (
-    <Wrapper>
-      <Container>
-        <Title>Latest Blocks</Title>
-        <BlockList>
-          {data.map((blockData) => (
-            <ListItem key={cuid()}>
-              <IconBlock>
-                <img src={block} alt='cube' />
-                <BlockDesc>
-                  <BlockText>Block</BlockText>
-                  <BlockNumber>{String(blockData.number).padStart(8, '0')}</BlockNumber>
-                </BlockDesc>
-              </IconBlock>
-              <Age>
-                <AgeText>{blockData.age} secs ago</AgeText>
-              </Age>
-            </ListItem>
-          ))}
-        </BlockList>
-        <ViewAllBtn>View All</ViewAllBtn>
-      </Container>
-    </Wrapper>
+    <RollupContainer>
+      <RollupTitle src={data.rollup === 'A' ? rollupA : rollupB} alt='rollup-icon-with-rollups-title' />
+      <Wrapper>
+        <Container>
+          <ListTitle>Latest Blocks</ListTitle>
+          <BlockList>
+            {data.map((blockData) => (
+              <ListItem key={cuid()}>
+                <IconBlock>
+                  <img src={block} alt='cube' />
+                  <BlockDesc>
+                    <BlockText>Block</BlockText>
+                    <BlockNumber>{String(blockData.number).padStart(8, '0')}</BlockNumber>
+                  </BlockDesc>
+                </IconBlock>
+                <Age>
+                  <AgeText>{blockData.age} secs ago</AgeText>
+                </Age>
+              </ListItem>
+            ))}
+          </BlockList>
+          <ViewAllBtn>View All</ViewAllBtn>
+        </Container>
+      </Wrapper>
+    </RollupContainer>
   );
 };
 
@@ -173,15 +189,15 @@ const RollupsWrapper = styled.div`
 `;
 
 const blocksA = [
-  { number: 1, age: 15 },
-  { number: 2, age: 10 },
-  { number: 3, age: 5 },
+  { rollup: 'A', number: 1, age: 15 },
+  { rollup: 'A', number: 2, age: 10 },
+  { rollup: 'A', number: 3, age: 5 },
 ];
 
 const blocksB = [
-  { number: 1, age: 9 },
-  { number: 2, age: 6 },
-  { number: 3, age: 3 },
+  { rollup: 'B', number: 1, age: 9 },
+  { rollup: 'B', number: 2, age: 6 },
+  { rollup: 'B', number: 3, age: 3 },
 ];
 
 const Roblox = () => {

@@ -7,11 +7,12 @@ const StyledVideo = styled.video`
   object-position: center;
   object-fit: contain;
 `;
-
+import { usePortico } from '../contexts/PorticoCtx';
 const Second = () => {
+  const { videoSrc } = usePortico();
   return (
     <StyledVideo playsInline autoPlay muted loop preload='auto'>
-      <source src={mev} />
+      <source src={videoSrc} />
     </StyledVideo>
   );
 };

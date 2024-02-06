@@ -3,6 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 const token = import.meta.env.VITE_INFLUXDB_TOKEN;
 const url = import.meta.env.VITE_INFLUXDB_URL;
 const org = 'RadiusLab';
+import mev from '../assets/videos/mev.mp4';
 
 export const PorticoCtx = createContext({
   initialRoles: {},
@@ -11,11 +12,13 @@ export const PorticoCtx = createContext({
   porticoRoles: {},
   porticoLogs: [],
   porticoLabels: {},
+  porticoVideo: {},
 });
 
 export const usePortico = () => useContext(PorticoCtx);
 
 export const ContextProvider = ({ children }) => {
+  const [videoSrc] = useState(mev);
   const [logs, setLogs] = useState([]);
   const [roles, setRoles] = useState({});
   const [labels, setLabels] = useState({});
@@ -105,7 +108,15 @@ export const ContextProvider = ({ children }) => {
 
   return (
     <PorticoCtx.Provider
-      value={{ porticoLabels: labels, porticoRoles: roles, porticoLogs: logs, queryRoles, queryLogs, isDataLoaded }}
+      value={{
+        videoSrc,
+        porticoLabels: labels,
+        porticoRoles: roles,
+        porticoLogs: logs,
+        queryRoles,
+        queryLogs,
+        isDataLoaded,
+      }}
     >
       {children}
     </PorticoCtx.Provider>

@@ -50,64 +50,37 @@ function getRole(id, roles) {
 const Liveness = () => {
   const { porticoLogs, porticoRoles, porticoLabels } = usePortico();
 
-  const [logs, setLogs] = useState(porticoLogs);
-  const [roles, setRoles] = useState(porticoRoles);
-
-  const [labels, setLabels] = useState(porticoLabels);
-
+  // Assuming logs, roles, and labels are directly used from the context now
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  const [duration] = useState(2000);
   const [isFinished, setIsFinished] = useState(false);
+
   const handleIsFinished = useCallback(() => {
     setIsFinished(true);
   }, []);
 
-  const updateIndex = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % logs.length);
-  };
+  const updateIndex = useCallback(() => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % porticoLogs.length);
+  }, [porticoLogs.length]);
 
   useEffect(() => {
     if (isFinished) {
       updateIndex();
       setIsFinished(false);
     }
-  }, [currentIndex, isFinished]);
+  }, [isFinished, updateIndex]);
 
-  const currentDbLog = logs[currentIndex];
-  console.log(currentDbLog);
+  const currentDbLog = porticoLogs[currentIndex] || {}; // Default to empty object to avoid undefined errors
+  console.log(currentDbLog, currentIndex);
+  // console.log(currentDbLog);
+
+  // You might need a function to map 'from' and 'to' to actual roles/labels
   const currentLog = {
-    from: getRole(currentDbLog.from, roles),
-    to: getRole(currentDbLog.to, roles),
+    from: porticoRoles[currentDbLog.from],
+    to: porticoRoles[currentDbLog.to],
     data: currentDbLog.data,
   };
 
-  useEffect(() => {
-    if (currentDbLog.data === 'lc') {
-      setRoles((prevState) => {
-        const oldLeader = currentDbLog.from;
-        const newRole = getRole(currentDbLog.to, prevState);
-
-        return {
-          ...prevState,
-          [oldLeader]: newRole,
-          [currentDbLog.to]: 'l',
-        };
-      });
-    }
-  }, [currentIndex]);
-
-  useEffect(() => {
-    if (currentDbLog.data === 'lc') {
-      const swapped = {};
-
-      Object.entries(roles).forEach(([key, value]) => {
-        swapped[value] = key;
-      });
-      setLabels({ ...swapped });
-    }
-  }, [roles]);
-
+  // Assuming getRole(), getPathColor(), getColor(), getFilterColor(), and getHighlightColor() are defined elsewhere
   const motionPath = paths[currentLog.from + currentLog.to];
   const isReversed = ['l', 'u'].includes(currentLog.to) && ['f0', 'f1', 'f2', 'f3'].includes(currentLog.from);
 
@@ -131,7 +104,7 @@ const Liveness = () => {
           color={getColor(currentLog.data)}
           isFinished={isFinished}
           motionPath={motionPath}
-          duration={duration}
+          duration={5000}
           isReversed={isReversed}
           handleIsFinished={handleIsFinished}
         />
@@ -139,27 +112,27 @@ const Liveness = () => {
       {/* Entities themselves */}
       <U filterColor={getFilterColor(currentLog, 'u')} highlightColor={getHighlightColor(currentLog, 'u')} />
       <F0
-        id={labels.f0}
+        id={porticoLabels.f0}
         filterColor={getFilterColor(currentLog, 'f0')}
         highlightColor={getHighlightColor(currentLog, 'f0')}
       />
       <F1
-        id={labels.f1}
+        id={porticoLabels.f1}
         filterColor={getFilterColor(currentLog, 'f1')}
         highlightColor={getHighlightColor(currentLog, 'f1')}
       />
       <F2
-        id={labels.f2}
+        id={porticoLabels.f2}
         filterColor={getFilterColor(currentLog, 'f2')}
         highlightColor={getHighlightColor(currentLog, 'f2')}
       />
       <F3
-        id={labels.f3}
+        id={porticoLabels.f3}
         filterColor={getFilterColor(currentLog, 'f3')}
         highlightColor={getHighlightColor(currentLog, 'f3')}
       />
       <L
-        id={labels.l}
+        id={porticoLabels.l}
         filterColor={getFilterColor(currentLog, 'l')}
         highlightColor={getHighlightColor(currentLog, 'l')}
       />

@@ -52,6 +52,7 @@ export const ContextProvider = ({ children }) => {
       result.pop();
       result.pop();
       setLogs(result);
+      console.log('portico', result);
       setIsDataLoaded(true);
     } catch (error) {
       console.error('QUERY ERROR', error);
@@ -81,6 +82,7 @@ export const ContextProvider = ({ children }) => {
         }
       });
       setRoles(result);
+      console.log(result);
       setIsDataLoaded(true);
     } catch (error) {
       console.error('QUERY ERROR', error);

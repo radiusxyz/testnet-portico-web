@@ -27,7 +27,7 @@ export const ContextProvider = ({ children }) => {
     const query = `from(bucket: "sequencer") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> filter(fn: (r) => r["at"] > "${timestamp}") |> sort(columns: ["at"])`;
     const headers = {
       Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/vnd',
+      'Content-Type': 'application/json',
     };
 
     const data = {

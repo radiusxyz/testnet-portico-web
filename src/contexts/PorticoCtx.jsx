@@ -28,7 +28,7 @@ export const ContextProvider = ({ children }) => {
   // const [timestamp, setTimestamp] = useState(0);
 
   async function queryLogs(timestamp) {
-    const query = `from(bucket: "stompesi_sequencer") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> filter(fn: (r) => r["at"] > "${timestamp}") |> sort(columns: ["at"])`;
+    const query = `from(bucket: "sequencer") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> filter(fn: (r) => r["at"] > "${timestamp}") |> sort(columns: ["at"])`;
     const headers = {
       Authorization: `Token ${token}`,
       'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ export const ContextProvider = ({ children }) => {
   }
 
   async function queryRoles() {
-    const query = `from(bucket: "stompesi_sequencer_table") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> group(columns: ["id"]) |> last()`;
+    const query = `from(bucket: "sequencer_table") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> group(columns: ["id"]) |> last()`;
     const headers = {
       Authorization: `Token ${token}`,
       'Content-Type': 'application/json',
@@ -93,10 +93,22 @@ export const ContextProvider = ({ children }) => {
     }
   }
 
-  //"1706846834327471337"
+  // {
+  //   "0x1": "l",
+  //   "0x2": "f0",
+  //   "0x3": "f1",
+  //   "0x4": "f2",
+  //   "0x5": "f3",
+  //   "A": "r0",
+  //   "B": "r1",
+  //   "u": "u",
+  //   "timestamp": "1707219443003382776"
+  // }
+
   useEffect(() => {
     async function firstQuery() {
       await queryRoles();
+
       setTimeout(() => {
         queryLogs(statelessRoles.timestamp);
       }, 7000);

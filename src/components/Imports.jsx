@@ -6,6 +6,8 @@ import Liveness from '../components/animation/Liveness';
 import First from '../components/First';
 import Second from './Second';
 import Roblox from './Roblox';
+import mev from '../assets/videos/mev.mp4';
+import PreloadVideo from './PreloadVideo';
 
 export const menuItems = [
   { id: 0, text: 'Decentralized Shared Sequencing Layer' },
@@ -28,7 +30,7 @@ export const views = [
       text: 'MEV and Censorship Resistance',
     },
     header: 'Leader-based Shared Sequencer Network',
-    body: <Second />,
+    body: <Second src={mev} />,
     linksAndButtons: [
       { type: 1, text: 'Learn more', icon: to, link: 'https://mindful-subtasks-250940.framer.app/' },
       { type: 0, text: 'See Demo', link: 'https://mindful-subtasks-250940.framer.app/' },
@@ -54,3 +56,9 @@ export const views = [
     linksAndButtons: [{ type: 0, text: 'Learn more', icon: to, link: 'https://mindful-subtasks-250940.framer.app/' }],
   },
 ];
+
+const Imports = () => {
+  return <PreloadVideo src={mev} />;
+};
+
+export default Imports;

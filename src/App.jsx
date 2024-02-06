@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import to from './assets/images/to.svg';
 import cuid from 'cuid';
 import Dot from './components/Dot';
-import axios from 'axios';
+
 import {
   Root,
   Content,
@@ -23,7 +23,7 @@ import {
   Txt,
   IconWrapper,
 } from './AppStyles';
-import { menuItems, views } from './components/Imports';
+import Imports, { menuItems, views } from './components/Imports';
 
 // Links to redirect
 
@@ -108,6 +108,7 @@ function App() {
 
   return (
     <Root>
+      <Imports />
       <Navbar />
       <Content>
         <Menu>

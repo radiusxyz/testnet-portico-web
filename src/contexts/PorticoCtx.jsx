@@ -36,11 +36,7 @@ export const ContextProvider = ({ children }) => {
     };
 
     try {
-      const response = await axios.post(
-        `${url}/api/v2/query?org=${org}?access_token=nz-3Z97EJQYompt-o2hF5EK1YU8xiZpqoaeQGeI3uAuE2pOaboBliu1AA1cEaRrZtzqipRoIbuzOr8CSksTsmA==`,
-        data,
-        { headers }
-      );
+      const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
       const lines = response.data.split('\n');
       const result = lines.map((line) => {
         const fields = line.split(',');
@@ -76,11 +72,7 @@ export const ContextProvider = ({ children }) => {
     };
 
     try {
-      const response = await axios.post(
-        `${url}/api/v2/query?org=${org}?access_token=nz-3Z97EJQYompt-o2hF5EK1YU8xiZpqoaeQGeI3uAuE2pOaboBliu1AA1cEaRrZtzqipRoIbuzOr8CSksTsmA==`,
-        data,
-        { headers }
-      );
+      const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
       const lines = response.data.split('\n');
       const result = {};
       lines.forEach((line, index, arr) => {

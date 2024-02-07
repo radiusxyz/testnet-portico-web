@@ -16,16 +16,12 @@ export const PorticoCtx = createContext({
 });
 
 export const usePortico = () => useContext(PorticoCtx);
-let statelessRoles = {};
 
 export const ContextProvider = ({ children }) => {
   const [videoSrc] = useState(mev);
   const [logs, setLogs] = useState([]);
   const [roles, setRoles] = useState({});
   const [labels, setLabels] = useState({});
-
-  const [isDataLoaded, setIsDataLoaded] = useState(false);
-  // const [timestamp, setTimestamp] = useState(0);
 
   async function queryLogs(timestamp) {
     const query = `from(bucket: "sequencer") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> filter(fn: (r) => r["at"] > "${timestamp}") |> sort(columns: ["at"])`;
@@ -55,9 +51,10 @@ export const ContextProvider = ({ children }) => {
       result.shift();
       result.pop();
       result.pop();
+      // console.log('portico', result);
       setLogs(result);
-      setIsDataLoaded(true);
-      console.log('portico', result);
+      const statelessLogs = [...result];
+      return statelessLogs;
     } catch (error) {
       console.error('QUERY ERROR', error);
     }
@@ -77,6 +74,7 @@ export const ContextProvider = ({ children }) => {
 
     try {
       const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
+      console.log('query roles', response);
       const lines = response.data.split('\n');
       const result = {};
       lines.forEach((line, index, arr) => {
@@ -86,8 +84,9 @@ export const ContextProvider = ({ children }) => {
         }
       });
       setRoles(result);
-      setIsDataLoaded(true);
-      statelessRoles = { ...result };
+      // setIsDataLoaded(true);
+      const statelessRoles = { ...result };
+      return statelessRoles;
     } catch (error) {
       console.error('QUERY ERROR', error);
     }
@@ -106,14 +105,24 @@ export const ContextProvider = ({ children }) => {
   // }
 
   useEffect(() => {
-    async function firstQuery() {
-      await queryRoles();
+    let intervalId;
 
-      setTimeout(() => {
-        queryLogs(statelessRoles.timestamp);
-      }, 7000);
+    async function initiateQueries() {
+      const statelessRoles = await queryRoles();
+      console.log(statelessRoles);
+
+      intervalId = setInterval(async () => {
+        const statelessLogs = await queryLogs(statelessRoles.timestamp);
+        console.log('out', statelessLogs);
+        if (statelessLogs.length !== 0) {
+          console.log('in', statelessLogs);
+          clearInterval(intervalId);
+        }
+      }, 1000);
     }
-    firstQuery();
+
+    initiateQueries();
+    // return () => clearTimeout(intervalId);
   }, []);
 
   useEffect(() => {
@@ -133,7 +142,7 @@ export const ContextProvider = ({ children }) => {
         porticoLogs: logs,
         queryRoles,
         queryLogs,
-        isDataLoaded,
+        // isDataLoaded,
       }}
     >
       {children}

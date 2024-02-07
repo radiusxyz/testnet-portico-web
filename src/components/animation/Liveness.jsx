@@ -48,10 +48,10 @@ function getRole(id, roles) {
 }
 
 const Liveness = () => {
-  const { porticoLogs, porticoRoles, porticoLabels, preventNewLogs, pIndex } = usePortico();
+  const { pLogs, setPLogs, pRoles, pLabels, preventNewLogs, pIndex, setPIndex } = usePortico();
 
   // Assuming logs, roles, and labels are directly used from the context now
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(pIndex);
   const [isFinished, setIsFinished] = useState(false);
 
   const handleIsFinished = useCallback(() => {
@@ -59,23 +59,28 @@ const Liveness = () => {
   }, []);
 
   const updateIndex = useCallback(() => {
-    if (porticoLogs.length) {
+    if (pLogs && pLogs.length) {
       setCurrentIndex((prevIndex) => prevIndex + 1);
     } else {
       setCurrentIndex(0);
     }
-  }, [porticoLogs.length]);
+  }, [pLogs.length]);
 
   useEffect(() => {
-    if (currentIndex === porticoLogs.length) {
+    setPIndex(() => currentIndex);
+  }, [currentIndex]);
+
+  useEffect(() => {
+    if (currentIndex === pLogs.length) {
       setCurrentIndex(0);
       preventNewLogs(false);
+      setPLogs([]);
     }
   }, [currentIndex]);
 
   useEffect(() => {
-    console.log(currentIndex, porticoLogs.length);
-  }, [currentIndex, porticoLogs.length]);
+    console.log(currentIndex, pLogs.length);
+  }, [currentIndex, pLogs.length]);
 
   useEffect(() => {
     if (isFinished) {
@@ -84,14 +89,40 @@ const Liveness = () => {
     }
   }, [isFinished, updateIndex]);
 
-  const currentDbLog = porticoLogs[currentIndex] || {}; // Default to empty object to avoid undefined errors
+  useEffect(() => {
+    if (currentDbLog.data === 'lc') {
+      setRoles((prevState) => {
+        const oldLeader = currentDbLog.from;
+        const newRole = getRole(currentDbLog.to, prevState);
+
+        return {
+          ...prevState,
+          [oldLeader]: newRole,
+          [currentDbLog.to]: 'l',
+        };
+      });
+    }
+  }, [currentIndex]);
+
+  useEffect(() => {
+    if (currentDbLog.data === 'lc') {
+      const swapped = {};
+
+      Object.entries(roles).forEach(([key, value]) => {
+        swapped[value] = key;
+      });
+      setLabels({ ...swapped });
+    }
+  }, [roles]);
+
+  const currentDbLog = pLogs[currentIndex] || {}; // Default to empty object to avoid undefined errors
   // console.log(currentDbLog, currentIndex);
   // console.log(currentDbLog);
 
   // You might need a function to map 'from' and 'to' to actual roles/labels
   const currentLog = {
-    from: porticoRoles[currentDbLog.from],
-    to: porticoRoles[currentDbLog.to],
+    from: pRoles[currentDbLog.from],
+    to: pRoles[currentDbLog.to],
     data: currentDbLog.data,
   };
 
@@ -127,27 +158,27 @@ const Liveness = () => {
       {/* Entities themselves */}
       <U filterColor={getFilterColor(currentLog, 'u')} highlightColor={getHighlightColor(currentLog, 'u')} />
       <F0
-        id={porticoLabels.f0}
+        id={pLabels.f0}
         filterColor={getFilterColor(currentLog, 'f0')}
         highlightColor={getHighlightColor(currentLog, 'f0')}
       />
       <F1
-        id={porticoLabels.f1}
+        id={pLabels.f1}
         filterColor={getFilterColor(currentLog, 'f1')}
         highlightColor={getHighlightColor(currentLog, 'f1')}
       />
       <F2
-        id={porticoLabels.f2}
+        id={pLabels.f2}
         filterColor={getFilterColor(currentLog, 'f2')}
         highlightColor={getHighlightColor(currentLog, 'f2')}
       />
       <F3
-        id={porticoLabels.f3}
+        id={pLabels.f3}
         filterColor={getFilterColor(currentLog, 'f3')}
         highlightColor={getHighlightColor(currentLog, 'f3')}
       />
       <L
-        id={porticoLabels.l}
+        id={pLabels.l}
         filterColor={getFilterColor(currentLog, 'l')}
         highlightColor={getHighlightColor(currentLog, 'l')}
       />

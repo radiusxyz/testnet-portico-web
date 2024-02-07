@@ -9,10 +9,12 @@ export const PorticoCtx = createContext({
   initialRoles: {},
   queryRoles: async () => {},
   queryLogs: async () => {},
-  porticoRoles: {},
-  porticoLogs: [],
-  porticoLabels: {},
-  porticoVideo: {},
+  pRoles: {},
+  pLogs: [],
+  pLabels: {},
+  pVideo: {},
+  preventNewLogs: false,
+  pIndex: 0,
 });
 
 export const usePortico = () => useContext(PorticoCtx);
@@ -22,108 +24,37 @@ export const ContextProvider = ({ children }) => {
   const [logs, setLogs] = useState([]);
   const [roles, setRoles] = useState({});
   const [labels, setLabels] = useState({});
+  const [logsReady, setLogsReady] = useState(false);
+  const [index, setIndex] = useState(0);
+
+  const handleIndex = () => {
+    setIndex((index) => index + 1);
+  };
 
   async function queryLogs(timestamp) {
-    const query = `from(bucket: "sequencer") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> filter(fn: (r) => r["at"] > "${timestamp}") |> sort(columns: ["at"])`;
-    const headers = {
-      Authorization: `Token ${token}`,
-      'Content-Type': 'application/json',
-    };
-
     const data = {
-      query: query,
-      type: 'flux',
+      timestamp,
     };
-
     try {
-      const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
-      const lines = response.data.split('\n');
-      const result = lines.map((line) => {
-        const fields = line.split(',');
-
-        return {
-          data: fields[6]?.replace(/"/g, ''),
-          from: fields[10]?.replace(/"/g, ''),
-          to: fields[11]?.replace(/"/g, '').replace('\r', ''),
-          timestamp: fields[9],
-        };
-      });
-      result.shift();
-      result.pop();
-      result.pop();
-      // console.log('portico', result);
+      const response = await axios.post(`${url}/logs`, data);
+      const result = [...response.data];
       setLogs(result);
-      const statelessLogs = [...result];
-      return statelessLogs;
+      return [...result];
     } catch (error) {
       console.error('QUERY ERROR', error);
     }
   }
 
   async function queryRoles() {
-    const query = `from(bucket: "sequencer_table") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> group(columns: ["id"]) |> last()`;
-    const headers = {
-      Authorization: `Token ${token}`,
-      'Content-Type': 'application/json',
-    };
-
-    const data = {
-      query: query,
-      type: 'flux',
-    };
-
     try {
-      const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
-      console.log('query roles', response);
-      const lines = response.data.split('\n');
-      const result = {};
-      lines.forEach((line, index, arr) => {
-        if (index !== 0 && index < arr.length - 2) {
-          const fields = line.split(',');
-          result[fields[9]?.replace(/"/g, '').replace('\r', '')] = fields[10]?.replace(/"/g, '').replace('\r', '');
-        }
-      });
+      const response = await axios.get(`${url}/roles`);
+      const result = { ...response.data };
       setRoles(result);
-      // setIsDataLoaded(true);
-      const statelessRoles = { ...result };
-      return statelessRoles;
+      return { ...result };
     } catch (error) {
       console.error('QUERY ERROR', error);
     }
   }
-
-  // {
-  //   "0x1": "l",
-  //   "0x2": "f0",
-  //   "0x3": "f1",
-  //   "0x4": "f2",
-  //   "0x5": "f3",
-  //   "A": "r0",
-  //   "B": "r1",
-  //   "u": "u",
-  //   "timestamp": "1707219443003382776"
-  // }
-
-  useEffect(() => {
-    let intervalId;
-
-    async function initiateQueries() {
-      const statelessRoles = await queryRoles();
-      console.log(statelessRoles);
-
-      intervalId = setInterval(async () => {
-        const statelessLogs = await queryLogs(statelessRoles.timestamp);
-        console.log('out', statelessLogs);
-        if (statelessLogs.length !== 0) {
-          console.log('in', statelessLogs);
-          clearInterval(intervalId);
-        }
-      }, 1000);
-    }
-
-    initiateQueries();
-    // return () => clearTimeout(intervalId);
-  }, []);
 
   useEffect(() => {
     const swapped = {};
@@ -133,16 +64,41 @@ export const ContextProvider = ({ children }) => {
     setLabels(swapped);
   }, [roles]);
 
+  useEffect(() => {
+    const runReqs = async () => {
+      const roles = await queryRoles();
+      if (!logsReady) {
+        const checkLogs = async () => {
+          const logs = await queryLogs(roles.timestamp);
+          console.log(logs);
+          if (logs.length) {
+            console.log('Logs are ready');
+            setLogsReady(true);
+          } else {
+            console.log('Logs are not ready, checking again...');
+            setTimeout(checkLogs, 1000); // Check again after 1 second
+          }
+        };
+        setTimeout(checkLogs, 1000);
+      }
+    };
+    console.log('Checking for logs...');
+    runReqs();
+  }, [logsReady]);
+
   return (
     <PorticoCtx.Provider
       value={{
         videoSrc,
-        porticoLabels: labels,
-        porticoRoles: roles,
-        porticoLogs: logs,
+        pLabels: labels,
+        pRoles: roles,
+        pLogs: logs,
         queryRoles,
         queryLogs,
+        preventNewLogs: setLogsReady,
         // isDataLoaded,
+        setPIndex: setIndex,
+        pIndex: index,
       }}
     >
       {children}

@@ -48,7 +48,7 @@ function getRole(id, roles) {
 }
 
 const Liveness = () => {
-  const { porticoLogs, porticoRoles, porticoLabels } = usePortico();
+  const { porticoLogs, porticoRoles, porticoLabels, preventNewLogs, pIndex } = usePortico();
 
   // Assuming logs, roles, and labels are directly used from the context now
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -59,8 +59,23 @@ const Liveness = () => {
   }, []);
 
   const updateIndex = useCallback(() => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % porticoLogs.length);
+    if (porticoLogs.length) {
+      setCurrentIndex((prevIndex) => prevIndex + 1);
+    } else {
+      setCurrentIndex(0);
+    }
   }, [porticoLogs.length]);
+
+  useEffect(() => {
+    if (currentIndex === porticoLogs.length) {
+      setCurrentIndex(0);
+      preventNewLogs(false);
+    }
+  }, [currentIndex]);
+
+  useEffect(() => {
+    console.log(currentIndex, porticoLogs.length);
+  }, [currentIndex, porticoLogs.length]);
 
   useEffect(() => {
     if (isFinished) {
@@ -104,7 +119,7 @@ const Liveness = () => {
           color={getColor(currentLog.data)}
           isFinished={isFinished}
           motionPath={motionPath}
-          duration={2000}
+          duration={1000}
           isReversed={isReversed}
           handleIsFinished={handleIsFinished}
         />

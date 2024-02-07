@@ -43,7 +43,7 @@ export const views = [
       text: 'Sequencer Liveness',
     },
     header: 'Encrypted Mempool, \n Zero Knowledge Proof',
-    body: <></>,
+    body: <Liveness />,
     linksAndButtons: [
       { type: 1, text: 'Learn more', icon: to, link: 'https://mindful-subtasks-250940.framer.app/' },
       { type: 0, text: 'View Real-Time Logs', link: 'https://mindful-subtasks-250940.framer.app/' },

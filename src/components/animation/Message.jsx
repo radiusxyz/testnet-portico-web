@@ -20,7 +20,7 @@ const Message = ({ currentLog }) => {
           fontWeight='700'
           letterSpacing='0em'
         >
-          <tspan x='210' y={a.y}>
+          <tspan x='210' y='64.32'>
             ENCRYPTED TX
           </tspan>
         </text>

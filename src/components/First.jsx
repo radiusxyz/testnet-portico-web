@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { usePortico } from '../contexts/PorticoCtx';
 
 const Wrapper = styled.div`
   position: relative;
@@ -30,6 +31,10 @@ const Pulse = styled.div`
 `;
 
 const First = () => {
+  const { preventNewLogs } = usePortico();
+  useEffect(() => {
+    preventNewLogs(false);
+  }, []);
   return (
     <Wrapper>
       <Pulse />

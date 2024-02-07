@@ -11,9 +11,11 @@ export const PorticoCtx = createContext({
   queryLogs: async () => {},
   pRoles: {},
   pLogs: [],
+  setPLogs: () => {},
   pLabels: {},
   pVideo: {},
   preventNewLogs: false,
+  setPIndex: () => {},
   pIndex: 0,
 });
 
@@ -22,7 +24,17 @@ export const usePortico = () => useContext(PorticoCtx);
 export const ContextProvider = ({ children }) => {
   const [videoSrc] = useState(mev);
   const [logs, setLogs] = useState([]);
-  const [roles, setRoles] = useState({});
+  const [roles, setRoles] = useState({
+    '0x1': 'f0',
+    '0x2': 'f1',
+    '0x3': 'f2',
+    '0x4': 'f3',
+    '0x5': 'l',
+    A: 'r0',
+    B: 'r1',
+    u: 'u',
+    timestamp: '1707219443003382776',
+  });
   const [labels, setLabels] = useState({});
   const [logsReady, setLogsReady] = useState(false);
   const [index, setIndex] = useState(0);
@@ -93,6 +105,7 @@ export const ContextProvider = ({ children }) => {
         pLabels: labels,
         pRoles: roles,
         pLogs: logs,
+        setPLogs: setLogs,
         queryRoles,
         queryLogs,
         preventNewLogs: setLogsReady,

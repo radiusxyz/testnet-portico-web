@@ -25,5 +25,3 @@ export const iLogs = [
 ].map((log, index) => {
   return { ...log, timestamp: iRoles.timestamp + index };
 });
-
-console.log(iLogs);

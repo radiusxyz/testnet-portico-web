@@ -18,15 +18,16 @@ setInterval(() => {
       newLogClone.timestamp = logs[logs.length - 1].timestamp + index + 1;
       return newLogClone;
     });
-    roles.timestamp = newLog[newLog.length - 1].timestamp;
     logs.push(...newLog);
-    console.log(roles.timestamp);
   } else {
     console.log('No logs to duplicate.');
   }
 }, time);
+
 app.get('/roles', (_, res) => {
-  res.json(roles);
+  setTimeout(() => {
+    res.json(roles);
+  }, 2000);
 });
 
 app.post('/logs', (req, res) => {
@@ -34,6 +35,7 @@ app.post('/logs', (req, res) => {
   const response = logs.filter((log) => log.timestamp > timestamp);
 
   setTimeout(() => {
+    roles.timestamp = response[response.length - 1].timestamp;
     res.json(response);
   }, 5000);
 });

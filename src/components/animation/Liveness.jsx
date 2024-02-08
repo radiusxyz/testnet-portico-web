@@ -48,7 +48,7 @@ function getRole(id, roles) {
 }
 
 const Liveness = () => {
-  const { pLogs, setPLogs, pRoles, pLabels, preventNewLogs, pIndex, setPIndex } = usePortico();
+  const { pLogs, setPLogs, pRoles, setPRoles, pLabels, setPLabels, preventNewLogs, pIndex, setPIndex } = usePortico();
 
   // Assuming logs, roles, and labels are directly used from the context now
   const [currentIndex, setCurrentIndex] = useState(pIndex);
@@ -91,7 +91,7 @@ const Liveness = () => {
 
   useEffect(() => {
     if (currentDbLog.data === 'lc') {
-      setRoles((prevState) => {
+      setPRoles((prevState) => {
         const oldLeader = currentDbLog.from;
         const newRole = getRole(currentDbLog.to, prevState);
 
@@ -108,12 +108,12 @@ const Liveness = () => {
     if (currentDbLog.data === 'lc') {
       const swapped = {};
 
-      Object.entries(roles).forEach(([key, value]) => {
+      Object.entries(pRoles).forEach(([key, value]) => {
         swapped[value] = key;
       });
-      setLabels({ ...swapped });
+      setPLabels({ ...swapped });
     }
-  }, [roles]);
+  }, [pRoles]);
 
   const currentDbLog = pLogs[currentIndex] || {}; // Default to empty object to avoid undefined errors
   // console.log(currentDbLog, currentIndex);

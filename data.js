@@ -19,16 +19,16 @@ export const iLogs = [
   { from: '0x3', to: 'u', data: 'oc' },
   { from: '0x1', to: 'B', data: 'block' },
 
-  { from: '0x1', to: '0x2', data: 'lc' },
+  // { from: '0x1', to: '0x2', data: 'lc' },
 
-  { from: 'u', to: '0x2', data: 'tx' },
-  { from: '0x2', to: '0x1', data: 'tx' },
-  { from: '0x2', to: '0x3', data: 'oc' },
-  { from: '0x2', to: '0x4', data: 'oc' },
-  { from: '0x2', to: 'u', data: 'oc' },
-  { from: '0x2', to: 'A', data: 'block' },
+  // { from: 'u', to: '0x2', data: 'tx' },
+  // { from: '0x2', to: '0x1', data: 'tx' },
+  // { from: '0x2', to: '0x3', data: 'oc' },
+  // { from: '0x2', to: '0x4', data: 'oc' },
+  // { from: '0x2', to: 'u', data: 'oc' },
+  // { from: '0x2', to: 'A', data: 'block' },
 
-  { from: '0x2', to: '0x1', data: 'lc' },
+  // { from: '0x2', to: '0x1', data: 'lc' },
 ].map((log, index) => {
   return { ...log, timestamp: iRoles.timestamp + index };
 });

@@ -13,12 +13,13 @@ const roles = { ...iRoles };
 
 setInterval(() => {
   if (logs.length) {
-    const newLog = logs.slice(-5).map((log, index) => {
+    const newLog = logs.slice(-2).map((log, index) => {
       const newLogClone = { ...log };
       newLogClone.timestamp = logs[logs.length - 1].timestamp + index + 1;
       return newLogClone;
     });
-    logs.push(...logs);
+    roles.timestamp = newLog[newLog.length - 1].timestamp;
+    logs.push(...newLog);
   } else {
     console.log('No logs to duplicate.');
   }
@@ -41,7 +42,8 @@ app.post('/logs', (req, res) => {
     ++index;
   } else {
     setTimeout(() => {
-      roles.timestamp = response[response.length - 1].timestamp;
+      // console.log(response);
+      // roles.timestamp = response[response.length - 1]?.timestamp;
       index = 0;
       res.json(response);
     }, 5000);

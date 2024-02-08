@@ -48,11 +48,13 @@ function getRole(id, roles) {
 }
 
 const Liveness = () => {
-  const { pLogs, setPLogs, pRoles, setPRoles, pLabels, setPLabels, preventNewLogs, pIndex, setPIndex } = usePortico();
+  const { porticoLogs, pRoles, setPRoles, pLabels, setPLabels, preventNewLogs, pIndex, setPIndex, queryLogs } =
+    usePortico();
 
   // Assuming logs, roles, and labels are directly used from the context now
   const [currentIndex, setCurrentIndex] = useState(pIndex);
   const [isFinished, setIsFinished] = useState(false);
+  const [pLogs, setPLogs] = useState(porticoLogs);
 
   const currentPLog = pLogs[currentIndex] || {};
 
@@ -81,8 +83,12 @@ const Liveness = () => {
   useEffect(() => {
     if (currentIndex === pLogs.length) {
       setCurrentIndex(0);
-      preventNewLogs(false);
-      setPLogs([]);
+      // preventNewLogs(false);
+      const queryNext = async () => {
+        const newLogs = await queryLogs(pLogs[pLogs.length - 1].timestamp);
+        setPLogs(newLogs);
+      };
+      queryNext();
     }
   }, [currentIndex]);
 

@@ -8,7 +8,7 @@ import mev from '../assets/videos/mev.mp4';
 export const PorticoCtx = createContext({
   initialRoles: {},
   queryRoles: async () => {},
-  queryLogs: async () => {},
+  queryLogs: async (timestamp) => {},
   pRoles: {},
   setProles: () => {},
   pLogs: [],
@@ -72,7 +72,6 @@ export const ContextProvider = ({ children }) => {
       result.shift();
       result.pop();
       result.pop();
-      // console.log('portico', result);
       setLogs(result);
       return [...result];
     } catch (error) {
@@ -147,12 +146,11 @@ export const ContextProvider = ({ children }) => {
         setPLabels: setLabels,
         pRoles: roles,
         setPRoles: setRoles,
-        pLogs: logs,
+        porticoLogs: logs,
         setPLogs: setLogs,
         queryRoles,
         queryLogs,
         preventNewLogs: setLogsReady,
-        // isDataLoaded,
         setPIndex: setIndex,
         pIndex: index,
       }}

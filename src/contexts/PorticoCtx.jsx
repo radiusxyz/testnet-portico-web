@@ -6,25 +6,25 @@ const org = 'RadiusLab';
 import mev from '../assets/videos/mev.mp4';
 
 export const PorticoCtx = createContext({
-  initialRoles: {},
   queryRoles: async () => {},
   queryLogs: async (timestamp) => {},
-  pRoles: {},
-  setProles: () => {},
-  pLogs: [],
-  setPLogs: () => {},
-  pLabels: {},
-  setPLabels: () => {},
-  pVideo: {},
+
+  globalRoles: {},
+  globalLabels: {},
+  globalLogs: [],
+  globalIndex: 0,
+
+  setGlobalRoles: () => {},
+  setGlobalLabels: () => {},
+  setGlobalLogs: () => {},
+  setGlobalIndex: () => {},
+
   preventNewLogs: false,
-  setPIndex: () => {},
-  pIndex: 0,
 });
 
 export const usePortico = () => useContext(PorticoCtx);
 
 export const ContextProvider = ({ children }) => {
-  const [videoSrc] = useState(mev);
   const [logs, setLogs] = useState([]);
   const [roles, setRoles] = useState({
     '0x1': 'f0',
@@ -40,10 +40,6 @@ export const ContextProvider = ({ children }) => {
   const [labels, setLabels] = useState({});
   const [logsReady, setLogsReady] = useState(false);
   const [index, setIndex] = useState(0);
-
-  const handleIndex = () => {
-    setIndex((index) => index + 1);
-  };
 
   async function queryLogs(timestamp) {
     const query = `from(bucket: "sequencer") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> filter(fn: (r) => r["at"] > "${timestamp}") |> sort(columns: ["at"])`;
@@ -141,18 +137,18 @@ export const ContextProvider = ({ children }) => {
   return (
     <PorticoCtx.Provider
       value={{
-        videoSrc,
-        pLabels: labels,
-        setPLabels: setLabels,
-        pRoles: roles,
-        setPRoles: setRoles,
-        porticoLogs: logs,
-        setPLogs: setLogs,
+        globalLabels: labels,
+        globalRoles: roles,
+        globalLogs: logs,
+        globalIndex: index,
+
+        setGlobalLabels: setLabels,
+        setGlobalRoles: setRoles,
+        setGlobalLogs: setLogs,
+        setGlobalIndex: setIndex,
+
         queryRoles,
         queryLogs,
-        preventNewLogs: setLogsReady,
-        setPIndex: setIndex,
-        pIndex: index,
       }}
     >
       {children}

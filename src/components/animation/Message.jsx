@@ -5,9 +5,9 @@ function getMessage(log, from, to, data) {
   return false;
 }
 
-const Message = ({ currentLog }) => {
+const Message = ({ log }) => {
   const message =
-    (getMessage(currentLog, 'u', 'f0', 'tx') && (
+    (getMessage(log, 'u', 'f0', 'tx') && (
       <g filter='url(#filter6_d_106_4195)'>
         <rect x='198' y='44' width='118' height='32' rx='4' fill='#090A0F' shapeRendering='crispEdges' />
         <rect x='198.5' y='44.5' width='117' height='31' rx='3.5' stroke='#FF5656' shapeRendering='crispEdges' />
@@ -39,7 +39,7 @@ const Message = ({ currentLog }) => {
         />
       </g>
     )) ||
-    (getMessage(currentLog, 'u', 'f0', 'oc') && (
+    (getMessage(log, 'u', 'f0', 'oc') && (
       <g filter='url(#filter6_d_106_4932)'>
         <rect x='176' y='44' width='156' height='32' rx='4' fill='#090A0F' shapeRendering='crispEdges' />
         <rect x='176.5' y='44.5' width='155' height='31' rx='3.5' stroke='#24F6B7' shapeRendering='crispEdges' />
@@ -71,7 +71,7 @@ const Message = ({ currentLog }) => {
         </text>
       </g>
     )) ||
-    (getMessage(currentLog, 'f0', 'l', 'tx') && (
+    (getMessage(log, 'f0', 'l', 'tx') && (
       <g filter='url(#filter7_d_106_4195)'>
         <rect x='511' y='44' width='118' height='32' rx='4' fill='#090A0F' shapeRendering='crispEdges' />
         <rect x='511.5' y='44.5' width='117' height='31' rx='3.5' stroke='#FF5656' shapeRendering='crispEdges' />
@@ -103,7 +103,7 @@ const Message = ({ currentLog }) => {
         />
       </g>
     )) ||
-    (getMessage(currentLog, 'f0', 'l', 'oc') && (
+    (getMessage(log, 'f0', 'l', 'oc') && (
       <g filter='url(#filter7_d_106_4932)'>
         <rect x='495' y='44' width='156' height='32' rx='4' fill='#090A0F' shapeRendering='crispEdges' />
         <rect x='495.5' y='44.5' width='155' height='31' rx='3.5' stroke='#24F6B7' shapeRendering='crispEdges' />
@@ -135,7 +135,7 @@ const Message = ({ currentLog }) => {
         </text>
       </g>
     )) ||
-    (getMessage(currentLog, 'f1', 'l', 'tx') && (
+    (getMessage(log, 'f1', 'l', 'tx') && (
       <g filter='url(#filter8_d_106_4195)'>
         <rect x='511' y='120' width='118' height='32' rx='4' fill='#090A0F' shapeRendering='crispEdges' />
         <rect x='511.5' y='120.5' width='117' height='31' rx='3.5' stroke='#FF5656' shapeRendering='crispEdges' />
@@ -167,7 +167,7 @@ const Message = ({ currentLog }) => {
         />
       </g>
     )) ||
-    (getMessage(currentLog, 'f1', 'l', 'oc') && (
+    (getMessage(log, 'f1', 'l', 'oc') && (
       <g filter='url(#filter8_d_106_4932)'>
         <rect x='495' y='120' width='156' height='32' rx='4' fill='#090A0F' shapeRendering='crispEdges' />
         <rect x='495.5' y='120.5' width='155' height='31' rx='3.5' stroke='#24F6B7' shapeRendering='crispEdges' />
@@ -199,7 +199,7 @@ const Message = ({ currentLog }) => {
         </text>
       </g>
     )) ||
-    (getMessage(currentLog, 'f2', 'l', 'tx') && (
+    (getMessage(log, 'f2', 'l', 'tx') && (
       <g filter='url(#filter9_d_106_4195)'>
         <rect x='511' y='255' width='118' height='32' rx='4' fill='#090A0F' shapeRendering='crispEdges' />
         <rect x='511.5' y='255.5' width='117' height='31' rx='3.5' stroke='#FF5656' shapeRendering='crispEdges' />
@@ -231,7 +231,7 @@ const Message = ({ currentLog }) => {
         />
       </g>
     )) ||
-    (getMessage(currentLog, 'f2', 'l', 'oc') && (
+    (getMessage(log, 'f2', 'l', 'oc') && (
       <g filter='url(#filter9_d_106_4932)'>
         <rect x='495' y='255' width='156' height='32' rx='4' fill='#090A0F' shapeRendering='crispEdges' />
         <rect x='495.5' y='255.5' width='155' height='31' rx='3.5' stroke='#24F6B7' shapeRendering='crispEdges' />
@@ -263,7 +263,7 @@ const Message = ({ currentLog }) => {
         </text>
       </g>
     )) ||
-    (getMessage(currentLog, 'f3', 'l', 'tx') && (
+    (getMessage(log, 'f3', 'l', 'tx') && (
       <g filter='url(#filter10_d_106_4195)'>
         <rect x='511' y='331' width='118' height='32' rx='4' fill='#090A0F' shapeRendering='crispEdges' />
         <rect x='511.5' y='331.5' width='117' height='31' rx='3.5' stroke='#FF5656' shapeRendering='crispEdges' />
@@ -295,7 +295,7 @@ const Message = ({ currentLog }) => {
         />
       </g>
     )) ||
-    (getMessage(currentLog, 'f3', 'l', 'oc') && (
+    (getMessage(log, 'f3', 'l', 'oc') && (
       <g filter='url(#filter10_d_106_4932)'>
         <rect x='495' y='331' width='156' height='32' rx='4' fill='#090A0F' shapeRendering='crispEdges' />
         <rect x='495.5' y='331.5' width='155' height='31' rx='3.5' stroke='#24F6B7' shapeRendering='crispEdges' />
@@ -327,7 +327,7 @@ const Message = ({ currentLog }) => {
         </text>
       </g>
     )) ||
-    (getMessage(currentLog, 'u', 'f1', 'tx') && (
+    (getMessage(log, 'u', 'f1', 'tx') && (
       <g filter='url(#filter11_d_106_4195)'>
         <rect x='198' y='120' width='118' height='32' rx='4' fill='#090A0F' shapeRendering='crispEdges' />
         <rect x='198.5' y='120.5' width='117' height='31' rx='3.5' stroke='#FF5656' shapeRendering='crispEdges' />
@@ -359,7 +359,7 @@ const Message = ({ currentLog }) => {
         />
       </g>
     )) ||
-    (getMessage(currentLog, 'u', 'f1', 'oc') && (
+    (getMessage(log, 'u', 'f1', 'oc') && (
       <g filter='url(#filter11_d_106_4932)'>
         <rect x='176' y='120' width='156' height='32' rx='4' fill='#090A0F' shapeRendering='crispEdges' />
         <rect x='176.5' y='120.5' width='155' height='31' rx='3.5' stroke='#24F6B7' shapeRendering='crispEdges' />
@@ -391,7 +391,7 @@ const Message = ({ currentLog }) => {
         </text>
       </g>
     )) ||
-    (getMessage(currentLog, 'u', 'f3', 'tx') && (
+    (getMessage(log, 'u', 'f3', 'tx') && (
       <g filter='url(#filter12_d_106_4195)'>
         <rect x='198' y='331' width='118' height='32' rx='4' fill='#090A0F' shapeRendering='crispEdges' />
         <rect x='198.5' y='331.5' width='117' height='31' rx='3.5' stroke='#FF5656' shapeRendering='crispEdges' />
@@ -423,7 +423,7 @@ const Message = ({ currentLog }) => {
         />
       </g>
     )) ||
-    (getMessage(currentLog, 'u', 'f3', 'oc') && (
+    (getMessage(log, 'u', 'f3', 'oc') && (
       <g filter='url(#filter12_d_106_4932)'>
         <rect x='176' y='331' width='156' height='32' rx='4' fill='#090A0F' shapeRendering='crispEdges' />
         <rect x='176.5' y='331.5' width='155' height='31' rx='3.5' stroke='#24F6B7' shapeRendering='crispEdges' />
@@ -455,7 +455,7 @@ const Message = ({ currentLog }) => {
         </text>
       </g>
     )) ||
-    (getMessage(currentLog, 'u', 'f2', 'tx') && (
+    (getMessage(log, 'u', 'f2', 'tx') && (
       <g filter='url(#filter13_d_106_4195)'>
         <rect x='198' y='255' width='118' height='32' rx='4' fill='#090A0F' shapeRendering='crispEdges' />
         <rect x='198.5' y='255.5' width='117' height='31' rx='3.5' stroke='#FF5656' shapeRendering='crispEdges' />
@@ -487,7 +487,7 @@ const Message = ({ currentLog }) => {
         />
       </g>
     )) ||
-    (getMessage(currentLog, 'u', 'f2', 'oc') && (
+    (getMessage(log, 'u', 'f2', 'oc') && (
       <g filter='url(#filter13_d_106_4932)'>
         <rect x='176' y='255' width='156' height='32' rx='4' fill='#090A0F' shapeRendering='crispEdges' />
         <rect x='176.5' y='255.5' width='155' height='31' rx='3.5' stroke='#24F6B7' shapeRendering='crispEdges' />
@@ -519,7 +519,7 @@ const Message = ({ currentLog }) => {
         </text>
       </g>
     )) ||
-    (getMessage(currentLog, 'u', 'l', 'tx') && (
+    (getMessage(log, 'u', 'l', 'tx') && (
       <g filter='url(#filter14_d_106_4195)'>
         <rect x='355' y='187' width='118' height='32' rx='4' fill='#090A0F' shapeRendering='crispEdges' />
         <rect x='355.5' y='187.5' width='117' height='31' rx='3.5' stroke='#FF5656' shapeRendering='crispEdges' />
@@ -551,7 +551,7 @@ const Message = ({ currentLog }) => {
         />
       </g>
     )) ||
-    (getMessage(currentLog, 'u', 'l', 'oc') && (
+    (getMessage(log, 'u', 'l', 'oc') && (
       <g filter='url(#filter14_d_106_4932)'>
         <rect x='336' y='187' width='156' height='32' rx='4' fill='#090A0F' shapeRendering='crispEdges' />
         <rect x='336.5' y='187.5' width='155' height='31' rx='3.5' stroke='#24F6B7' shapeRendering='crispEdges' />
@@ -583,7 +583,7 @@ const Message = ({ currentLog }) => {
         </text>
       </g>
     )) ||
-    (getMessage(currentLog, 'f0', 'l', 'lc') && (
+    (getMessage(log, 'f0', 'l', 'lc') && (
       <g filter='url(#filter5_d_138_733)'>
         <rect x='515' y='44' width='108' height='32' rx='4' fill='#090A0F' shapeRendering='crispEdges' />
         <rect x='515.5' y='44.5' width='107' height='31' rx='3.5' stroke='#E3CE12' shapeRendering='crispEdges' />
@@ -615,7 +615,7 @@ const Message = ({ currentLog }) => {
         />
       </g>
     )) ||
-    (getMessage(currentLog, 'f1', 'l', 'lc') && (
+    (getMessage(log, 'f1', 'l', 'lc') && (
       <g filter='url(#filter6_d_138_733)'>
         <rect x='515' y='120' width='108' height='32' rx='4' fill='#090A0F' shapeRendering='crispEdges' />
         <rect x='515.5' y='120.5' width='107' height='31' rx='3.5' stroke='#E3CE12' shapeRendering='crispEdges' />
@@ -647,7 +647,7 @@ const Message = ({ currentLog }) => {
         />
       </g>
     )) ||
-    (getMessage(currentLog, 'f2', 'l', 'lc') && (
+    (getMessage(log, 'f2', 'l', 'lc') && (
       <g filter='url(#filter7_d_138_733)'>
         <rect x='515' y='255' width='108' height='32' rx='4' fill='#090A0F' shapeRendering='crispEdges' />
         <rect x='515.5' y='255.5' width='107' height='31' rx='3.5' stroke='#E3CE12' shapeRendering='crispEdges' />
@@ -679,7 +679,7 @@ const Message = ({ currentLog }) => {
         />
       </g>
     )) ||
-    (getMessage(currentLog, 'f3', 'l', 'lc') && (
+    (getMessage(log, 'f3', 'l', 'lc') && (
       <g filter='url(#filter8_d_138_733)'>
         <rect x='515' y='331' width='108' height='32' rx='4' fill='#090A0F' shapeRendering='crispEdges' />
         <rect x='515.5' y='331.5' width='107' height='31' rx='3.5' stroke='#E3CE12' shapeRendering='crispEdges' />
@@ -711,7 +711,7 @@ const Message = ({ currentLog }) => {
         />
       </g>
     )) ||
-    ((getMessage(currentLog, 'l', 'r0', 'block') || getMessage(currentLog, 'l', 'r1', 'block')) && (
+    ((getMessage(log, 'l', 'r0', 'block') || getMessage(log, 'l', 'r1', 'block')) && (
       <g filter='url(#filter3_d_138_1546)'>
         <rect x='779' y='188' width='75' height='32' rx='4' fill='#090A0F' shapeRendering='crispEdges' />
         <rect x='779.5' y='188.5' width='74' height='31' rx='3.5' stroke='#189EFF' shapeRendering='crispEdges' />

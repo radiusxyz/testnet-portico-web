@@ -48,20 +48,32 @@ function getRole(id, roles) {
 }
 
 const Liveness = () => {
-  const { porticoLogs, pRoles, setPRoles, pLabels, setPLabels, preventNewLogs, pIndex, setPIndex, queryLogs } =
-    usePortico();
+  const {
+    globalLogs,
+    globalRoles,
+    setGlobalRoles,
+    globalLabels,
+    setGlobalLabels,
+    globalIndex,
+    setGlobalIndex,
+    queryLogs,
+  } = usePortico();
 
   // Assuming logs, roles, and labels are directly used from the context now
-  const [currentIndex, setCurrentIndex] = useState(pIndex);
+  const [currentIndex, setCurrentIndex] = useState(globalIndex);
   const [isFinished, setIsFinished] = useState(false);
-  const [pLogs, setPLogs] = useState(porticoLogs);
+  const [logs, setLogs] = useState(globalLogs);
 
-  const currentPLog = pLogs[currentIndex] || {};
+  useEffect(() => {
+    setLogs(globalLogs);
+  }, [globalLogs]);
 
-  const currentLog = {
-    from: pRoles[currentPLog.from],
-    to: pRoles[currentPLog.to],
-    data: currentPLog.data,
+  const rawLog = logs[currentIndex] || {};
+
+  const log = {
+    from: globalRoles[rawLog.from],
+    to: globalRoles[rawLog.to],
+    data: rawLog.data,
   };
 
   const handleIsFinished = useCallback(() => {
@@ -69,32 +81,32 @@ const Liveness = () => {
   }, []);
 
   const updateIndex = useCallback(() => {
-    if (pLogs && pLogs.length) {
+    if (logs && logs.length) {
       setCurrentIndex((prevIndex) => prevIndex + 1);
     } else {
       setCurrentIndex(0);
     }
-  }, [pLogs.length]);
+  }, [logs.length]);
 
   useEffect(() => {
-    setPIndex(() => currentIndex);
+    setGlobalIndex(() => currentIndex);
   }, [currentIndex]);
 
   useEffect(() => {
-    if (currentIndex === pLogs.length) {
+    if (currentIndex === logs.length) {
       setCurrentIndex(0);
       // preventNewLogs(false);
       const queryNext = async () => {
-        const newLogs = await queryLogs(pLogs[pLogs.length - 1].timestamp);
-        setPLogs(newLogs);
+        const newLogs = await queryLogs(logs[logs.length - 1]?.timestamp);
+        setLogs(newLogs);
       };
       queryNext();
     }
   }, [currentIndex]);
 
   useEffect(() => {
-    console.log(currentIndex, pLogs.length);
-  }, [currentIndex, pLogs.length]);
+    console.log(currentIndex, logs.length);
+  }, [currentIndex, logs.length]);
 
   useEffect(() => {
     if (isFinished) {
@@ -104,55 +116,55 @@ const Liveness = () => {
   }, [isFinished, updateIndex]);
 
   useEffect(() => {
-    if (currentPLog.data === 'lc') {
-      setPRoles((prevState) => {
-        const oldLeader = currentPLog.from;
-        const newRole = getRole(currentPLog.to, prevState);
+    if (rawLog.data === 'lc') {
+      setGlobalRoles((prevState) => {
+        const oldLeader = rawLog.from;
+        const newRole = getRole(rawLog.to, prevState);
 
         return {
           ...prevState,
           [oldLeader]: newRole,
-          [currentPLog.to]: 'l',
+          [rawLog.to]: 'l',
         };
       });
     }
   }, [currentIndex]);
 
   useEffect(() => {
-    if (currentPLog.data === 'lc') {
+    if (rawLog.data === 'lc') {
       const swapped = {};
 
-      Object.entries(pRoles).forEach(([key, value]) => {
+      Object.entries(globalRoles).forEach(([key, value]) => {
         swapped[value] = key;
       });
-      setPLabels({ ...swapped });
+      setGlobalLabels({ ...swapped });
     }
-  }, [pRoles]);
+  }, [globalRoles]);
 
   // console.log(livenessColor);
 
   // Assuming getRole(), getPathColor(), getColor(), getFilterColor(), and getHighlightColor() are defined elsewhere
-  const motionPath = paths[currentLog.from + currentLog.to];
-  const isReversed = ['l', 'u'].includes(currentLog.to) && ['f0', 'f1', 'f2', 'f3'].includes(currentLog.from);
+  const motionPath = paths[log.from + log.to];
+  const isReversed = ['l', 'u'].includes(log.to) && ['f0', 'f1', 'f2', 'f3'].includes(log.from);
 
   return (
     <svg width='1100' height='548' viewBox='0 0 1100 548' fill='none' xmlns='http://www.w3.org/2000/svg'>
       {/* The following are the paths from one node to another, i.e. UF0 is the path from 'user' to 'follower 0' */}
-      <UF0 stroke={getPathColor(currentLog, 'u', 'f0')} />
-      <UF1 stroke={getPathColor(currentLog, 'u', 'f1')} />
-      <UF2 stroke={getPathColor(currentLog, 'u', 'f2')} />
-      <UF3 stroke={getPathColor(currentLog, 'u', 'f3')} />
-      <UL stroke={getPathColor(currentLog, 'u', 'l')} />
-      <F0L stroke={getPathColor(currentLog, 'f0', 'l')} />
-      <F1L stroke={getPathColor(currentLog, 'f1', 'l')} />
-      <F2L stroke={getPathColor(currentLog, 'f2', 'l')} />
-      <F3L stroke={getPathColor(currentLog, 'f3', 'l')} />
-      <LR0 stroke={getPathColor(currentLog, 'l', 'r0')} />
-      <LR1 stroke={getPathColor(currentLog, 'l', 'r1')} />
+      <UF0 stroke={getPathColor(log, 'u', 'f0')} />
+      <UF1 stroke={getPathColor(log, 'u', 'f1')} />
+      <UF2 stroke={getPathColor(log, 'u', 'f2')} />
+      <UF3 stroke={getPathColor(log, 'u', 'f3')} />
+      <UL stroke={getPathColor(log, 'u', 'l')} />
+      <F0L stroke={getPathColor(log, 'f0', 'l')} />
+      <F1L stroke={getPathColor(log, 'f1', 'l')} />
+      <F2L stroke={getPathColor(log, 'f2', 'l')} />
+      <F3L stroke={getPathColor(log, 'f3', 'l')} />
+      <LR0 stroke={getPathColor(log, 'l', 'r0')} />
+      <LR1 stroke={getPathColor(log, 'l', 'r1')} />
       {/* Circle is the dot moving along the path */}
       {!isFinished && (
         <Circle
-          color={getColor(currentLog.data)}
+          color={getColor(log.data)}
           isFinished={isFinished}
           motionPath={motionPath}
           duration={2000}
@@ -161,38 +173,22 @@ const Liveness = () => {
         />
       )}
       {/* Entities themselves */}
-      <U filterColor={getFilterColor(currentLog, 'u')} highlightColor={getHighlightColor(currentLog, 'u')} />
-      <F0
-        id={pLabels.f0}
-        filterColor={getFilterColor(currentLog, 'f0')}
-        highlightColor={getHighlightColor(currentLog, 'f0')}
-      />
-      <F1
-        id={pLabels.f1}
-        filterColor={getFilterColor(currentLog, 'f1')}
-        highlightColor={getHighlightColor(currentLog, 'f1')}
-      />
-      <F2
-        id={pLabels.f2}
-        filterColor={getFilterColor(currentLog, 'f2')}
-        highlightColor={getHighlightColor(currentLog, 'f2')}
-      />
-      <F3
-        id={pLabels.f3}
-        filterColor={getFilterColor(currentLog, 'f3')}
-        highlightColor={getHighlightColor(currentLog, 'f3')}
-      />
+      <U filterColor={getFilterColor(log, 'u')} highlightColor={getHighlightColor(log, 'u')} />
+      <F0 id={globalLabels.f0} filterColor={getFilterColor(log, 'f0')} highlightColor={getHighlightColor(log, 'f0')} />
+      <F1 id={globalLabels.f1} filterColor={getFilterColor(log, 'f1')} highlightColor={getHighlightColor(log, 'f1')} />
+      <F2 id={globalLabels.f2} filterColor={getFilterColor(log, 'f2')} highlightColor={getHighlightColor(log, 'f2')} />
+      <F3 id={globalLabels.f3} filterColor={getFilterColor(log, 'f3')} highlightColor={getHighlightColor(log, 'f3')} />
       <L
-        id={pLabels.l}
-        filterColor={getFilterColor(currentLog, 'l')}
-        highlightColor={getHighlightColor(currentLog, 'l')}
-        livenessColor={currentLog.data === 'lc' && isFinished ? '#FFD875' : '#5C5B5E'}
+        id={globalLabels.l}
+        filterColor={getFilterColor(log, 'l')}
+        highlightColor={getHighlightColor(log, 'l')}
+        livenessColor={log.data === 'lc' && isFinished ? '#FFD875' : '#5C5B5E'}
       />
-      <R0 filterColor={getFilterColor(currentLog, 'r0')} highlightColor={getHighlightColor(currentLog, 'r0')} />
-      <R1 filterColor={getFilterColor(currentLog, 'r1')} highlightColor={getHighlightColor(currentLog, 'r1')} />
+      <R0 filterColor={getFilterColor(log, 'r0')} highlightColor={getHighlightColor(log, 'r0')} />
+      <R1 filterColor={getFilterColor(log, 'r1')} highlightColor={getHighlightColor(log, 'r1')} />
       <circle r='5' fill='#090a0f'></circle>
       {/* Message is the text box appearing on the path */}
-      <Message currentLog={currentLog} />
+      <Message log={log} />
       <Defs />
       <Instructions />
     </svg>

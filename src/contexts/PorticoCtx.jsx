@@ -54,20 +54,19 @@ export const ContextProvider = ({ children }) => {
     };
     try {
       const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
-      const lines = response.data.split('\n');
-      const result = lines.map((line) => {
-        const fields = line.split(',');
+      const result = response.data
+        .split('\n')
+        .slice(1, -2)
+        .map((line) => {
+          const fields = line.split(',');
 
-        return {
-          data: fields[6]?.replace(/"/g, ''),
-          from: fields[10]?.replace(/"/g, ''),
-          to: fields[11]?.replace(/"/g, '').replace('\r', ''),
-          timestamp: fields[9],
-        };
-      });
-      result.shift();
-      result.pop();
-      result.pop();
+          return {
+            data: fields[6]?.replace(/"/g, ''),
+            from: fields[10]?.replace(/"/g, ''),
+            to: fields[11]?.replace(/"/g, '').replace('\r', ''),
+            timestamp: fields[9],
+          };
+        });
       setLogs(result);
       return [...result];
     } catch (error) {
@@ -88,14 +87,18 @@ export const ContextProvider = ({ children }) => {
     };
     try {
       const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
-      const lines = response.data.split('\n');
-      const result = {};
-      lines.forEach((line, index, arr) => {
-        if (index !== 0 && index < arr.length - 2) {
+      const result = response.data
+        .split('\n')
+        .slice(1, -2)
+        .reduce((acc, line) => {
           const fields = line.split(',');
-          result[fields[9]?.replace(/"/g, '').replace('\r', '')] = fields[10]?.replace(/"/g, '').replace('\r', '');
-        }
-      });
+          const key = fields[9]?.replace(/"/g, '').replace('\r', '');
+          const value = fields[10]?.replace(/"/g, '').replace('\r', '');
+          if (key && value) {
+            acc[key] = value;
+          }
+          return acc;
+        }, {});
       setRoles(result);
       return { ...result };
     } catch (error) {

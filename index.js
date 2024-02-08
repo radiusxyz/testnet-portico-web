@@ -18,7 +18,7 @@ setInterval(() => {
       newLogClone.timestamp = logs[logs.length - 1].timestamp + index + 1;
       return newLogClone;
     });
-    logs.push(...newLog);
+    logs.push(...logs);
   } else {
     console.log('No logs to duplicate.');
   }

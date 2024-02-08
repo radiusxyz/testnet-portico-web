@@ -46,12 +46,33 @@ export const ContextProvider = ({ children }) => {
   };
 
   async function queryLogs(timestamp) {
+    const query = `from(bucket: "sequencer") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> filter(fn: (r) => r["at"] > "${timestamp}") |> sort(columns: ["at"])`;
+    const headers = {
+      Authorization: `Token ${token}`,
+      'Content-Type': 'application/json',
+    };
+
     const data = {
-      timestamp,
+      query: query,
+      type: 'flux',
     };
     try {
-      const response = await axios.post(`${url}/logs`, data);
-      const result = [...response.data];
+      const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
+      const lines = response.data.split('\n');
+      const result = lines.map((line) => {
+        const fields = line.split(',');
+
+        return {
+          data: fields[6]?.replace(/"/g, ''),
+          from: fields[10]?.replace(/"/g, ''),
+          to: fields[11]?.replace(/"/g, '').replace('\r', ''),
+          timestamp: fields[9],
+        };
+      });
+      result.shift();
+      result.pop();
+      result.pop();
+      // console.log('portico', result);
       setLogs(result);
       return [...result];
     } catch (error) {
@@ -60,9 +81,26 @@ export const ContextProvider = ({ children }) => {
   }
 
   async function queryRoles() {
+    const query = `from(bucket: "sequencer_table") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> group(columns: ["id"]) |> last()`;
+    const headers = {
+      Authorization: `Token ${token}`,
+      'Content-Type': 'application/json',
+    };
+
+    const data = {
+      query: query,
+      type: 'flux',
+    };
     try {
-      const response = await axios.get(`${url}/roles`);
-      const result = { ...response.data };
+      const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
+      const lines = response.data.split('\n');
+      const result = {};
+      lines.forEach((line, index, arr) => {
+        if (index !== 0 && index < arr.length - 2) {
+          const fields = line.split(',');
+          result[fields[9]?.replace(/"/g, '').replace('\r', '')] = fields[10]?.replace(/"/g, '').replace('\r', '');
+        }
+      });
       setRoles(result);
       return { ...result };
     } catch (error) {
@@ -81,6 +119,7 @@ export const ContextProvider = ({ children }) => {
   useEffect(() => {
     const runReqs = async () => {
       const roles = await queryRoles();
+      console.log(roles);
       if (!logsReady) {
         const checkLogs = async () => {
           const logs = await queryLogs(roles.timestamp);

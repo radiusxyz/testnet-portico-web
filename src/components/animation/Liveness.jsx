@@ -123,6 +123,8 @@ const Liveness = () => {
     }
   }, [pRoles]);
 
+  // console.log(livenessColor);
+
   // Assuming getRole(), getPathColor(), getColor(), getFilterColor(), and getHighlightColor() are defined elsewhere
   const motionPath = paths[currentLog.from + currentLog.to];
   const isReversed = ['l', 'u'].includes(currentLog.to) && ['f0', 'f1', 'f2', 'f3'].includes(currentLog.from);
@@ -147,7 +149,7 @@ const Liveness = () => {
           color={getColor(currentLog.data)}
           isFinished={isFinished}
           motionPath={motionPath}
-          duration={1000}
+          duration={2000}
           isReversed={isReversed}
           handleIsFinished={handleIsFinished}
         />
@@ -178,6 +180,7 @@ const Liveness = () => {
         id={pLabels.l}
         filterColor={getFilterColor(currentLog, 'l')}
         highlightColor={getHighlightColor(currentLog, 'l')}
+        livenessColor={currentLog.data === 'lc' && isFinished ? '#FFD875' : '#5C5B5E'}
       />
       <R0 filterColor={getFilterColor(currentLog, 'r0')} highlightColor={getHighlightColor(currentLog, 'r0')} />
       <R1 filterColor={getFilterColor(currentLog, 'r1')} highlightColor={getHighlightColor(currentLog, 'r1')} />

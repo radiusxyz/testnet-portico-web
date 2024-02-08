@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import block from '../assets/images/block.svg';
 import cuid from 'cuid';
 import rollupA from '../assets/images/rollupA.svg';
 import rollupB from '../assets/images/rollupB.svg';
+import { usePortico } from '../contexts/PorticoCtx';
 
 const RollupContainer = styled.div`
   display: flex;
@@ -216,6 +217,10 @@ const blocksB = [
 ];
 
 const Roblox = () => {
+  const { preventNewLogs } = usePortico();
+  useEffect(() => {
+    preventNewLogs(false);
+  }, []);
   return (
     <ContentWrapper>
       <RollupsWrapper>

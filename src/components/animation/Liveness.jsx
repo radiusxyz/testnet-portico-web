@@ -48,19 +48,47 @@ function getRole(id, roles) {
 }
 
 const Liveness = () => {
-  const { porticoLogs, porticoRoles, porticoLabels } = usePortico();
+  const { pLogs, setPLogs, pRoles, setPRoles, pLabels, setPLabels, preventNewLogs, pIndex, setPIndex } = usePortico();
 
   // Assuming logs, roles, and labels are directly used from the context now
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(pIndex);
   const [isFinished, setIsFinished] = useState(false);
+
+  const currentPLog = pLogs[currentIndex] || {};
+
+  const currentLog = {
+    from: pRoles[currentPLog.from],
+    to: pRoles[currentPLog.to],
+    data: currentPLog.data,
+  };
 
   const handleIsFinished = useCallback(() => {
     setIsFinished(true);
   }, []);
 
   const updateIndex = useCallback(() => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % porticoLogs.length);
-  }, [porticoLogs.length]);
+    if (pLogs && pLogs.length) {
+      setCurrentIndex((prevIndex) => prevIndex + 1);
+    } else {
+      setCurrentIndex(0);
+    }
+  }, [pLogs.length]);
+
+  useEffect(() => {
+    setPIndex(() => currentIndex);
+  }, [currentIndex]);
+
+  useEffect(() => {
+    if (currentIndex === pLogs.length) {
+      setCurrentIndex(0);
+      preventNewLogs(false);
+      setPLogs([]);
+    }
+  }, [currentIndex]);
+
+  useEffect(() => {
+    console.log(currentIndex, pLogs.length);
+  }, [currentIndex, pLogs.length]);
 
   useEffect(() => {
     if (isFinished) {
@@ -69,16 +97,33 @@ const Liveness = () => {
     }
   }, [isFinished, updateIndex]);
 
-  const currentDbLog = porticoLogs[currentIndex] || {}; // Default to empty object to avoid undefined errors
-  // console.log(currentDbLog, currentIndex);
-  // console.log(currentDbLog);
+  useEffect(() => {
+    if (currentPLog.data === 'lc') {
+      setPRoles((prevState) => {
+        const oldLeader = currentPLog.from;
+        const newRole = getRole(currentPLog.to, prevState);
 
-  // You might need a function to map 'from' and 'to' to actual roles/labels
-  const currentLog = {
-    from: porticoRoles[currentDbLog.from],
-    to: porticoRoles[currentDbLog.to],
-    data: currentDbLog.data,
-  };
+        return {
+          ...prevState,
+          [oldLeader]: newRole,
+          [currentPLog.to]: 'l',
+        };
+      });
+    }
+  }, [currentIndex]);
+
+  useEffect(() => {
+    if (currentPLog.data === 'lc') {
+      const swapped = {};
+
+      Object.entries(pRoles).forEach(([key, value]) => {
+        swapped[value] = key;
+      });
+      setPLabels({ ...swapped });
+    }
+  }, [pRoles]);
+
+  // console.log(livenessColor);
 
   // Assuming getRole(), getPathColor(), getColor(), getFilterColor(), and getHighlightColor() are defined elsewhere
   const motionPath = paths[currentLog.from + currentLog.to];
@@ -112,29 +157,30 @@ const Liveness = () => {
       {/* Entities themselves */}
       <U filterColor={getFilterColor(currentLog, 'u')} highlightColor={getHighlightColor(currentLog, 'u')} />
       <F0
-        id={porticoLabels.f0}
+        id={pLabels.f0}
         filterColor={getFilterColor(currentLog, 'f0')}
         highlightColor={getHighlightColor(currentLog, 'f0')}
       />
       <F1
-        id={porticoLabels.f1}
+        id={pLabels.f1}
         filterColor={getFilterColor(currentLog, 'f1')}
         highlightColor={getHighlightColor(currentLog, 'f1')}
       />
       <F2
-        id={porticoLabels.f2}
+        id={pLabels.f2}
         filterColor={getFilterColor(currentLog, 'f2')}
         highlightColor={getHighlightColor(currentLog, 'f2')}
       />
       <F3
-        id={porticoLabels.f3}
+        id={pLabels.f3}
         filterColor={getFilterColor(currentLog, 'f3')}
         highlightColor={getHighlightColor(currentLog, 'f3')}
       />
       <L
-        id={porticoLabels.l}
+        id={pLabels.l}
         filterColor={getFilterColor(currentLog, 'l')}
         highlightColor={getHighlightColor(currentLog, 'l')}
+        livenessColor={currentLog.data === 'lc' && isFinished ? '#FFD875' : '#5C5B5E'}
       />
       <R0 filterColor={getFilterColor(currentLog, 'r0')} highlightColor={getHighlightColor(currentLog, 'r0')} />
       <R1 filterColor={getFilterColor(currentLog, 'r1')} highlightColor={getHighlightColor(currentLog, 'r1')} />

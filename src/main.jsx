@@ -6,9 +6,9 @@ import { ContextProvider } from './contexts/PorticoCtx.jsx';
 
 document.getElementById('root') &&
   ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode>
-      <ContextProvider>
-        <App />
-      </ContextProvider>
-    </React.StrictMode>
+    // <React.StrictMode>
+    <ContextProvider>
+      <App />
+    </ContextProvider>
+    // </React.StrictMode>
   );

@@ -54,6 +54,14 @@ const Liveness = () => {
   const [currentIndex, setCurrentIndex] = useState(pIndex);
   const [isFinished, setIsFinished] = useState(false);
 
+  const currentPLog = pLogs[currentIndex] || {};
+
+  const currentLog = {
+    from: pRoles[currentPLog.from],
+    to: pRoles[currentPLog.to],
+    data: currentPLog.data,
+  };
+
   const handleIsFinished = useCallback(() => {
     setIsFinished(true);
   }, []);
@@ -90,22 +98,22 @@ const Liveness = () => {
   }, [isFinished, updateIndex]);
 
   useEffect(() => {
-    if (currentDbLog.data === 'lc') {
+    if (currentPLog.data === 'lc') {
       setPRoles((prevState) => {
-        const oldLeader = currentDbLog.from;
-        const newRole = getRole(currentDbLog.to, prevState);
+        const oldLeader = currentPLog.from;
+        const newRole = getRole(currentPLog.to, prevState);
 
         return {
           ...prevState,
           [oldLeader]: newRole,
-          [currentDbLog.to]: 'l',
+          [currentPLog.to]: 'l',
         };
       });
     }
   }, [currentIndex]);
 
   useEffect(() => {
-    if (currentDbLog.data === 'lc') {
+    if (currentPLog.data === 'lc') {
       const swapped = {};
 
       Object.entries(pRoles).forEach(([key, value]) => {
@@ -114,17 +122,6 @@ const Liveness = () => {
       setPLabels({ ...swapped });
     }
   }, [pRoles]);
-
-  const currentDbLog = pLogs[currentIndex] || {}; // Default to empty object to avoid undefined errors
-  // console.log(currentDbLog, currentIndex);
-  // console.log(currentDbLog);
-
-  // You might need a function to map 'from' and 'to' to actual roles/labels
-  const currentLog = {
-    from: pRoles[currentDbLog.from],
-    to: pRoles[currentDbLog.to],
-    data: currentDbLog.data,
-  };
 
   // Assuming getRole(), getPathColor(), getColor(), getFilterColor(), and getHighlightColor() are defined elsewhere
   const motionPath = paths[currentLog.from + currentLog.to];

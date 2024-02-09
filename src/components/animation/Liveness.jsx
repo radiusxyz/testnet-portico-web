@@ -49,17 +49,19 @@ function getRole(id, roles) {
 
 const Liveness = () => {
   const {
-    globalLogs,
     globalRoles,
-    setGlobalRoles,
     globalLabels,
-    setGlobalLabels,
+    globalLogs,
     globalIndex,
+
+    setGlobalRoles,
+    setGlobalLabels,
+    setGlobalLogs,
     setGlobalIndex,
+
     queryLogs,
   } = usePortico();
 
-  // Assuming logs, roles, and labels are directly used from the context now
   const [currentIndex, setCurrentIndex] = useState(globalIndex);
   const [isFinished, setIsFinished] = useState(false);
   const [logs, setLogs] = useState(globalLogs);

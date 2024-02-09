@@ -27,35 +27,20 @@ import { usePortico } from '../../contexts/PorticoCtx';
 
 const getColor = (data) => colors[data] || '#5C5B5E';
 const getFilter = (data, node) => filters[data]?.[node] || 'none';
-
-function getPathColor(log, from, to) {
+const getPathColor = (log, from, to) => {
   if ((log.from === from && log.to === to) || (log.from === to && log.to === from)) {
     return getColor(log.data);
   }
   return '#5C5B5E';
-}
-
-function getHighlightColor(log, node) {
-  return log.from === node || log.to === node ? getColor(log.data) : 'transparent';
-}
-
-function getFilterColor(log, node) {
-  return log.from === node || log.to === node ? getFilter(log.data, node) : 'none';
-}
-
-function getRole(id, roles) {
-  return roles[id];
-}
-
-function getLabels(roles) {
-  const swapped = {};
-
-  Object.entries(roles).forEach(([key, value]) => {
-    swapped[value] = key;
-  });
-
-  return { ...swapped };
-}
+};
+const getHighlightColor = (log, node) => (log.from === node || log.to === node ? getColor(log.data) : 'transparent');
+const getFilterColor = (log, node) => (log.from === node || log.to === node ? getFilter(log.data, node) : 'none');
+const getRole = (id, roles) => roles[id];
+const getLabels = (roles) =>
+  Object.entries(roles).reduce((acc, [key, value]) => {
+    acc[value] = key;
+    return acc;
+  }, {});
 
 const Liveness = () => {
   const {
@@ -75,16 +60,6 @@ const Liveness = () => {
   const [isFinished, setIsFinished] = useState(false);
 
   const rawLog = globalLogs[globalIndex] || {};
-
-  const log = {
-    from: globalRoles[rawLog.from],
-    to: globalRoles[rawLog.to],
-    data: rawLog.data,
-  };
-
-  const handleIsFinished = useCallback(() => {
-    setIsFinished(true);
-  }, []);
 
   const updateIndex = useCallback(() => {
     if (globalLogs && globalLogs.length) {
@@ -134,9 +109,11 @@ const Liveness = () => {
     }
   }, [globalRoles]);
 
-  // console.log(livenessColor);
-
-  // Assuming getRole(), getPathColor(), getColor(), getFilterColor(), and getHighlightColor() are defined elsewhere
+  const log = {
+    from: globalRoles[rawLog.from],
+    to: globalRoles[rawLog.to],
+    data: rawLog.data,
+  };
   const motionPath = paths[log.from + log.to];
   const isReversed = ['l', 'u'].includes(log.to) && ['f0', 'f1', 'f2', 'f3'].includes(log.from);
 
@@ -162,7 +139,7 @@ const Liveness = () => {
           motionPath={motionPath}
           duration={2000}
           isReversed={isReversed}
-          handleIsFinished={handleIsFinished}
+          setIsFinished={setIsFinished}
         />
       )}
       {/* Entities themselves */}

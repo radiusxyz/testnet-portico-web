@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import cuid from 'cuid';
 
-const Circle = ({ color, motionPath, duration, isReversed, handleIsFinished }) => {
+const Circle = ({ color, motionPath, duration, isReversed, setIsFinished }) => {
   const animateMotionRef = useRef(null);
 
   useEffect(() => {
@@ -16,17 +16,17 @@ const Circle = ({ color, motionPath, duration, isReversed, handleIsFinished }) =
 
     // Add event listener
     if (animateMotionElement) {
-      animateMotionElement.addEventListener('endEvent', handleIsFinished);
+      animateMotionElement.addEventListener('endEvent', () => setIsFinished(true));
       restartAnimation();
     }
 
     // Cleanup
     return () => {
       if (animateMotionElement) {
-        animateMotionElement.removeEventListener('endEvent', handleIsFinished);
+        animateMotionElement.removeEventListener('endEvent', () => setIsFinished(true));
       }
     };
-  }, [motionPath, isReversed, handleIsFinished]);
+  }, [motionPath, isReversed]);
 
   return (
     <circle r='5' fill={color}>

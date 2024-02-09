@@ -47,6 +47,16 @@ function getRole(id, roles) {
   return roles[id];
 }
 
+function getLabels(roles) {
+  const swapped = {};
+
+  Object.entries(roles).forEach(([key, value]) => {
+    swapped[value] = key;
+  });
+
+  return { ...swapped };
+}
+
 const Liveness = () => {
   const {
     globalRoles,
@@ -62,15 +72,9 @@ const Liveness = () => {
     queryLogs,
   } = usePortico();
 
-  const [currentIndex, setCurrentIndex] = useState(globalIndex);
   const [isFinished, setIsFinished] = useState(false);
-  const [logs, setLogs] = useState(globalLogs);
 
-  useEffect(() => {
-    setLogs(globalLogs);
-  }, [globalLogs]);
-
-  const rawLog = logs[currentIndex] || {};
+  const rawLog = globalLogs[globalIndex] || {};
 
   const log = {
     from: globalRoles[rawLog.from],
@@ -83,32 +87,24 @@ const Liveness = () => {
   }, []);
 
   const updateIndex = useCallback(() => {
-    if (logs && logs.length) {
-      setCurrentIndex((prevIndex) => prevIndex + 1);
+    if (globalLogs && globalLogs.length) {
+      setGlobalIndex((prevIndex) => prevIndex + 1);
     } else {
-      setCurrentIndex(0);
+      setGlobalIndex(0);
     }
-  }, [logs.length]);
+  }, [globalLogs.length]);
 
   useEffect(() => {
-    setGlobalIndex(() => currentIndex);
-  }, [currentIndex]);
-
-  useEffect(() => {
-    if (currentIndex === logs.length) {
-      setCurrentIndex(0);
+    if (globalIndex === globalLogs.length) {
+      setGlobalIndex(0);
       // preventNewLogs(false);
       const queryNext = async () => {
-        const newLogs = await queryLogs(logs[logs.length - 1]?.timestamp);
-        setLogs(newLogs);
+        const newLogs = await queryLogs(globalLogs[globalLogs.length - 1]?.timestamp);
+        setGlobalLogs(newLogs);
       };
       queryNext();
     }
-  }, [currentIndex]);
-
-  useEffect(() => {
-    console.log(currentIndex, logs.length);
-  }, [currentIndex, logs.length]);
+  }, [globalIndex]);
 
   useEffect(() => {
     if (isFinished) {
@@ -130,16 +126,11 @@ const Liveness = () => {
         };
       });
     }
-  }, [currentIndex]);
+  }, [globalIndex]);
 
   useEffect(() => {
     if (rawLog.data === 'lc') {
-      const swapped = {};
-
-      Object.entries(globalRoles).forEach(([key, value]) => {
-        swapped[value] = key;
-      });
-      setGlobalLabels({ ...swapped });
+      setGlobalLabels(getLabels(globalRoles));
     }
   }, [globalRoles]);
 

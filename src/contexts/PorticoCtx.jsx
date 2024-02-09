@@ -103,8 +103,6 @@ export const ContextProvider = ({ children }) => {
     }
   }
 
-  useEffect(() => {}, [roles]);
-
   useEffect(() => {
     const runReqs = async () => {
       const roles = await queryRoles();

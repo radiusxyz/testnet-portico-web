@@ -27,20 +27,12 @@ import { usePortico } from '../../contexts/PorticoCtx';
 
 const getColor = (data) => colors[data] || '#5C5B5E';
 const getFilter = (data, node) => filters[data]?.[node] || 'none';
-const getPathColor = (log, from, to) => {
-  if ((log.from === from && log.to === to) || (log.from === to && log.to === from)) {
-    return getColor(log.data);
-  }
-  return '#5C5B5E';
-};
+const getPathColor = (log, from, to) =>
+  (log.from === from && log.to === to) || (log.from === to && log.to === from) ? getColor(log.data) : '#5C5B5E';
 const getHighlightColor = (log, node) => (log.from === node || log.to === node ? getColor(log.data) : 'transparent');
 const getFilterColor = (log, node) => (log.from === node || log.to === node ? getFilter(log.data, node) : 'none');
 const getRole = (id, roles) => roles[id];
-const getLabels = (roles) =>
-  Object.entries(roles).reduce((acc, [key, value]) => {
-    acc[value] = key;
-    return acc;
-  }, {});
+const getLabels = (roles) => Object.fromEntries(Object.entries(roles).map(([id, role]) => [role, id]));
 
 const Liveness = () => {
   const {
@@ -71,11 +63,10 @@ const Liveness = () => {
 
   useEffect(() => {
     if (globalIndex === globalLogs.length) {
-      setGlobalIndex(0);
-      // preventNewLogs(false);
       const queryNext = async () => {
         const newLogs = await queryLogs(globalLogs[globalLogs.length - 1]?.timestamp);
         setGlobalLogs(newLogs);
+        setGlobalIndex(0);
       };
       queryNext();
     }

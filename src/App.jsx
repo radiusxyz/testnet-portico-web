@@ -139,14 +139,22 @@ function App() {
             <LinksButtons>
               {view.linksAndButtons.map((btn) =>
                 btn.type === 0 ? (
-                  <BaseBtn key={cuid()}>
+                  <BaseBtn key={cuid()} onClick={() => window.open(btn.link, '_blank')}>
                     <Txt>{btn.text}</Txt>
-                    <IconWrapper> {btn.icon && <img src={to} />}</IconWrapper>
+                    {btn.icon && (
+                      <IconWrapper>
+                        <img src={to} />
+                      </IconWrapper>
+                    )}
                   </BaseBtn>
                 ) : (
-                  <TransButton key={cuid()}>
+                  <TransButton key={cuid()} onClick={() => window.open(btn.link, '_blank')}>
                     <Txt>{btn.text}</Txt>
-                    <IconWrapper>{btn.icon && <img src={to} />}</IconWrapper>
+                    {btn.icon && (
+                      <IconWrapper>
+                        <img src={to} />
+                      </IconWrapper>
+                    )}
                   </TransButton>
                 )
               )}

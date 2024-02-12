@@ -1,6 +1,7 @@
 import React from 'react';
 
 const L = ({ filterColor, highlightColor, id, livenessColor }) => {
+  console.log(filterColor, highlightColor, livenessColor);
   return (
     <g filter={filterColor}>
       <rect x='641' y='158' width='94.4344' height='91' rx='12' fill='#090A0F' shapeRendering='crispEdges' />
@@ -53,27 +54,27 @@ const L = ({ filterColor, highlightColor, id, livenessColor }) => {
       />
       <path
         d='M709.803 203.001H666.631C663.521 203.001 661 205.074 661 207.631V224.935C661 227.492 663.521 229.565 666.631 229.565H709.803C712.913 229.565 715.434 227.492 715.434 224.935V207.631C715.434 205.074 712.913 203.001 709.803 203.001Z'
-        stroke='#FBFF42'
+        stroke={livenessColor}
         strokeWidth='1.5'
         strokeLinecap='round'
         strokeLinejoin='round'
       />
       <path
         d='M661.208 206.435L669.519 182.401C670.545 179.435 673.426 177.435 676.677 177.435H699.74C702.987 177.435 705.871 179.435 706.897 182.401L715.208 206.435'
-        stroke='#FBFF42'
+        stroke={livenessColor}
         strokeWidth='1.5'
         strokeLinecap='round'
         strokeLinejoin='round'
       />
       <path
         d='M670.385 210.717H680.709'
-        stroke='#FBFF42'
+        stroke={livenessColor}
         strokeWidth='1.5'
         strokeLinecap='round'
         strokeLinejoin='round'
       />
       <text
-        fill='white'
+        fill={livenessColor === '#5C5B5E' ? '#5C5B5E' : 'white'}
         xmlSpace='preserve'
         style={{ whiteSpace: 'pre' }}
         fontFamily='area-normal'

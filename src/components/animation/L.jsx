@@ -1,7 +1,6 @@
 import React from 'react';
 
 const L = ({ filterColor, highlightColor, id, livenessColor }) => {
-  console.log(filterColor, highlightColor, livenessColor);
   return (
     <g filter={filterColor}>
       <rect x='641' y='158' width='94.4344' height='91' rx='12' fill='#090A0F' shapeRendering='crispEdges' />

@@ -66,9 +66,9 @@ const Navbar = () => {
     <Wrapper>
       <img src={logo} alt='radiius testnet' />
       <IconAndLink>
-        <img src={globe} alt='globe_icon' />
+        <img src={globe} alt='globe_icon' onClick={() => window.open('https://www.theradius.xyz/', '_blank')} />
         <FollowLink>
-          <FollowButton>
+          <FollowButton onClick={() => window.open('https://twitter.com/radius_xyz', '_blank')}>
             <Follow>Follow Radius on</Follow>
             <img src={x} alt='twitter_x_icon' />
           </FollowButton>

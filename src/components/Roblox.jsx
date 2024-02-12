@@ -139,6 +139,7 @@ const ViewAllBtn = styled.button`
   background: #090a0f;
   &:hover {
     cursor: pointer;
+    background: #25272f;
   }
 `;
 

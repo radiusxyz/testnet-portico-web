@@ -48,14 +48,25 @@ const FollowButton = styled.button`
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: transparent;
   height: 46px;
+  color: rgba(255, 255, 255, 0.8);
+
+  &:hover {
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--white-100, #fff);
+    cursor: pointer;
+  }
+  &:active {
+    color: #090a0f;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    background: var(--white-100, #fff);
+  }
 `;
 const Follow = styled.span`
-  color: rgba(255, 255, 255, 0.8);
-  leading-trim: both;
-  text-edge: cap;
-  font-family: 'area-variable';
+  color: inherit;
+  font-family: 'area-normal';
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 14px; /* 100% */
 `;
 
@@ -111,12 +122,15 @@ const Navbar = () => {
           <Text>Theradius.xyz</Text>
         </IconContainer>
 
-        <FollowLink>
-          <FollowButton onClick={() => window.open('https://twitter.com/radius_xyz', '_blank')}>
-            <Follow>Follow Radius on</Follow>
-            <img src={x} alt='twitter_x_icon' />
-          </FollowButton>
-        </FollowLink>
+        <FollowButton onClick={() => window.open('https://twitter.com/radius_xyz', '_blank')}>
+          <Follow>Follow Radius on</Follow>
+          <svg width='14' height='14' viewBox='0 0 14 14' fill='none' xmlns='http://www.w3.org/2000/svg'>
+            <path
+              d='M8.1428 6.08177L12.6108 1H11.5524L7.6712 5.41152L4.5736 1H1L5.6852 7.67164L1 13H2.0584L6.1544 8.34028L9.4264 13H13M2.4404 1.78095H4.0664L11.5516 12.2574H9.9252'
+              fill='currentColor'
+            />
+          </svg>
+        </FollowButton>
       </IconAndLink>
     </Wrapper>
   );

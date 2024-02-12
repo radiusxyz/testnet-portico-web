@@ -149,6 +149,18 @@ export const BaseBtn = styled.button`
   background: rgba(255, 255, 255, 0.1);
   padding: 16px 30px;
   cursor: pointer;
+  color: #fff;
+
+  &:hover {
+    border: 1px solid var(--white-100, #fff);
+    box-shadow: 0px 6px 12px 0px rgba(255, 255, 255, 0.24);
+  }
+  &:active {
+    border: 1px solid var(--white-100, #fff);
+    background: var(--white-100, #fff);
+    color: #0a0517;
+    box-shadow: 0px 6px 12px 0px rgba(255, 255, 255, 0.24);
+  }
 `;
 
 export const TransButton = styled(BaseBtn)`
@@ -160,7 +172,7 @@ export const Txt = styled.span`
   display: flex;
   justify-content: center;
   align-self: flex-end;
-  color: #fff;
+  color: inherit;
   vertical-align: middle;
   text-align: center;
   font-family: 'area-variable';

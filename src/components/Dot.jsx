@@ -15,6 +15,10 @@ const StyledDot = styled.div`
     height: ${(props) => (props.$active ? '24px' : '6px')};
     width: ${(props) => (props.$active ? '24px' : '6px')};
   }
+
+  @media (max-width: 1920px) {
+    margin-top: -1px;
+  }
 `;
 
 const RippleCircle = styled.circle`

@@ -45,6 +45,7 @@ export const MenuText = styled.p`
   width: 100%;
   cursor: pointer;
   margin-left: 16px;
+  transition: all 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) 0s;
   &:hover {
     color: ${({ $active }) => ($active && '#fff') || 'rgba(255, 255, 255, 0.46)'};
   }

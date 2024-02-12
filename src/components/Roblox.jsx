@@ -4,6 +4,8 @@ import block from '../assets/images/block.svg';
 import cuid from 'cuid';
 import rollupA from '../assets/images/rollupA.svg';
 import rollupB from '../assets/images/rollupB.svg';
+import axios from 'axios';
+const url = import.meta.env.VITE_INFLUXDB_URL;
 
 const RollupContainer = styled.div`
   display: flex;
@@ -217,6 +219,48 @@ const blocksB = [
 ];
 
 const Roblox = () => {
+  async function getHeight(id) {
+    const data = {
+      id,
+    };
+
+    try {
+      const response = await axios.post(`${url}/getHeight`, data);
+      const result = response.data;
+
+      console.log(result);
+      return result;
+    } catch (error) {
+      console.error('QUERY ERROR', error);
+    }
+  }
+
+  async function getTimestamp(id, height) {
+    const data = {
+      height,
+      id,
+    };
+
+    try {
+      const response = await axios.post(`${url}/getTimestamp`, data);
+      const result = response.data;
+
+      console.log(result);
+      return result;
+    } catch (error) {
+      console.error('QUERY ERROR', error);
+    }
+  }
+
+  useEffect(() => {
+    const makeReqs = async () => {
+      const heightA = await getHeight(0);
+      const heightB = await getHeight(1);
+      const timestampA = await getTimestamp(0, heightA);
+      const timestampB = await getTimestamp(1, heightB);
+    };
+    makeReqs();
+  });
   return (
     <ContentWrapper>
       <RollupsWrapper>

@@ -112,12 +112,8 @@ const Navbar = () => {
     <Wrapper>
       <img src={logo} alt='radiius testnet' />
       <IconAndLink>
-        <IconContainer>
-          <img
-            src={globe_no_padding}
-            alt='globe_icon'
-            onClick={() => window.open('https://www.theradius.xyz/', '_blank')}
-          />
+        <IconContainer onClick={() => window.open('https://www.theradius.xyz/', '_blank')}>
+          <img src={globe_no_padding} alt='globe_icon' />
 
           <Text>Theradius.xyz</Text>
         </IconContainer>

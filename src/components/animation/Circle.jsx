@@ -30,7 +30,14 @@ const Circle = ({ color, motionPath, duration, isReversed, setIsFinished, data }
 
   return (
     <circle r={data === 'lc' || data === 'ld' ? 0 : 5} fill={color}>
-      <animateMotion ref={animateMotionRef} dur={`${duration}ms`} keyPoints={isReversed ? '1;0' : '0;1'} keyTimes='0;1'>
+      <animateMotion
+        ref={animateMotionRef}
+        dur={`${duration}ms`}
+        calcMode='linear'
+        keyPoints={isReversed ? '1;0' : '0;1'}
+        keyTimes='0;1'
+      >
+        {/* <animateMotion ref={animateMotionRef} dur={`${duration}ms`}> */}
         <mpath key={cuid()} href={`#${motionPath}`} />
       </animateMotion>
     </circle>

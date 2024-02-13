@@ -92,7 +92,12 @@ const ListItem = styled.div`
   align-items: center;
   align-self: stretch;
   animation: ${topBorderAnimation} 1.4s cubic-bezier(0.44, 0, 0.56, 1) forwards;
-  &:not(:first-child) {
+  &:nth-child(2) {
+    animation-delay: 0.2s;
+    animation: ${nonTopBorderAnimation} 1.4s cubic-bezier(0.44, 0, 0.56, 1) forwards;
+  }
+  &:nth-child(3) {
+    animation-delay: 0.4s;
     animation: ${nonTopBorderAnimation} 1.4s cubic-bezier(0.44, 0, 0.56, 1) forwards;
   }
 `;
@@ -208,19 +213,34 @@ const Rollup = ({ id }) => {
 
   useEffect(() => {
     const makeReqs = async () => {
-      const height = await getHeight(id);
-      const block0 = await getTimestamp(id, height);
-      const block1 = await getTimestamp(id, height - 1);
-      const block2 = await getTimestamp(id, height - 2);
-      console.log(block0.timestamp);
-      const blocks = [
-        { height: height, age: Math.floor((Date.now() - block0.timestamp) / 1000) },
-        { height: height - 1, age: Math.floor((Date.now() - block1.timestamp) / 1000) },
-        { height: height - 2, age: Math.floor((Date.now() - block2.timestamp) / 1000) },
-      ];
-      setBlocks(blocks);
+      try {
+        const height = await getHeight(id); // Assuming getHeight is defined elsewhere
+        const block0 = await getTimestamp(id, height); // Assuming getTimestamp is defined elsewhere
+        const block1 = await getTimestamp(id, height - 1);
+        const block2 = await getTimestamp(id, height - 2);
+
+        console.log(block0.timestamp);
+
+        const blocks = [
+          { height: height, age: Math.floor((Date.now() - block0.timestamp) / 1000) },
+          { height: height - 1, age: Math.floor((Date.now() - block1.timestamp) / 1000) },
+          { height: height - 2, age: Math.floor((Date.now() - block2.timestamp) / 1000) },
+        ];
+
+        setBlocks(blocks); // Assuming setBlocks is a state setter function defined elsewhere
+      } catch (error) {
+        console.error('Failed to fetch data:', error);
+      }
     };
+
+    // Call makeReqs immediately on component mount
     makeReqs();
+
+    // Set up an interval to call makeReqs every 5 seconds
+    const intervalId = setInterval(makeReqs, 5000);
+
+    // Clear the interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   return (

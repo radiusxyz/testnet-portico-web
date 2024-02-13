@@ -52,7 +52,7 @@ const Blue = () => {
         fill='white'
         xmlSpace='preserve'
         style={{ whiteSpace: 'pre' }}
-        fontFamily='area-variable'
+        fontFamily='area-normal'
         fontSize='14'
         letter-spacing='0em'
       >
@@ -87,7 +87,7 @@ const Blue = () => {
         fill='white'
         xmlSpace='preserve'
         style={{ whiteSpace: 'pre' }}
-        fontFamily='area-variable'
+        fontFamily='area-normal'
         fontSize='14'
         letter-spacing='0em'
       >
@@ -122,7 +122,7 @@ const Blue = () => {
         fill='white'
         xmlSpace='preserve'
         style={{ whiteSpace: 'pre' }}
-        fontFamily='area-variable'
+        fontFamily='area-normal'
         fontSize='14'
         letter-spacing='0em'
       >
@@ -157,7 +157,7 @@ const Blue = () => {
         fill='white'
         xmlSpace='preserve'
         style={{ whiteSpace: 'pre' }}
-        fontFamily='area-variable'
+        fontFamily='area-normal'
         fontSize='14'
         letter-spacing='0em'
       >
@@ -192,7 +192,7 @@ const Blue = () => {
         fill='white'
         xmlSpace='preserve'
         style={{ whiteSpace: 'pre' }}
-        fontFamily='area-variable'
+        fontFamily='area-normal'
         fontSize='14'
         letter-spacing='0em'
       >
@@ -265,7 +265,7 @@ const Blue = () => {
           fill='white'
           xmlSpace='preserve'
           style={{ whiteSpace: 'pre' }}
-          fontFamily='area-variable'
+          fontFamily='area-normal'
           fontSize='14'
           letter-spacing='0em'
         >
@@ -283,7 +283,7 @@ const Blue = () => {
           fill-opacity='0.6'
           xmlSpace='preserve'
           style={{ whiteSpace: 'pre' }}
-          fontFamily='area-variable'
+          fontFamily='area-normal'
           fontSize='10'
           letter-spacing='0em'
         >
@@ -295,7 +295,7 @@ const Blue = () => {
           fill='white'
           xmlSpace='preserve'
           style={{ whiteSpace: 'pre' }}
-          fontFamily='area-variable'
+          fontFamily='area-normal'
           fontSize='14'
           letter-spacing='0em'
         >
@@ -313,7 +313,7 @@ const Blue = () => {
           fill-opacity='0.6'
           xmlSpace='preserve'
           style={{ whiteSpace: 'pre' }}
-          fontFamily='area-variable'
+          fontFamily='area-normal'
           fontSize='10'
           letter-spacing='0em'
         >
@@ -325,7 +325,7 @@ const Blue = () => {
           fill='white'
           xmlSpace='preserve'
           style={{ whiteSpace: 'pre' }}
-          fontFamily='area-variable'
+          fontFamily='area-normal'
           fontSize='14'
           letter-spacing='0em'
         >
@@ -341,7 +341,7 @@ const Blue = () => {
           fill='#090A0F'
           xmlSpace='preserve'
           style={{ whiteSpace: 'pre' }}
-          fontFamily='area-variable'
+          fontFamily='area-normal'
           fontSize='10'
           fontWeight='bold'
           letter-spacing='0em'

@@ -21,7 +21,7 @@ const Title = styled.div`
   color: #fff;
   leading-trim: both;
   text-edge: cap;
-  font-family: 'area-variable';
+  font-family: 'area-normal';
   font-size: 28px;
   font-weight: 700;
   line-height: 90px;

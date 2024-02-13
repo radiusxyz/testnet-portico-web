@@ -95,7 +95,7 @@ export const filters = {
     f2: 'url(#filter3_d_106_4932)',
     f3: 'url(#filter4_d_106_4932)',
 
-    f4: 'url(#filter5_d_106_4195)',
+    l: 'url(#filter5_d_106_4195)',
   },
   block: { l: 'url(#filter0_d_138_1546)', r0: 'url(#filter1_d_138_1546)', r1: 'url(#filter2_d_138_1546)' },
   lc: {

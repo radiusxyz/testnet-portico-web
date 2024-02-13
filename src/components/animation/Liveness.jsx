@@ -48,7 +48,7 @@ const Liveness = () => {
   const rawLog = globalLogs[globalIndex] || {};
 
   useEffect(() => {
-    if (globalIndex === globalLogs.length) {
+    if (globalIndex === globalLogs.length - 1) {
       const queryNext = async () => {
         // const newLogs = await queryLogs(globalLogs[globalLogs.length - 1]?.timestamp);
         const newLogs = await queryLogs(1707560155215);

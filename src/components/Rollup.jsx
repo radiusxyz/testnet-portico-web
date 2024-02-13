@@ -120,8 +120,9 @@ const BlockText = styled.span`
   color: #090a0f;
   font-family: Manrope;
   font-size: 14px;
+  font-style: normal;
   font-weight: 600;
-  line-height: 12px; /* 85.714% */
+  line-height: 12px;
 `;
 const BlockNumber = styled.span`
   color: #337ff1;
@@ -139,7 +140,6 @@ const Age = styled.div`
   justify-content: center;
   align-items: center;
   gap: 8px;
-
   border-radius: 4px;
   border: 1px solid rgba(9, 10, 15, 0.08);
 `;
@@ -149,8 +149,9 @@ const AgeText = styled.span`
   text-align: center;
   font-family: Manrope;
   font-size: 12px;
-  font-weight: bold;
-  line-height: 20px; /* 166.667% */
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px;
 `;
 
 const ViewAllBtn = styled.button`

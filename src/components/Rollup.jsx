@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import block from '../assets/images/block.svg';
 import cuid from 'cuid';
 import rollupA from '../assets/images/rollupA.svg';
@@ -64,12 +64,37 @@ const BlockList = styled.div`
   background: var(--white-100, #fff);
 `;
 
+const topBorderAnimation = keyframes`
+  from {
+    border: 1.5px solid #fff;
+  }
+  to {
+    border-radius: 4px;
+    border: 1.5px solid #7AAFFF;
+    box-shadow: 0px 0px 8px 0px rgba(51, 127, 241, 0.44);
+  }
+`;
+
+const nonTopBorderAnimation = keyframes`
+from {
+  border: 1px solid #fff;
+}
+to {
+  border-radius: 4px;
+  border: 1px solid #DBEAFF;
+}
+`;
+
 const ListItem = styled.div`
   display: flex;
   padding: 12px;
   justify-content: space-between;
   align-items: center;
   align-self: stretch;
+  animation: ${topBorderAnimation} 1.4s cubic-bezier(0.44, 0, 0.56, 1) forwards;
+  &:not(:first-child) {
+    animation: ${nonTopBorderAnimation} 1.4s cubic-bezier(0.44, 0, 0.56, 1) forwards;
+  }
 `;
 
 const IconBlock = styled.div`
@@ -196,7 +221,7 @@ const Rollup = ({ id }) => {
       setBlocks(blocks);
     };
     makeReqs();
-  }, [blocks]);
+  }, []);
 
   return (
     <RollupContainer>

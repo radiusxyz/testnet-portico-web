@@ -38,18 +38,20 @@ export const MenuItem = styled.div`
 `;
 
 export const MenuText = styled.p`
-  color: ${({ $active }) => ($active && '#fff') || 'rgba(255, 255, 255, 0.16)'};
   font-family: Manrope;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 400;
   width: 100%;
   cursor: pointer;
   margin-left: 16px;
-  &:hover {
-    color: ${({ $active }) => ($active && '#fff') || 'rgba(255, 255, 255, 0.46)'};
-  }
+  // TODO: fix the transitioning
+  // transition: all 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) 0s;
+  transition: color 1s ease;
+  color: ${({ $active }) => ($active ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 255, 255, 0.16)')};
+
   @media (max-width: 1919px) {
     font-size: 14px;
+    line-height: 20px;
   }
 `;
 
@@ -92,6 +94,7 @@ export const Tag = styled.div`
   align-items: center;
   padding: 12px 18px;
   gap: 6px;
+  margin-bottom: 6px;
   border-radius: 9999px;
   border: 1px solid #5c5b5e;
   background: #141414;
@@ -109,11 +112,11 @@ export const Head = styled.p`
   color: #fff;
   leading-trim: both;
   text-edge: cap;
-  font-family: 'area-variable';
+  font-family: 'area-normal';
   font-size: 52px;
   font-weight: 400;
   line-height: 72px; /* 138.462% */
-  margin-bottom: 64px;
+  margin-bottom: 56px;
   white-space: pre-line;
   @media (max-width: 1919px) {
     font-size: 40px;
@@ -149,6 +152,18 @@ export const BaseBtn = styled.button`
   background: rgba(255, 255, 255, 0.1);
   padding: 16px 30px;
   cursor: pointer;
+  color: #fff;
+
+  &:hover {
+    border: 1px solid var(--white-100, #fff);
+    box-shadow: 0px 6px 12px 0px rgba(255, 255, 255, 0.24);
+  }
+  &:active {
+    border: 1px solid var(--white-100, #fff);
+    background: var(--white-100, #fff);
+    color: #0a0517;
+    box-shadow: 0px 6px 12px 0px rgba(255, 255, 255, 0.24);
+  }
 `;
 
 export const TransButton = styled(BaseBtn)`
@@ -160,12 +175,12 @@ export const Txt = styled.span`
   display: flex;
   justify-content: center;
   align-self: flex-end;
-  color: #fff;
+  color: inherit;
   vertical-align: middle;
   text-align: center;
-  font-family: 'area-variable';
+  font-family: 'area-normal';
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 20px; /* 142.857% */
 `;
 

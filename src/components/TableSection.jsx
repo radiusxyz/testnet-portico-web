@@ -30,7 +30,7 @@ const LabBut = styled.div`
 
 const Label = styled.p`
   color: rgba(255, 255, 255, 0.92);
-  font-family: 'area-variable';
+  font-family: 'area-normal';
   font-size: 14px;
   font-weight: 600;
   line-height: 14px;
@@ -47,7 +47,7 @@ const Button = styled.button`
   background: #090a0f;
   cursor: pointer;
   color: #fff;
-  font-family: 'area-variable';
+  font-family: 'area-normal';
   font-size: 12px;
   font-weight: 700;
   line-height: 14px;
@@ -98,7 +98,7 @@ const TH = styled.div`
   padding: 20px;
   color: #090a0f;
   flex: 1;
-  font-family: 'area-variable';
+  font-family: 'area-normal';
   font-size: 12px;
   font-weight: 700;
   line-height: 16px; /* 133.333% */
@@ -129,7 +129,7 @@ const TD = styled.div`
   display: flex;
   align-items: center;
   color: rgba(9, 10, 15, 0.6);
-  font-family: 'area-variable';
+  font-family: 'area-normal';
   font-size: 12px;
   font-weight: 600;
   line-height: 16px; /* 133.333% */
@@ -155,7 +155,7 @@ const TD = styled.div`
 const Anchor = styled.a`
   text-decoration: none;
   color: #337ff1;
-  font-family: 'area-variable';
+  font-family: 'area-normal';
   font-size: 12px;
   font-weight: 600;
   line-height: 16px;

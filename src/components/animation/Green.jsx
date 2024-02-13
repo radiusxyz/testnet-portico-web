@@ -54,7 +54,7 @@ const Green = () => {
           fill='white'
           xmlSpace='preserve'
           style={{ whiteSpace: 'pre' }}
-          font-family='area-variable'
+          font-family='area-normal'
           font-size='14'
           letter-spacing='0em'
         >
@@ -92,7 +92,7 @@ const Green = () => {
           fill='white'
           xmlSpace='preserve'
           style={{ whiteSpace: 'pre' }}
-          font-family='area-variable'
+          font-family='area-normal'
           font-size='14'
           letter-spacing='0em'
         >
@@ -130,7 +130,7 @@ const Green = () => {
           fill='white'
           xmlSpace='preserve'
           style={{ whiteSpace: 'pre' }}
-          font-family='area-variable'
+          font-family='area-normal'
           font-size='14'
           letter-spacing='0em'
         >
@@ -168,7 +168,7 @@ const Green = () => {
           fill='white'
           xmlSpace='preserve'
           style={{ whiteSpace: 'pre' }}
-          font-family='area-variable'
+          font-family='area-normal'
           font-size='14'
           letter-spacing='0em'
         >
@@ -206,7 +206,7 @@ const Green = () => {
           fill='white'
           xmlSpace='preserve'
           style={{ whiteSpace: 'pre' }}
-          font-family='area-variable'
+          font-family='area-normal'
           font-size='14'
           letter-spacing='0em'
         >
@@ -280,7 +280,7 @@ const Green = () => {
           fill='white'
           xmlSpace='preserve'
           style={{ whiteSpace: 'pre' }}
-          font-family='area-variable'
+          font-family='area-normal'
           font-size='14'
           letter-spacing='0em'
         >
@@ -296,7 +296,7 @@ const Green = () => {
         fill-opacity='0.6'
         xmlSpace='preserve'
         style={{ whiteSpace: 'pre' }}
-        font-family='area-variable'
+        font-family='area-normal'
         font-size='10'
         letter-spacing='0em'
       >
@@ -308,7 +308,7 @@ const Green = () => {
         fill='white'
         xmlSpace='preserve'
         style={{ whiteSpace: 'pre' }}
-        font-family='area-variable'
+        font-family='area-normal'
         font-size='14'
         letter-spacing='0em'
       >
@@ -323,7 +323,7 @@ const Green = () => {
         fill-opacity='0.6'
         xmlSpace='preserve'
         style={{ whiteSpace: 'pre' }}
-        font-family='area-variable'
+        font-family='area-normal'
         font-size='10'
         letter-spacing='0em'
       >
@@ -335,7 +335,7 @@ const Green = () => {
         fill='white'
         xmlSpace='preserve'
         style={{ whiteSpace: 'pre' }}
-        font-family='area-variable'
+        font-family='area-normal'
         font-size='14'
         letter-spacing='0em'
       >
@@ -363,7 +363,7 @@ const Green = () => {
           fill='#090A0F'
           xmlSpace='preserve'
           style={{ whiteSpace: 'pre' }}
-          font-family='area-variable'
+          font-family='area-normal'
           font-size='10'
           font-weight='bold'
           letter-spacing='0em'
@@ -393,7 +393,7 @@ const Green = () => {
           fill='#090A0F'
           xmlSpace='preserve'
           style={{ whiteSpace: 'pre' }}
-          font-family='area-variable'
+          font-family='area-normal'
           font-size='10'
           font-weight='bold'
           letter-spacing='0em'
@@ -423,7 +423,7 @@ const Green = () => {
           fill='#090A0F'
           xmlSpace='preserve'
           style={{ whiteSpace: 'pre' }}
-          font-family='area-variable'
+          font-family='area-normal'
           font-size='10'
           font-weight='bold'
           letter-spacing='0em'
@@ -453,7 +453,7 @@ const Green = () => {
           fill='#090A0F'
           xmlSpace='preserve'
           style={{ whiteSpace: 'pre' }}
-          font-family='area-variable'
+          font-family='area-normal'
           font-size='10'
           font-weight='bold'
           letter-spacing='0em'
@@ -483,7 +483,7 @@ const Green = () => {
           fill='#090A0F'
           xmlSpace='preserve'
           style={{ whiteSpace: 'pre' }}
-          font-family='area-variable'
+          font-family='area-normal'
           font-size='10'
           font-weight='bold'
           letter-spacing='0em'
@@ -513,7 +513,7 @@ const Green = () => {
           fill='#090A0F'
           xmlSpace='preserve'
           style={{ whiteSpace: 'pre' }}
-          font-family='area-variable'
+          font-family='area-normal'
           font-size='10'
           font-weight='bold'
           letter-spacing='0em'
@@ -543,7 +543,7 @@ const Green = () => {
           fill='#090A0F'
           xmlSpace='preserve'
           style={{ whiteSpace: 'pre' }}
-          font-family='area-variable'
+          font-family='area-normal'
           font-size='10'
           font-weight='bold'
           letter-spacing='0em'
@@ -573,7 +573,7 @@ const Green = () => {
           fill='#090A0F'
           xmlSpace='preserve'
           style={{ whiteSpace: 'pre' }}
-          font-family='area-variable'
+          font-family='area-normal'
           font-size='10'
           font-weight='bold'
           letter-spacing='0em'
@@ -603,7 +603,7 @@ const Green = () => {
           fill='#090A0F'
           xmlSpace='preserve'
           style={{ whiteSpace: 'pre' }}
-          font-family='area-variable'
+          font-family='area-normal'
           font-size='10'
           font-weight='bold'
           letter-spacing='0em'

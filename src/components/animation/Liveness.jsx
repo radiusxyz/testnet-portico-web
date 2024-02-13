@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { colors, filters, paths } from '../../assets/data';
 import Defs from './Defs';
 import U from './U';
@@ -26,11 +26,21 @@ import Instructions from './Instructions';
 import { usePortico } from '../../contexts/PorticoCtx';
 
 const getColor = (data) => colors[data] || '#5C5B5E';
+
 const getFilter = (data, node) => filters[data]?.[node] || 'none';
+
 const getPathColor = (log, from, to) =>
   (log.from === from && log.to === to) || (log.from === to && log.to === from) ? getColor(log.data) : '#5C5B5E';
-const getHighlightColor = (log, node) => (log.from === node || log.to === node ? getColor(log.data) : 'transparent');
+
+const getHighlightColor = (log, node) =>
+  log.from === node || log.to === node
+    ? log.data === 'ld'
+      ? 'none'
+      : getColor(log.data) // Handle 'ld' directly here
+    : 'none';
+
 const getFilterColor = (log, node) => (log.from === node || log.to === node ? getFilter(log.data, node) : 'none');
+
 const getRole = (id, roles) => roles[id];
 const getLabels = (roles) => Object.fromEntries(Object.entries(roles).map(([id, role]) => [role, id]));
 
@@ -53,18 +63,11 @@ const Liveness = () => {
 
   const rawLog = globalLogs[globalIndex] || {};
 
-  const updateIndex = useCallback(() => {
-    if (globalLogs && globalLogs.length) {
-      setGlobalIndex((prevIndex) => prevIndex + 1);
-    } else {
-      setGlobalIndex(0);
-    }
-  }, [globalLogs.length]);
-
   useEffect(() => {
     if (globalIndex === globalLogs.length) {
       const queryNext = async () => {
-        const newLogs = await queryLogs(globalLogs[globalLogs.length - 1]?.timestamp);
+        // const newLogs = await queryLogs(globalLogs[globalLogs.length - 1]?.timestamp);
+        const newLogs = await queryLogs(1707560155215);
         setGlobalLogs(newLogs);
         setGlobalIndex(0);
       };
@@ -74,10 +77,10 @@ const Liveness = () => {
 
   useEffect(() => {
     if (isFinished) {
-      updateIndex();
+      setGlobalIndex((prevIndex) => prevIndex + 1);
       setIsFinished(false);
     }
-  }, [isFinished, updateIndex]);
+  }, [isFinished]);
 
   useEffect(() => {
     if (rawLog.data === 'lc') {
@@ -105,8 +108,12 @@ const Liveness = () => {
     to: globalRoles[rawLog.to],
     data: rawLog.data,
   };
+
+  useEffect(() => {
+    // console.log(globalIndex, log);
+  }, [globalIndex]);
   const motionPath = paths[log.from + log.to];
-  const isReversed = ['l', 'u'].includes(log.to) && ['f0', 'f1', 'f2', 'f3'].includes(log.from);
+  const isReversed = ['l', 'u'].includes(log.to) && ['f0', 'f1', 'f2', 'f3', 'l'].includes(log.from);
 
   return (
     <svg width='1100' height='548' viewBox='0 0 1100 548' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -128,7 +135,8 @@ const Liveness = () => {
           color={getColor(log.data)}
           isFinished={isFinished}
           motionPath={motionPath}
-          duration={2000}
+          duration={1000}
+          data={log.data}
           isReversed={isReversed}
           setIsFinished={setIsFinished}
         />
@@ -143,7 +151,7 @@ const Liveness = () => {
         id={globalLabels.l}
         filterColor={getFilterColor(log, 'l')}
         highlightColor={getHighlightColor(log, 'l')}
-        livenessColor={log.data === 'lc' && isFinished ? '#FFD875' : '#5C5B5E'}
+        livenessColor={log.data === 'ld' ? '#5C5B5E' : '#FFD875'}
       />
       <R0 filterColor={getFilterColor(log, 'r0')} highlightColor={getHighlightColor(log, 'r0')} />
       <R1 filterColor={getFilterColor(log, 'r1')} highlightColor={getHighlightColor(log, 'r1')} />

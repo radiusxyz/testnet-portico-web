@@ -1,37 +1,3 @@
-// export const dbData = [
-//   { from: 'u', to: '0x0', data: 'tx' },
-//   { from: '0x0', to: '0x4', data: 'tx' },
-//   { from: '0x4', to: '0x3', data: 'oc' },
-//   { from: '0x2', to: '0x4', data: 'tx' },
-//   { from: '0x0', to: 'u', data: 'oc' },
-//   { from: '0x4', to: '0x1', data: 'oc' },
-//   { from: '0x4', to: 'A', data: 'block' },
-//   { from: '0x4', to: '0x3', data: 'lc' },
-//   { from: '0x3', to: '0x4', data: 'oc' },
-//   { from: '0x3', to: '0x4', data: 'oc' },
-//   { from: '0x1', to: '0x3', data: 'tx' },
-//   { from: '0x3', to: '0x4', data: 'lc' },
-// ];
-
-// export const initialLabels = {
-//   f0: '0x1',
-//   f1: '0x2',
-//   f2: '0x3',
-//   f3: '0x3',
-//   l: '0x4',
-// };
-
-// export const initialRoles = {
-//   u: 'u',
-//   '0x0': 'f0',
-//   '0x1': 'f1',
-//   '0x2': 'f2',
-//   '0x3': 'f3',
-//   '0x4': 'l',
-//   A: 'r0',
-//   B: 'r1',
-// };
-
 export const paths = {
   uf0: 'uf0',
   f0u: 'uf0',
@@ -63,6 +29,7 @@ export const colors = {
   oc: '#24F6B7',
   block: '#189EFF',
   lc: '#E3CE12',
+  ld: '#5C5B5E',
 };
 
 export const filters = {

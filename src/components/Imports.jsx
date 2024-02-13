@@ -11,8 +11,8 @@ import PreloadVideo from './PreloadVideo';
 
 export const menuItems = [
   { id: 0, text: 'Decentralized Shared Sequencing Layer' },
-  { id: 1, text: 'MEV / Censorship Resistance' },
-  { id: 2, text: 'Sequencer Liveness' },
+  { id: 1, text: 'MEV and Censorship Resistance' },
+  { id: 2, text: 'Liveness' },
   { id: 3, text: 'Multi-Rollup Sequencing' },
 ];
 
@@ -29,20 +29,20 @@ export const views = [
       icon: key,
       text: 'MEV and Censorship Resistance',
     },
-    header: 'Leader-based Shared Sequencer Network',
+    header: 'Encrypted Mempool, \n Zero Knowledge Proof',
     body: <Second src={mev} />,
     linksAndButtons: [
-      { type: 1, text: 'Learn more', icon: to, link: 'https://mindful-subtasks-250940.framer.app/' },
-      { type: 0, text: 'See Demo', link: 'https://mindful-subtasks-250940.framer.app/' },
+      { type: 1, text: 'Learn more', icon: to, link: 'https://docs.theradius.xyz/testnet/curie-testnet' },
+      { type: 0, text: 'See Demo', link: 'https://twitter.com/radius_xyz/status/1724082176818573399' },
     ],
   },
   {
     id: 2,
     tag: {
       icon: asterisk,
-      text: 'Sequencer Liveness',
+      text: 'Liveness',
     },
-    header: 'Encrypted Mempool, \n Zero Knowledge Proof',
+    header: 'Leader-based \n Shared Sequencer Network',
     body: <Liveness />,
     linksAndButtons: [
       { type: 1, text: 'Learn more', icon: to, link: 'https://mindful-subtasks-250940.framer.app/' },

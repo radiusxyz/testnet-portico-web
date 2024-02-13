@@ -5,7 +5,7 @@ import cuid from 'cuid';
 import rollupA from '../assets/images/rollupA.svg';
 import rollupB from '../assets/images/rollupB.svg';
 import axios from 'axios';
-const url = import.meta.env.VITE_INFLUXDB_URL;
+const url = 'http://192.168.12.34:4000';
 
 const RollupContainer = styled.div`
   display: flex;
@@ -66,39 +66,40 @@ const BlockList = styled.div`
 
 const topBorderAnimation = keyframes`
   from {
-    border: 1.5px solid #fff;
-  }
-  to {
     border-radius: 4px;
     border: 1.5px solid #7AAFFF;
     box-shadow: 0px 0px 8px 0px rgba(51, 127, 241, 0.44);
+  }  
+  to {
+    border: 1.5px solid #fff;
   }
 `;
 
 const nonTopBorderAnimation = keyframes`
 from {
-  border: 1px solid #fff;
-}
-to {
   border-radius: 4px;
   border: 1px solid #DBEAFF;
+}
+to {
+  border: 1px solid #fff;
 }
 `;
 
 const ListItem = styled.div`
   display: flex;
   padding: 12px;
+  border: 1.5px solid #fff;
   justify-content: space-between;
   align-items: center;
   align-self: stretch;
-  animation: ${topBorderAnimation} 1.4s cubic-bezier(0.44, 0, 0.56, 1) forwards;
+  animation: ${topBorderAnimation} 3.4s cubic-bezier(0.44, 0, 0.56, 1) forwards;
   &:nth-child(2) {
+    animation: ${nonTopBorderAnimation} 3.4s cubic-bezier(0.44, 0, 0.56, 1) forwards;
     animation-delay: 0.2s;
-    animation: ${nonTopBorderAnimation} 1.4s cubic-bezier(0.44, 0, 0.56, 1) forwards;
   }
   &:nth-child(3) {
+    animation: ${nonTopBorderAnimation} 3.4s cubic-bezier(0.44, 0, 0.56, 1) forwards;
     animation-delay: 0.4s;
-    animation: ${nonTopBorderAnimation} 1.4s cubic-bezier(0.44, 0, 0.56, 1) forwards;
   }
 `;
 

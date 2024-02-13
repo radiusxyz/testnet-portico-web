@@ -38,17 +38,17 @@ export const MenuItem = styled.div`
 `;
 
 export const MenuText = styled.p`
-  color: ${({ $active }) => ($active && '#fff') || 'rgba(255, 255, 255, 0.16)'};
   font-family: Manrope;
   font-size: 16px;
   font-weight: 400;
   width: 100%;
   cursor: pointer;
   margin-left: 16px;
-  transition: all 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) 0s;
-  &:hover {
-    color: ${({ $active }) => ($active && '#fff') || 'rgba(255, 255, 255, 0.46)'};
-  }
+  // TODO: fix the transitioning
+  // transition: all 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) 0s;
+  transition: color 1s ease;
+  color: ${({ $active }) => ($active ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 255, 255, 0.16)')};
+
   @media (max-width: 1919px) {
     font-size: 14px;
     line-height: 20px;
@@ -114,7 +114,7 @@ export const Head = styled.p`
   text-edge: cap;
   font-family: 'area-normal';
   font-size: 52px;
-  font-weight: 200;
+  font-weight: 400;
   line-height: 72px; /* 138.462% */
   margin-bottom: 56px;
   white-space: pre-line;

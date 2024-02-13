@@ -29,6 +29,7 @@ export const colors = {
   oc: '#24F6B7',
   block: '#189EFF',
   lc: '#E3CE12',
+  ld: '#5C5B5E',
 };
 
 export const filters = {

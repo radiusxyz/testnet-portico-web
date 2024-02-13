@@ -25,21 +25,11 @@ export const PorticoCtx = createContext({
 export const usePortico = () => useContext(PorticoCtx);
 
 export const ContextProvider = ({ children }) => {
-  const [logs, setLogs] = useState([]);
-  const [roles, setRoles] = useState({
-    '0x1': 'f0',
-    '0x2': 'f1',
-    '0x3': 'f2',
-    '0x4': 'f3',
-    '0x5': 'l',
-    A: 'r0',
-    B: 'r1',
-    u: 'u',
-    timestamp: '1707219443003382776',
-  });
-  const [labels, setLabels] = useState({});
-  const [logsReady, setLogsReady] = useState(false);
   const [index, setIndex] = useState(0);
+  const [logs, setLogs] = useState([]);
+  const [logsReady, setLogsReady] = useState(false);
+  const [roles, setRoles] = useState({});
+  const [labels, setLabels] = useState({});
 
   async function queryLogs(timestamp) {
     const query = `from(bucket: "sequencer") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> filter(fn: (r) => r["at"] > "${timestamp}") |> sort(columns: ["at"])`;
@@ -51,23 +41,27 @@ export const ContextProvider = ({ children }) => {
     const data = {
       query: query,
       type: 'flux',
+      timestamp,
     };
-    try {
-      const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
-      const result = response.data
-        .split('\n')
-        .slice(1, -2)
-        .map((line) => {
-          const fields = line.split(',');
 
-          return {
-            data: fields[6]?.replace(/"/g, ''),
-            from: fields[10]?.replace(/"/g, ''),
-            to: fields[11]?.replace(/"/g, '').replace('\r', ''),
-            timestamp: fields[9],
-          };
-        });
-      setLogs(result);
+    try {
+      const response = await axios.post(`${url}/logs`, data, { headers });
+      // const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
+      // const result = response.data
+      //   .split('\n')
+      //   .slice(1, -2)
+      //   .map((line) => {
+      //     const fields = line.split(',');
+
+      //     return {
+      //       data: fields[6]?.replace(/"/g, ''),
+      //       from: fields[10]?.replace(/"/g, ''),
+      //       to: fields[11]?.replace(/"/g, '').replace('\r', ''),
+      //       timestamp: fields[9],
+      //     };
+      //   });
+      const result = response.data;
+
       return [...result];
     } catch (error) {
       console.error('QUERY ERROR', error);
@@ -86,20 +80,23 @@ export const ContextProvider = ({ children }) => {
       type: 'flux',
     };
     try {
-      const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
-      const result = response.data
-        .split('\n')
-        .slice(1, -2)
-        .reduce((acc, line) => {
-          const fields = line.split(',');
-          const key = fields[9]?.replace(/"/g, '').replace('\r', '');
-          const value = fields[10]?.replace(/"/g, '').replace('\r', '');
-          if (key && value) {
-            acc[key] = value;
-          }
-          return acc;
-        }, {});
-      setRoles(result);
+      const response = await axios.post(`${url}/roles`, data, { headers });
+      // const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
+      // const result = response.data
+      //   .split('\n')
+      //   .slice(1, -2)
+      //   .reduce((acc, line) => {
+      //     const fields = line.split(',');
+      //     const key = fields[9]?.replace(/"/g, '').replace('\r', '');
+      //     const value = fields[10]?.replace(/"/g, '').replace('\r', '');
+      //     if (key && value) {
+      //       acc[key] = value;
+      //     }
+      //     return acc;
+      //   }, {});
+
+      const result = response.data;
+
       return { ...result };
     } catch (error) {
       console.error('QUERY ERROR', error);
@@ -107,27 +104,34 @@ export const ContextProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    const swapped = {};
-    Object.entries(roles).forEach(([key, value]) => {
-      swapped[value] = key;
-    });
-    setLabels(swapped);
-  }, [roles]);
-
-  useEffect(() => {
     const runReqs = async () => {
       const roles = await queryRoles();
       console.log(roles);
+
+      // Set the initial roles
+      setRoles(roles);
+
+      // Set the initial labels
+      const swapped = {};
+      Object.entries(roles).forEach(([key, value]) => {
+        swapped[value] = key;
+      });
+      setLabels(swapped);
+
+      // Get the initial logs
       if (!logsReady) {
         const checkLogs = async () => {
           const logs = await queryLogs(roles.timestamp);
           console.log(logs);
           if (logs.length) {
             console.log('Logs are ready');
+
+            // Set the initial logs
+            setLogs(logs);
             setLogsReady(true);
           } else {
             console.log('Logs are not ready, checking again...');
-            setTimeout(checkLogs, 1000); // Check again after 1 second
+            setTimeout(checkLogs, 1000);
           }
         };
         setTimeout(checkLogs, 1000);

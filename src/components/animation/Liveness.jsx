@@ -27,86 +27,50 @@ import { usePortico } from '../../contexts/PorticoCtx';
 
 const getColor = (data) => colors[data] || '#5C5B5E';
 const getFilter = (data, node) => filters[data]?.[node] || 'none';
-
-function getPathColor(log, from, to) {
-  if ((log.from === from && log.to === to) || (log.from === to && log.to === from)) {
-    return getColor(log.data);
-  }
-  return '#5C5B5E';
-}
-
-function getHighlightColor(log, node) {
-  return log.from === node || log.to === node ? getColor(log.data) : 'transparent';
-}
-
-function getFilterColor(log, node) {
-  return log.from === node || log.to === node ? getFilter(log.data, node) : 'none';
-}
-
-function getRole(id, roles) {
-  return roles[id];
-}
+const getPathColor = (log, from, to) =>
+  (log.from === from && log.to === to) || (log.from === to && log.to === from) ? getColor(log.data) : '#5C5B5E';
+const getHighlightColor = (log, node) => (log.from === node || log.to === node ? getColor(log.data) : 'transparent');
+const getFilterColor = (log, node) => (log.from === node || log.to === node ? getFilter(log.data, node) : 'none');
+const getRole = (id, roles) => roles[id];
+const getLabels = (roles) => Object.fromEntries(Object.entries(roles).map(([id, role]) => [role, id]));
 
 const Liveness = () => {
   const {
-    globalLogs,
     globalRoles,
-    setGlobalRoles,
     globalLabels,
-    setGlobalLabels,
+    globalLogs,
     globalIndex,
+
+    setGlobalRoles,
+    setGlobalLabels,
+    setGlobalLogs,
     setGlobalIndex,
+
     queryLogs,
   } = usePortico();
 
-  // Assuming logs, roles, and labels are directly used from the context now
-  const [currentIndex, setCurrentIndex] = useState(globalIndex);
   const [isFinished, setIsFinished] = useState(false);
-  const [logs, setLogs] = useState(globalLogs);
 
-  useEffect(() => {
-    setLogs(globalLogs);
-  }, [globalLogs]);
-
-  const rawLog = logs[currentIndex] || {};
-
-  const log = {
-    from: globalRoles[rawLog.from],
-    to: globalRoles[rawLog.to],
-    data: rawLog.data,
-  };
-
-  const handleIsFinished = useCallback(() => {
-    setIsFinished(true);
-  }, []);
+  const rawLog = globalLogs[globalIndex] || {};
 
   const updateIndex = useCallback(() => {
-    if (logs && logs.length) {
-      setCurrentIndex((prevIndex) => prevIndex + 1);
+    if (globalLogs && globalLogs.length) {
+      setGlobalIndex((prevIndex) => prevIndex + 1);
     } else {
-      setCurrentIndex(0);
+      setGlobalIndex(0);
     }
-  }, [logs.length]);
+  }, [globalLogs.length]);
 
   useEffect(() => {
-    setGlobalIndex(() => currentIndex);
-  }, [currentIndex]);
-
-  useEffect(() => {
-    if (currentIndex === logs.length) {
-      setCurrentIndex(0);
-      // preventNewLogs(false);
+    if (globalIndex === globalLogs.length) {
       const queryNext = async () => {
-        const newLogs = await queryLogs(logs[logs.length - 1]?.timestamp);
-        setLogs(newLogs);
+        const newLogs = await queryLogs(globalLogs[globalLogs.length - 1]?.timestamp);
+        setGlobalLogs(newLogs);
+        setGlobalIndex(0);
       };
       queryNext();
     }
-  }, [currentIndex]);
-
-  useEffect(() => {
-    console.log(currentIndex, logs.length);
-  }, [currentIndex, logs.length]);
+  }, [globalIndex]);
 
   useEffect(() => {
     if (isFinished) {
@@ -128,22 +92,19 @@ const Liveness = () => {
         };
       });
     }
-  }, [currentIndex]);
+  }, [globalIndex]);
 
   useEffect(() => {
     if (rawLog.data === 'lc') {
-      const swapped = {};
-
-      Object.entries(globalRoles).forEach(([key, value]) => {
-        swapped[value] = key;
-      });
-      setGlobalLabels({ ...swapped });
+      setGlobalLabels(getLabels(globalRoles));
     }
   }, [globalRoles]);
 
-  // console.log(livenessColor);
-
-  // Assuming getRole(), getPathColor(), getColor(), getFilterColor(), and getHighlightColor() are defined elsewhere
+  const log = {
+    from: globalRoles[rawLog.from],
+    to: globalRoles[rawLog.to],
+    data: rawLog.data,
+  };
   const motionPath = paths[log.from + log.to];
   const isReversed = ['l', 'u'].includes(log.to) && ['f0', 'f1', 'f2', 'f3'].includes(log.from);
 
@@ -169,7 +130,7 @@ const Liveness = () => {
           motionPath={motionPath}
           duration={2000}
           isReversed={isReversed}
-          handleIsFinished={handleIsFinished}
+          setIsFinished={setIsFinished}
         />
       )}
       {/* Entities themselves */}

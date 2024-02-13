@@ -1,3 +1,39 @@
+export const defaultMapping = {
+  entities: {
+    u: { highlight: 'none', filter: 'none' },
+    f0: { highlight: 'none', filter: 'none' },
+    f1: { highlight: 'none', filter: 'none' },
+    f2: { highlight: 'none', filter: 'none' },
+    f3: { highlight: 'none', filter: 'none' },
+    l: { highlight: 'none', filter: 'none' },
+    r0: { highlight: 'none', filter: 'none' },
+    r1: { highlight: 'none', filter: 'none' },
+    circle: { color: 'none' },
+  },
+  paths: {
+    uf0: '#5C5B5E',
+
+    uf1: '#5C5B5E',
+
+    uf2: '#5C5B5E',
+
+    uf3: '#5C5B5E',
+
+    ul: '#5C5B5E',
+
+    f0l: '#5C5B5E',
+
+    f1l: '#5C5B5E',
+
+    f2l: '#5C5B5E',
+
+    f3l: '#5C5B5E',
+
+    lr0: '#5C5B5E',
+    lr1: '#5C5B5E',
+  },
+};
+
 export const paths = {
   uf0: 'uf0',
   f0u: 'uf0',
@@ -24,12 +60,20 @@ export const paths = {
   lr1: 'lr1',
 };
 
-export const colors = {
+export const pathColors = {
   tx: '#FF5656',
   oc: '#24F6B7',
   block: '#189EFF',
   lc: '#E3CE12',
   ld: '#5C5B5E',
+};
+
+export const highlightColors = {
+  tx: '#FF5656',
+  oc: '#24F6B7',
+  block: '#189EFF',
+  lc: '#E3CE12',
+  ld: 'none',
 };
 
 export const filters = {
@@ -60,5 +104,12 @@ export const filters = {
     f2: 'url(#filter2_d_138_733)',
     f3: 'url(#filter3_d_138_733)',
     l: 'url(#filter4_d_138_733)',
+  },
+  ld: {
+    f0: 'none',
+    f1: 'none',
+    f2: 'none',
+    f3: 'none',
+    l: 'none',
   },
 };

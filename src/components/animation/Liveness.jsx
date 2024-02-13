@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { colors, filters, paths } from '../../assets/data';
+import { pathColors, highlightColors, filters, paths, defaultMapping } from '../../assets/data';
 import Defs from './Defs';
 import U from './U';
 import F1 from './F1';
@@ -24,22 +24,6 @@ import LR1 from './LR1';
 import Circle from './Circle';
 import Instructions from './Instructions';
 import { usePortico } from '../../contexts/PorticoCtx';
-
-const getColor = (data) => colors[data] || '#5C5B5E';
-
-const getFilter = (data, node) => filters[data]?.[node] || 'none';
-
-const getPathColor = (log, from, to) =>
-  (log.from === from && log.to === to) || (log.from === to && log.to === from) ? getColor(log.data) : '#5C5B5E';
-
-const getHighlightColor = (log, node) =>
-  log.from === node || log.to === node
-    ? log.data === 'ld'
-      ? 'none'
-      : getColor(log.data) // Handle 'ld' directly here
-    : 'none';
-
-const getFilterColor = (log, node) => (log.from === node || log.to === node ? getFilter(log.data, node) : 'none');
 
 const getRole = (id, roles) => roles[id];
 const getLabels = (roles) => Object.fromEntries(Object.entries(roles).map(([id, role]) => [role, id]));
@@ -112,49 +96,79 @@ const Liveness = () => {
   useEffect(() => {
     // console.log(globalIndex, log);
   }, [globalIndex]);
-  const motionPath = paths[log.from + log.to];
+  const [from, to, data] = [log.from, log.to, log.data];
+  const motionPath = paths[from + to];
   const isReversed = ['l', 'u'].includes(log.to) && ['f0', 'f1', 'f2', 'f3', 'l'].includes(log.from);
-
+  const mapping = {
+    ...defaultMapping,
+    entities: {
+      ...defaultMapping.entities,
+      [from]: { ...defaultMapping.entities[from], highlight: highlightColors[data], filter: filters[data][from] },
+      [to]: { ...defaultMapping.entities[to], highlight: highlightColors[data], filter: filters[data][to] },
+      circle: { color: highlightColors[data] },
+    },
+    paths: {
+      ...defaultMapping.paths,
+      [motionPath]: pathColors[data],
+    },
+  };
   return (
     <svg width='1100' height='548' viewBox='0 0 1100 548' fill='none' xmlns='http://www.w3.org/2000/svg'>
       {/* The following are the paths from one node to another, i.e. UF0 is the path from 'user' to 'follower 0' */}
-      <UF0 stroke={getPathColor(log, 'u', 'f0')} />
-      <UF1 stroke={getPathColor(log, 'u', 'f1')} />
-      <UF2 stroke={getPathColor(log, 'u', 'f2')} />
-      <UF3 stroke={getPathColor(log, 'u', 'f3')} />
-      <UL stroke={getPathColor(log, 'u', 'l')} />
-      <F0L stroke={getPathColor(log, 'f0', 'l')} />
-      <F1L stroke={getPathColor(log, 'f1', 'l')} />
-      <F2L stroke={getPathColor(log, 'f2', 'l')} />
-      <F3L stroke={getPathColor(log, 'f3', 'l')} />
-      <LR0 stroke={getPathColor(log, 'l', 'r0')} />
-      <LR1 stroke={getPathColor(log, 'l', 'r1')} />
+
+      <UF0 stroke={mapping.paths.uf0} />
+      <UF1 stroke={mapping.paths.uf1} />
+      <UF2 stroke={mapping.paths.uf2} />
+      <UF3 stroke={mapping.paths.uf3} />
+      <UL stroke={mapping.paths.ul} />
+      <F0L stroke={mapping.paths.f0l} />
+      <F1L stroke={mapping.paths.f1l} />
+      <F2L stroke={mapping.paths.f2l} />
+      <F3L stroke={mapping.paths.f3l} />
+      <LR0 stroke={mapping.paths.lr0} />
+      <LR1 stroke={mapping.paths.lr1} />
       {/* Circle is the dot moving along the path */}
       {!isFinished && (
         <Circle
-          color={getColor(log.data)}
+          color={mapping.entities.circle.color}
           isFinished={isFinished}
           motionPath={motionPath}
           duration={1000}
-          data={log.data}
+          data={data}
           isReversed={isReversed}
           setIsFinished={setIsFinished}
         />
       )}
       {/* Entities themselves */}
-      <U filterColor={getFilterColor(log, 'u')} highlightColor={getHighlightColor(log, 'u')} />
-      <F0 id={globalLabels.f0} filterColor={getFilterColor(log, 'f0')} highlightColor={getHighlightColor(log, 'f0')} />
-      <F1 id={globalLabels.f1} filterColor={getFilterColor(log, 'f1')} highlightColor={getHighlightColor(log, 'f1')} />
-      <F2 id={globalLabels.f2} filterColor={getFilterColor(log, 'f2')} highlightColor={getHighlightColor(log, 'f2')} />
-      <F3 id={globalLabels.f3} filterColor={getFilterColor(log, 'f3')} highlightColor={getHighlightColor(log, 'f3')} />
+      <U filterColor={mapping.entities.u.filter} highlightColor={mapping.entities.u.highlight} />
+      <F0
+        id={globalLabels.f0}
+        filterColor={mapping.entities.f0.filter}
+        highlightColor={mapping.entities.f0.highlight}
+      />
+      <F1
+        id={globalLabels.f1}
+        filterColor={mapping.entities.f1.filter}
+        highlightColor={mapping.entities.f1.highlight}
+      />
+      <F2
+        id={globalLabels.f2}
+        filterColor={mapping.entities.f2.filter}
+        highlightColor={mapping.entities.f2.highlight}
+      />
+      <F3
+        id={globalLabels.f3}
+        filterColor={mapping.entities.f3.filter}
+        highlightColor={mapping.entities.f3.highlight}
+      />
       <L
         id={globalLabels.l}
-        filterColor={getFilterColor(log, 'l')}
-        highlightColor={getHighlightColor(log, 'l')}
-        livenessColor={log.data === 'ld' ? '#5C5B5E' : '#FFD875'}
+        filterColor={mapping.entities.l.filter}
+        highlightColor={mapping.entities.l.highlight}
+        livenessColor={data === 'ld' ? '#5C5B5E' : '#FFD875'}
       />
-      <R0 filterColor={getFilterColor(log, 'r0')} highlightColor={getHighlightColor(log, 'r0')} />
-      <R1 filterColor={getFilterColor(log, 'r1')} highlightColor={getHighlightColor(log, 'r1')} />
+      <R0 filterColor={mapping.entities.r0.filter} highlightColor={mapping.entities.r0.highlight} />
+      <R1 filterColor={mapping.entities.r1.filter} highlightColor={mapping.entities.r1.highlight} />
       <circle r='5' fill='#090a0f'></circle>
       {/* Message is the text box appearing on the path */}
       <Message log={log} />

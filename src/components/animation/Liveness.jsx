@@ -46,11 +46,41 @@ const Liveness = () => {
 
   const rawLog = globalLogs[globalIndex] || {};
 
+  const log = {
+    from: globalRoles[rawLog.from],
+    to: globalRoles[rawLog.to],
+    data: rawLog.data,
+  };
+
+  const [from, to, data] = [log.from, log.to, log.data];
+
+  const motionPath = paths[from + to];
+  const isReversed = ['l', 'u'].includes(to) && ['f0', 'f1', 'f2', 'f3', 'l'].includes(from);
+
+  console.log(from, to, data, from && to && data ? true : false);
+
+  const mapping =
+    from && to && data
+      ? {
+          ...defaultMapping,
+          entities: {
+            ...defaultMapping.entities,
+            [from]: { ...defaultMapping.entities[from], highlight: highlightColors[data], filter: filters[data][from] },
+            [to]: { ...defaultMapping.entities[to], highlight: highlightColors[data], filter: filters[data][to] },
+            circle: { color: highlightColors[data] },
+          },
+          paths: {
+            ...defaultMapping.paths,
+            [motionPath]: pathColors[data],
+          },
+        }
+      : defaultMapping;
+
   useEffect(() => {
     if (globalIndex === globalLogs.length - 1) {
       const queryNext = async () => {
-        // const newLogs = await queryLogs(globalLogs[globalLogs.length - 1]?.timestamp);
-        const newLogs = await queryLogs(1707560155215);
+        const newLogs = await queryLogs(globalLogs[globalLogs.length - 1]?.timestamp);
+        console.log(newLogs);
         setGlobalLogs(newLogs);
         setGlobalIndex(0);
       };
@@ -71,47 +101,21 @@ const Liveness = () => {
         const oldLeader = rawLog.from;
         const newRole = getRole(rawLog.to, prevState);
 
-        return {
+        const updatedRoles = {
           ...prevState,
           [oldLeader]: newRole,
           [rawLog.to]: 'l',
         };
+
+        return updatedRoles;
       });
     }
-  }, [rawLog.data]);
+  }, [rawLog]);
 
   useEffect(() => {
-    if (rawLog.data === 'lc') {
-      setGlobalLabels(getLabels(globalRoles));
-    }
+    setGlobalLabels(getLabels(globalRoles));
   }, [globalRoles]);
 
-  const log = {
-    from: globalRoles[rawLog.from],
-    to: globalRoles[rawLog.to],
-    data: rawLog.data,
-  };
-
-  useEffect(() => {
-    console.log(globalIndex, log);
-  }, [globalIndex]);
-
-  const [from, to, data] = [log.from, log.to, log.data];
-  const motionPath = paths[from + to];
-  const isReversed = ['l', 'u'].includes(to) && ['f0', 'f1', 'f2', 'f3', 'l'].includes(from);
-  const mapping = {
-    ...defaultMapping,
-    entities: {
-      ...defaultMapping.entities,
-      [from]: { ...defaultMapping.entities[from], highlight: highlightColors[data], filter: filters[data][from] },
-      [to]: { ...defaultMapping.entities[to], highlight: highlightColors[data], filter: filters[data][to] },
-      circle: { color: highlightColors[data] },
-    },
-    paths: {
-      ...defaultMapping.paths,
-      [motionPath]: pathColors[data],
-    },
-  };
   return (
     <svg width='1100' height='548' viewBox='0 0 1100 548' fill='none' xmlns='http://www.w3.org/2000/svg'>
       {/* The following are the paths from one node to another, i.e. UF0 is the path from 'User' to 'Follower 0' */}

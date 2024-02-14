@@ -79,7 +79,7 @@ const Liveness = () => {
         };
       });
     }
-  }, [globalIndex]);
+  }, [rawLog.data]);
 
   useEffect(() => {
     if (rawLog.data === 'lc') {
@@ -94,11 +94,12 @@ const Liveness = () => {
   };
 
   useEffect(() => {
-    // console.log(globalIndex, log);
+    console.log(globalIndex, log);
   }, [globalIndex]);
+
   const [from, to, data] = [log.from, log.to, log.data];
   const motionPath = paths[from + to];
-  const isReversed = ['l', 'u'].includes(log.to) && ['f0', 'f1', 'f2', 'f3', 'l'].includes(log.from);
+  const isReversed = ['l', 'u'].includes(to) && ['f0', 'f1', 'f2', 'f3', 'l'].includes(from);
   const mapping = {
     ...defaultMapping,
     entities: {
@@ -114,7 +115,7 @@ const Liveness = () => {
   };
   return (
     <svg width='1100' height='548' viewBox='0 0 1100 548' fill='none' xmlns='http://www.w3.org/2000/svg'>
-      {/* The following are the paths from one node to another, i.e. UF0 is the path from 'user' to 'follower 0' */}
+      {/* The following are the paths from one node to another, i.e. UF0 is the path from 'User' to 'Follower 0' */}
 
       <UF0 stroke={mapping.paths.uf0} />
       <UF1 stroke={mapping.paths.uf1} />
@@ -127,7 +128,8 @@ const Liveness = () => {
       <F3L stroke={mapping.paths.f3l} />
       <LR0 stroke={mapping.paths.lr0} />
       <LR1 stroke={mapping.paths.lr1} />
-      {/* Circle is the dot moving along the path */}
+
+      {/* Dot moving along the path */}
       {!isFinished && (
         <Circle
           color={mapping.entities.circle.color}
@@ -139,37 +141,57 @@ const Liveness = () => {
           setIsFinished={setIsFinished}
         />
       )}
+
       {/* Entities themselves */}
+
+      {/* User */}
       <U filterColor={mapping.entities.u.filter} highlightColor={mapping.entities.u.highlight} />
+
+      {/* Follower 0 */}
       <F0
         id={globalLabels.f0}
         filterColor={mapping.entities.f0.filter}
         highlightColor={mapping.entities.f0.highlight}
       />
+
+      {/* Follower 1 */}
       <F1
         id={globalLabels.f1}
         filterColor={mapping.entities.f1.filter}
         highlightColor={mapping.entities.f1.highlight}
       />
+
+      {/* Follower 2 */}
       <F2
         id={globalLabels.f2}
         filterColor={mapping.entities.f2.filter}
         highlightColor={mapping.entities.f2.highlight}
       />
+
+      {/* Follower 3 */}
       <F3
         id={globalLabels.f3}
         filterColor={mapping.entities.f3.filter}
         highlightColor={mapping.entities.f3.highlight}
       />
+
+      {/* Leader */}
       <L
         id={globalLabels.l}
         filterColor={mapping.entities.l.filter}
         highlightColor={mapping.entities.l.highlight}
         livenessColor={data === 'ld' ? '#5C5B5E' : '#FFD875'}
       />
+
+      {/* Rollup 0 */}
       <R0 filterColor={mapping.entities.r0.filter} highlightColor={mapping.entities.r0.highlight} />
+
+      {/* Rollup 1 */}
       <R1 filterColor={mapping.entities.r1.filter} highlightColor={mapping.entities.r1.highlight} />
+
+      {/* Patch for the circle on the top left corner */}
       <circle r='5' fill='#090a0f'></circle>
+
       {/* Message is the text box appearing on the path */}
       <Message log={log} />
       <Defs />

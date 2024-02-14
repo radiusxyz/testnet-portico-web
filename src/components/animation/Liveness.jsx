@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { pathColors, highlightColors, filters, paths, defaultMapping } from '../../assets/data';
+import { pathColors, highlightColors, filters, paths, defaultMapping, messages } from '../../assets/Data';
 import Defs from './Defs';
 import U from './U';
 import F1 from './F1';
@@ -13,7 +13,6 @@ import F2L from './F2L';
 import F3L from './F3L';
 import R0 from './R0';
 import R1 from './R1';
-import Message from './Message';
 import UF0 from './UF0';
 import UF1 from './UF1';
 import UF2 from './UF2';
@@ -193,7 +192,7 @@ const Liveness = () => {
       <circle r='5' fill='#090a0f'></circle>
 
       {/* Message is the text box appearing on the path */}
-      <Message log={log} />
+      {messages[from + to + data] || messages[to + from + data]}
       <Defs />
       <Instructions />
     </svg>

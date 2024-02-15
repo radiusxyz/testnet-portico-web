@@ -21,7 +21,7 @@ export const views = [
     id: 0,
     header: 'Decentralized \n Shared Sequencing Layer',
     body: <DecShaSeqLay />,
-    linksAndButtons: [{ type: 0, text: 'Docs', icon: to, link: 'https://mindful-subtasks-250940.framer.app/' }],
+    linksAndButtons: [{ type: 0, text: 'Docs', icon: to, link: 'https://docs.theradius.xyz/' }],
   },
   {
     id: 1,
@@ -32,8 +32,8 @@ export const views = [
     header: 'Encrypted Mempool, \n Zero Knowledge Proof',
     body: <MevCenRes src={mev} />,
     linksAndButtons: [
-      { type: 1, text: 'Learn more', icon: to, link: 'https://docs.theradius.xyz/testnet/curie-testnet' },
-      { type: 0, text: 'See Demo', link: 'https://twitter.com/radius_xyz/status/1724082176818573399' },
+      { type: 1, text: 'See Demo', link: 'https://twitter.com/radius_xyz/status/1724082176818573399' },
+      { type: 0, text: 'Learn more', icon: to, link: 'https://docs.theradius.xyz/testnet/curie-testnet' },
     ],
   },
   {
@@ -45,8 +45,8 @@ export const views = [
     header: 'Leader-based \n Shared Sequencer Network',
     body: <Liveness />,
     linksAndButtons: [
-      { type: 1, text: 'Learn more', icon: to, link: 'https://mindful-subtasks-250940.framer.app/' },
-      { type: 0, text: 'View Real-Time Logs', link: 'https://mindful-subtasks-250940.framer.app/' },
+      { type: 1, text: 'View Real-Time Logs', link: 'https://mindful-subtasks-250940.framer.app/' },
+      { type: 0, text: 'Learn more', icon: to, link: 'https://mindful-subtasks-250940.framer.app/' },
     ],
   },
   {

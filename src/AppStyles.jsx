@@ -169,6 +169,20 @@ export const BaseBtn = styled.button`
 export const TransButton = styled(BaseBtn)`
   border: none;
   background: transparent;
+  &:hover {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    color: #fff;
+    text-decoration: underline;
+  }
+  &:active {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    color: #fff;
+    text-decoration: underline;
+  }
 `;
 
 export const Txt = styled.span`

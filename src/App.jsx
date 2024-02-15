@@ -116,7 +116,14 @@ function App() {
             <MenuItem key={cuid()}>
               <Dot active={view.id === item.id} />
               {/* <Beat /> */}
-              <MenuText id={item.id} $active={+view.id === item.id} onClick={handleMenuItem}>
+              <MenuText
+                id={item.id}
+                $active={+view.id === item.id}
+                onClick={(e) => {
+                  if (+view.id === item.id) return;
+                  handleMenuItem(e);
+                }}
+              >
                 {item.text}
               </MenuText>
             </MenuItem>

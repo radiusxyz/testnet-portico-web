@@ -7,7 +7,7 @@ const StyledVideo = styled.video`
   object-fit: contain;
 `;
 
-const Second = ({ src }) => {
+const MevCenRes = ({ src }) => {
   return (
     <StyledVideo playsInline autoPlay muted loop preload='auto'>
       <source src={src} />
@@ -15,4 +15,4 @@ const Second = ({ src }) => {
   );
 };
 
-export default Second;
+export default MevCenRes;

@@ -3,8 +3,8 @@ import to from '../assets/images/to.svg';
 import key from '../assets/images/key.svg';
 import asterisk from '../assets/images/asterisk.svg';
 import Liveness from '../components/animation/Liveness';
-import First from '../components/First';
-import Second from './Second';
+import DecShaSeqLay from '../components/DecShaSeqLay.jsx';
+import MevCenRes from './MevCenRes';
 import Roblox from './Roblox';
 import mev from '../assets/videos/mev.mp4';
 import PreloadVideo from './PreloadVideo';
@@ -20,7 +20,7 @@ export const views = [
   {
     id: 0,
     header: 'Decentralized \n Shared Sequencing Layer',
-    body: <First />,
+    body: <DecShaSeqLay />,
     linksAndButtons: [{ type: 0, text: 'Docs', icon: to, link: 'https://mindful-subtasks-250940.framer.app/' }],
   },
   {
@@ -30,7 +30,7 @@ export const views = [
       text: 'MEV and Censorship Resistance',
     },
     header: 'Encrypted Mempool, \n Zero Knowledge Proof',
-    body: <Second src={mev} />,
+    body: <MevCenRes src={mev} />,
     linksAndButtons: [
       { type: 1, text: 'Learn more', icon: to, link: 'https://docs.theradius.xyz/testnet/curie-testnet' },
       { type: 0, text: 'See Demo', link: 'https://twitter.com/radius_xyz/status/1724082176818573399' },

@@ -41,19 +41,8 @@ const Liveness = () => {
     queryLogs,
   } = usePortico();
 
-  const roleSetter = (prevState) => {
-    const oldLeader = rawLog.from;
-    const newRole = prevState[rawLog.to];
-
-    return {
-      ...prevState,
-      [oldLeader]: newRole,
-      [rawLog.to]: 'l',
-    };
-  };
-
   const [isFinished, setIsFinished] = useState(false);
-  const [logs, setLogs] = useState(iLogs);
+  const [logs, setLogs] = useState(globalLogs);
   const [labels, setLabels] = useState(globalLabels);
   const [index, setIndex] = useState(globalIndex);
   const [roles, setRoles] = useState(globalRoles);
@@ -88,11 +77,21 @@ const Liveness = () => {
         }
       : defaultMapping;
 
+  const roleSetter = (prevState) => {
+    const oldLeader = rawLog.from;
+    const newRole = prevState[rawLog.to];
+
+    return {
+      ...prevState,
+      [oldLeader]: newRole,
+      [rawLog.to]: 'l',
+    };
+  };
+
   useEffect(() => {
     if (index === logs.length) {
       const queryNext = async () => {
         const newLogs = await queryLogs(logs[logs.length - 1]?.timestamp);
-        console.log(newLogs);
         setLogs(newLogs);
         setIndex(0);
       };
@@ -102,25 +101,15 @@ const Liveness = () => {
 
   useEffect(() => {
     if (isFinished) {
-      setIndex((prevIndex) => prevIndex + 1);
+      console.log(true);
+      if (rawLog.data === 'ld') {
+        setRoles(roleSetter);
+      }
+
       setIsFinished(false);
+      setIndex((prevIndex) => prevIndex + 1);
     }
-  }, [isFinished]);
-
-  useEffect(() => {
-    if (rawLog.data === 'lc') {
-      setRoles((prevState) => {
-        const oldLeader = rawLog.from;
-        const newRole = prevState[rawLog.to];
-
-        return {
-          ...prevState,
-          [oldLeader]: newRole,
-          [rawLog.to]: 'l',
-        };
-      });
-    }
-  }, [rawLog]);
+  }, [isFinished, rawLog]);
 
   // Syncing the Portico context state values with local state values
 

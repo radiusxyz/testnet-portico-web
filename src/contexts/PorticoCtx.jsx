@@ -55,20 +55,21 @@ export const ContextProvider = ({ children }) => {
     };
 
     try {
-      const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
+      // const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
+      const response = await axios.post(`${url}/mockLogs`, data, { headers });
       const result = response.data
-        .split('\n')
-        .slice(1, -2)
-        .map((line) => {
-          const fields = line.split(',');
+        // .split('\n')
+        // .slice(1, -2)
+        // .map((line) => {
+        //   const fields = line.split(',');
 
-          return {
-            data: fields[6]?.replace(/"/g, ''),
-            from: fields[10]?.replace(/"/g, ''),
-            to: fields[11]?.replace(/"/g, '').replace('\r', ''),
-            timestamp: fields[9],
-          };
-        })
+        //   return {
+        //     data: fields[6]?.replace(/"/g, ''),
+        //     from: fields[10]?.replace(/"/g, ''),
+        //     to: fields[11]?.replace(/"/g, '').replace('\r', ''),
+        //     timestamp: fields[9],
+        //   };
+        // })
         .reduce((acc, obj) => {
           // Immediately create and insert 'ld' object before 'lc' object
           if (obj.data === 'lc') {
@@ -97,19 +98,20 @@ export const ContextProvider = ({ children }) => {
       type: 'flux',
     };
     try {
-      const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
-      const result = response.data
-        .split('\n')
-        .slice(1, -2)
-        .reduce((acc, line) => {
-          const fields = line.split(',');
-          const key = fields[9]?.replace(/"/g, '').replace('\r', '');
-          const value = fields[10]?.replace(/"/g, '').replace('\r', '');
-          if (key && value) {
-            acc[key] = value;
-          }
-          return acc;
-        }, {});
+      // const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
+      const response = await axios.post(`${url}/mockRoles`, data, { headers });
+      const result = response.data;
+      // .split('\n')
+      // .slice(1, -2)
+      // .reduce((acc, line) => {
+      //   const fields = line.split(',');
+      //   const key = fields[9]?.replace(/"/g, '').replace('\r', '');
+      //   const value = fields[10]?.replace(/"/g, '').replace('\r', '');
+      //   if (key && value) {
+      //     acc[key] = value;
+      //   }
+      //   return acc;
+      // }, {});
 
       return { ...result };
     } catch (error) {
@@ -120,7 +122,7 @@ export const ContextProvider = ({ children }) => {
   useEffect(() => {
     const runReqs = async () => {
       const roles = await queryRoles();
-      console.log(roles);
+      console.log('Initial roles: ', roles);
 
       // Set the initial roles
       setRoles(roles);

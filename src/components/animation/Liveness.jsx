@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { pathColors, highlightColors, filters, paths, defaultMapping, messages } from '../../assets/Data';
+import { pathColors, highlightColors, filters, paths, defaultMapping, messages, iLogs } from '../../assets/Data';
 import Defs from './Defs';
 import U from './U';
 import F1 from './F1';
@@ -24,7 +24,6 @@ import Circle from './Circle';
 import Instructions from './Instructions';
 import { usePortico } from '../../contexts/PorticoCtx';
 
-const getRole = (id, roles) => roles[id];
 const getLabels = (roles) => Object.fromEntries(Object.entries(roles).map(([id, role]) => [role, id]));
 
 const Liveness = () => {
@@ -42,13 +41,28 @@ const Liveness = () => {
     queryLogs,
   } = usePortico();
 
-  const [isFinished, setIsFinished] = useState(false);
+  const roleSetter = (prevState) => {
+    const oldLeader = rawLog.from;
+    const newRole = prevState[rawLog.to];
 
-  const rawLog = globalLogs[globalIndex] || {};
+    return {
+      ...prevState,
+      [oldLeader]: newRole,
+      [rawLog.to]: 'l',
+    };
+  };
+
+  const [isFinished, setIsFinished] = useState(false);
+  const [logs, setLogs] = useState(iLogs);
+  const [labels, setLabels] = useState(globalLabels);
+  const [index, setIndex] = useState(globalIndex);
+  const [roles, setRoles] = useState(globalRoles);
+
+  const rawLog = logs[index] || {};
 
   const log = {
-    from: globalRoles[rawLog.from],
-    to: globalRoles[rawLog.to],
+    from: roles[rawLog.from],
+    to: roles[rawLog.to],
     data: rawLog.data,
   };
 
@@ -56,8 +70,6 @@ const Liveness = () => {
 
   const motionPath = paths[from + to];
   const isReversed = ['l', 'u'].includes(to) && ['f0', 'f1', 'f2', 'f3', 'l'].includes(from);
-
-  console.log(from, to, data, from && to && data ? true : false);
 
   const mapping =
     from && to && data
@@ -77,44 +89,57 @@ const Liveness = () => {
       : defaultMapping;
 
   useEffect(() => {
-    if (globalIndex === globalLogs.length - 1) {
+    if (index === logs.length) {
       const queryNext = async () => {
-        const newLogs = await queryLogs(globalLogs[globalLogs.length - 1]?.timestamp);
+        const newLogs = await queryLogs(logs[logs.length - 1]?.timestamp);
         console.log(newLogs);
-        setGlobalLogs(newLogs);
-        setGlobalIndex(0);
+        setLogs(newLogs);
+        setIndex(0);
       };
       queryNext();
     }
-  }, [globalIndex]);
+  }, [index]);
 
   useEffect(() => {
     if (isFinished) {
-      setGlobalIndex((prevIndex) => prevIndex + 1);
+      setIndex((prevIndex) => prevIndex + 1);
       setIsFinished(false);
     }
   }, [isFinished]);
 
   useEffect(() => {
     if (rawLog.data === 'lc') {
-      setGlobalRoles((prevState) => {
+      setRoles((prevState) => {
         const oldLeader = rawLog.from;
-        const newRole = getRole(rawLog.to, prevState);
+        const newRole = prevState[rawLog.to];
 
-        const updatedRoles = {
+        return {
           ...prevState,
           [oldLeader]: newRole,
           [rawLog.to]: 'l',
         };
-
-        return updatedRoles;
       });
     }
   }, [rawLog]);
 
+  // Syncing the Portico context state values with local state values
+
   useEffect(() => {
-    setGlobalLabels(getLabels(globalRoles));
-  }, [globalRoles]);
+    setGlobalIndex(index);
+  }, [index]);
+
+  useEffect(() => {
+    setGlobalLogs(logs);
+  }, [logs]);
+
+  useEffect(() => {
+    setGlobalLabels(labels);
+  }, [labels]);
+
+  useEffect(() => {
+    setLabels(getLabels(roles));
+    setGlobalRoles(roles);
+  }, [roles]);
 
   return (
     <svg width='1100' height='548' viewBox='0 0 1100 548' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -151,36 +176,20 @@ const Liveness = () => {
       <U filterColor={mapping.entities.u.filter} highlightColor={mapping.entities.u.highlight} />
 
       {/* Follower 0 */}
-      <F0
-        id={globalLabels.f0}
-        filterColor={mapping.entities.f0.filter}
-        highlightColor={mapping.entities.f0.highlight}
-      />
+      <F0 id={labels.f0} filterColor={mapping.entities.f0.filter} highlightColor={mapping.entities.f0.highlight} />
 
       {/* Follower 1 */}
-      <F1
-        id={globalLabels.f1}
-        filterColor={mapping.entities.f1.filter}
-        highlightColor={mapping.entities.f1.highlight}
-      />
+      <F1 id={labels.f1} filterColor={mapping.entities.f1.filter} highlightColor={mapping.entities.f1.highlight} />
 
       {/* Follower 2 */}
-      <F2
-        id={globalLabels.f2}
-        filterColor={mapping.entities.f2.filter}
-        highlightColor={mapping.entities.f2.highlight}
-      />
+      <F2 id={labels.f2} filterColor={mapping.entities.f2.filter} highlightColor={mapping.entities.f2.highlight} />
 
       {/* Follower 3 */}
-      <F3
-        id={globalLabels.f3}
-        filterColor={mapping.entities.f3.filter}
-        highlightColor={mapping.entities.f3.highlight}
-      />
+      <F3 id={labels.f3} filterColor={mapping.entities.f3.filter} highlightColor={mapping.entities.f3.highlight} />
 
       {/* Leader */}
       <L
-        id={globalLabels.l}
+        id={labels.l}
         filterColor={mapping.entities.l.filter}
         highlightColor={mapping.entities.l.highlight}
         livenessColor={data === 'ld' ? '#5C5B5E' : '#FFD875'}

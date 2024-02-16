@@ -43,6 +43,7 @@ const F3 = ({ filterColor, highlightColor, id }) => {
         fontFamily='area-normal'
         fontSize='14'
         letterSpacing='0em'
+        fontWeight={600}
       >
         <tspan x='400.217' y='343.548'>
           {id}

@@ -35,6 +35,7 @@ const R1 = ({ filterColor, highlightColor }) => {
         fontFamily='area-normal'
         fontSize='14'
         letterSpacing='0em'
+        fontWeight={600}
       >
         <tspan x='958' y='290.548'>
           B

@@ -79,6 +79,7 @@ const L = ({ filterColor, highlightColor, id, livenessColor }) => {
         fontFamily='area-normal'
         fontSize='14'
         letterSpacing='0em'
+        fontWeight={600}
       >
         <tspan x='675.217' y='194.548'>
           {id}

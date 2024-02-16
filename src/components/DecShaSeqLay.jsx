@@ -159,7 +159,7 @@ const DecShaSeqLay = () => {
             fontSize='12'
             letterSpacing='0em'
           >
-            <tspan x='576.5' y='245.684'>
+            <tspan x='578' y='245.684'>
               {globalLabels.l}
             </tspan>
           </text>

@@ -47,9 +47,10 @@ const U = ({ filterColor, highlightColor }) => {
         style={{ whiteSpace: 'pre' }}
         fontFamily='area-normal'
         fontSize='14'
+        fontWeight={600}
         letterSpacing='0em'
       >
-        <tspan x='124' y='229.548'>
+        <tspan x='121' y='229.548'>
           User
         </tspan>
       </text>

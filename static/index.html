@@ -1,100 +1,14 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Portico-Testnet</title>
-    <style>
-        .scrollable-text {
-            width: 100%;      /* Width of the text area */
-            height: 1080px;     /* Height of the text area */
-            overflow: auto;    /* Adds a scrollbar if content overflows */
-            border: 1px solid black; /* Optional: adds a border around the text area */
-            padding: 5px;      /* Optional: adds some space inside the box */
-        }
-    </style>
-</head>
-<body>
-    <div id="log" class="scrollable-text">
-    </div>
-
-    <script>
-        const url = 'https://api.theradius.xyz/api/v2/query?org=RadiusLab';
-        const headers = {
-            'Authorization': 'Token rknLawvMCOcv3bbfzKkfPOmt6eL0YOez66m-qbJJvf4QTUxTSnxShSglgZM6xMeBRs-aAkF-7bmvGMMJWjUaxw==',
-            'Content-Type': 'application/vnd.flux'
-        };
-        const timestampData = 'from(bucket: "sequencer_table") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> group(columns: ["id"]) |> last()';
-        var timestamp = "";
-
-        function removeNewLines(str) {
-            return str.replace(/\r/g, '');
-        }
-
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
-
-        function logData(logTimestamp) {
-            var data_prefix = 'from(bucket: "sequencer") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> filter(fn: (r) => r["at"] > "'
-            var data_suffix = '") |> sort(columns: ["at"])'
-            return data_prefix + logTimestamp + data_suffix;
-        }
-
-        function appendLog(newText) {
-            var log = document.getElementById("log");
-
-            // Append new text
-            log.innerHTML += "<p>" + newText + "</p>";
-
-            // Scroll to the bottom
-            log.scrollTop = log.scrollHeight;
-        }
-
-        (async () => {
-            try {
-                // Get Timestamp
-                const getTimestamp = await fetch(url, {
-                    method: 'POST',
-                    headers: headers,
-                    body: timestampData,
-                });
-
-                if (!getTimestamp.ok) {
-                    throw new Error(`HTTP error! status: ${getTimestamp.status}`);
-                }
-
-                const responseData = await getTimestamp.text();
-                const lines = responseData.split('\n');
-                const tokens = lines[lines.length - 3].split(',');
-                timestamp = removeNewLines(tokens[tokens.length - 1]);
-
-                while (true) {
-                    // Get Logs
-                    const getLogs = await fetch(url, {
-                        method: 'POST',
-                        headers: headers,
-                        body: logData(timestamp),
-                    });
-
-                    if (!getLogs.ok) {
-                        throw new Error(`HTTP error! status: ${getLogs.status}`);
-                    }
-
-                    const responseLog = await getLogs.text();
-
-                    if (responseLog.length != 2) {
-                        const logLines = responseLog.split('\n');
-                        const logTokens = logLines[logLines.length - 3].split(',');
-                        timestamp = removeNewLines(logTokens[logTokens.length - 3]);
-
-                        logLines.slice(1, logLines.length - 3).forEach(line => {
-                            appendLog(removeNewLines(line));
-                        });
-                    }
-                }
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        })();
-    </script>
-</body>
+<html lang="en">
+  <head>
+    <link rel="icon" type="image/svg+xml" href="favicon3.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="index.css" rel="stylesheet" />
+    <title>Portico-Logs</title>
+  </head>
+  <body>
+    <div id="log" class="container"></div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="index.js"></script>
+  </body>
 </html>

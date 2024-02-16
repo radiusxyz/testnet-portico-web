@@ -98,11 +98,10 @@ export const Tag = styled.div`
   align-items: center;
   padding: 12px 18px;
   gap: 6px;
-  margin-bottom: 6px;
   border-radius: 9999px;
   border: 1px solid #5c5b5e;
   background: #141414;
-  margin-bottom: 36px;
+  margin-bottom: 6px;
 
   color: #fff;
   font-family: Manrope;

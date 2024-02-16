@@ -15,4 +15,10 @@ html {
   padding: 0;
   background-color: #090a0f;
   -webkit-font-smoothing: antialiased;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+@font-face {
+  font-family: 'Computerfont';
+  src: url('./assets/game_over.ttf') format('truetype');
 }

@@ -152,7 +152,7 @@ const Liveness = () => {
           color={mapping.entities.circle.color}
           isFinished={isFinished}
           motionPath={motionPath}
-          duration={1000}
+          duration={3000}
           data={data}
           isReversed={isReversed}
           setIsFinished={setIsFinished}

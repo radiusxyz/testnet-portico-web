@@ -1,11 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import block from '../assets/images/block.svg';
-import cuid from 'cuid';
-import rollupA from '../assets/images/rollupA.svg';
-import rollupB from '../assets/images/rollupB.svg';
-import axios from 'axios';
-const url = import.meta.env.VITE_INFLUXDB_URL;
+
 import Rollup from './Rollup.jsx';
 
 const ContentWrapper = styled.div`
@@ -39,24 +34,12 @@ const BottomText = styled.p`
   line-height: 14px; /* 87.5% */
 `;
 
-const blocksA = [
-  { rollup: 'A', number: 1, age: 15 },
-  { rollup: 'A', number: 2, age: 10 },
-  { rollup: 'A', number: 3, age: 5 },
-];
-
-const blocksB = [
-  { rollup: 'B', number: 1, age: 9 },
-  { rollup: 'B', number: 2, age: 6 },
-  { rollup: 'B', number: 3, age: 3 },
-];
-
 const Roblox = () => {
   return (
     <ContentWrapper>
       <RollupsWrapper>
-        <Rollup id={0} />
-        <Rollup id={1} />
+        <Rollup id={'A'} />
+        <Rollup id={'B'} />
       </RollupsWrapper>
       <BottomText>Shared sequencing layer is ordering transactions for Rollup A and B</BottomText>
     </ContentWrapper>

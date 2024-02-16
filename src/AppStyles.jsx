@@ -46,8 +46,12 @@ export const MenuText = styled.p`
   margin-left: 16px;
   // TODO: fix the transitioning
   // transition: all 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) 0s;
-  transition: color 1s ease;
-  color: ${({ $active }) => ($active ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 255, 255, 0.16)')};
+  color: #fff;
+  opacity: ${({ $active }) => {
+    console.log('is it active?', $active);
+    return $active ? '1' : '0.16';
+  }};
+  transition: opacity 10s ease;
 
   @media (max-width: 1919px) {
     font-size: 14px;
@@ -174,14 +178,12 @@ export const TransButton = styled(BaseBtn)`
     border: none;
     box-shadow: none;
     color: #fff;
-    text-decoration: underline;
   }
   &:active {
     background: transparent;
     border: none;
     box-shadow: none;
     color: #fff;
-    text-decoration: underline;
   }
 `;
 

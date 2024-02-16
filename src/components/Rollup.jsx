@@ -78,10 +78,10 @@ const topBorderAnimation = keyframes`
 const nonTopBorderAnimation = keyframes`
 from {
   border-radius: 4px;
-  border: 1px solid #DBEAFF;
+  border: 1.5px solid #DBEAFF;
 }
 to {
-  border: 1px solid #fff;
+  border: 1.5px solid #fff;
 }
 `;
 
@@ -182,14 +182,18 @@ const Rollup = ({ id }) => {
 
   async function getHeight(id) {
     const data = {
-      id,
+      jsonrpc: '2.0',
+      method: 'get_current_block_height',
+      params: {
+        rollup_id: id,
+      },
+      id: 1,
     };
 
     try {
-      const response = await axios.post(`${url}/getHeight`, data);
-      const result = response.data;
+      const response = await axios.post('http://sequencer.theradius.xyz:8000', data);
+      const result = response.data.result.block_height;
 
-      console.log(result);
       return result;
     } catch (error) {
       console.error('QUERY ERROR', error);
@@ -198,15 +202,19 @@ const Rollup = ({ id }) => {
 
   async function getTimestamp(id, height) {
     const data = {
-      height,
-      id,
+      jsonrpc: '2.0',
+      method: 'get_block',
+      params: {
+        rollup_id: id,
+        block_height: height,
+      },
+      id: 1,
     };
 
     try {
-      const response = await axios.post(`${url}/getTimestamp`, data);
+      const response = await axios.post(`http://sequencer.theradius.xyz:8000`, data);
       const result = response.data;
 
-      console.log('this is the result', result);
       return result;
     } catch (error) {
       console.error('QUERY ERROR', error);
@@ -220,8 +228,6 @@ const Rollup = ({ id }) => {
         const block0 = await getTimestamp(id, height); // Assuming getTimestamp is defined elsewhere
         const block1 = await getTimestamp(id, height - 1);
         const block2 = await getTimestamp(id, height - 2);
-
-        console.log(block0.timestamp);
 
         const blocks = [
           { height: height, age: Math.floor((Date.now() - block0.timestamp) / 1000) },
@@ -239,7 +245,7 @@ const Rollup = ({ id }) => {
     makeReqs();
 
     // Set up an interval to call makeReqs every 5 seconds
-    const intervalId = setInterval(makeReqs, 5000);
+    const intervalId = setInterval(makeReqs, 7000);
 
     // Clear the interval on component unmount
     return () => clearInterval(intervalId);
@@ -262,7 +268,7 @@ const Rollup = ({ id }) => {
                   </BlockDesc>
                 </IconBlock>
                 <Age>
-                  <AgeText>{blockData.age} secs ago</AgeText>
+                  <AgeText>{isNaN(blockData.age) ? '...' : blockData.age} secs ago</AgeText>
                 </Age>
               </ListItem>
             ))}

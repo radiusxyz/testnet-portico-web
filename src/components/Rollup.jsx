@@ -5,7 +5,7 @@ import cuid from 'cuid';
 import rollupA from '../assets/images/rollupA.svg';
 import rollupB from '../assets/images/rollupB.svg';
 import axios from 'axios';
-import { URL } from '../assets/Data';
+import { ROLLUP_URL } from '../assets/Data';
 
 const RollupContainer = styled.div`
   display: flex;
@@ -195,7 +195,7 @@ const Rollup = ({ id }) => {
     };
 
     try {
-      const response = await axios.post(URL, data);
+      const response = await axios.post(ROLLUP_URL, data);
       const result = response.data.result.block_height;
 
       return result;
@@ -216,7 +216,7 @@ const Rollup = ({ id }) => {
     };
 
     try {
-      const response = await axios.post(URL, data);
+      const response = await axios.post(ROLLUP_URL, data);
       const result = response.data.result.block.timestamp;
 
       console.log('timestamp', result);

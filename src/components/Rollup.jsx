@@ -217,6 +217,7 @@ const Rollup = ({ id }) => {
 
     try {
       const response = await axios.post(ROLLUP_URL, data);
+      console.log('this is response', response);
       const result = response.data.result.block.timestamp;
 
       console.log('timestamp', result);
@@ -231,14 +232,15 @@ const Rollup = ({ id }) => {
     const makeReqs = async () => {
       try {
         const height = await getHeight(id); // Assuming getHeight is defined elsewhere
-        const timestamp0 = await getTimestamp(id, height); // Assuming getTimestamp is defined elsewhere
-        const timestamp1 = await getTimestamp(id, height - 1);
-        const timestamp2 = await getTimestamp(id, height - 2);
+        const timestamp0 = await getTimestamp(id, height - 2); // Assuming getTimestamp is defined elsewhere
+        const timestamp1 = await getTimestamp(id, height - 3);
+        const timestamp2 = await getTimestamp(id, height - 4);
+        console.log(Date.now(), timestamp2);
 
         const blocks = [
-          { height: height, age: Math.floor((Date.now() - timestamp0) / 1000) },
-          { height: height - 1, age: Math.floor((Date.now() - timestamp1) / 1000) },
-          { height: height - 2, age: Math.floor((Date.now() - timestamp2) / 1000) },
+          { height: height - 2, age: Math.floor(Date.now() / 1000 - timestamp0) },
+          { height: height - 3, age: Math.floor(Date.now() / 1000 - timestamp1) },
+          { height: height - 4, age: Math.floor(Date.now() / 1000 - timestamp2) },
         ];
 
         setBlocks(blocks); // Assuming setBlocks is a state setter function defined elsewhere

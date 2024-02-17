@@ -23,6 +23,7 @@ import LR1 from './LR1';
 import Circle from './Circle';
 import Instructions from './Instructions';
 import { usePortico } from '../../contexts/PorticoCtx';
+import { isDefinitionNode } from 'graphql';
 
 const getLabels = (roles) => Object.fromEntries(Object.entries(roles).map(([id, role]) => [role, id]));
 
@@ -42,7 +43,7 @@ const Liveness = () => {
   } = usePortico();
 
   const [isFinished, setIsFinished] = useState(false);
-  const [logs, setLogs] = useState(globalLogs);
+  const [logs, setLogs] = useState(globalLogs || []);
   const [labels, setLabels] = useState(globalLabels);
   const [index, setIndex] = useState(globalIndex);
   const [roles, setRoles] = useState(globalRoles);
@@ -88,16 +89,43 @@ const Liveness = () => {
     };
   };
 
+  const [itIsTimeToFetch, setItIsTimeToFetch] = useState(false);
+
   useEffect(() => {
-    if (index === logs.length) {
-      const queryNext = async () => {
-        const newLogs = await queryLogs(logs[logs.length - 1]?.timestamp);
-        setLogs(newLogs);
-        setIndex(0);
-      };
-      queryNext();
+    if (!itIsTimeToFetch && index >= logs.length - 1 && isFinished) {
+      setItIsTimeToFetch(true);
     }
-  }, [index]);
+  }, [index, logs, isFinished]);
+
+  useEffect(() => {
+    console.log(index, isFinished, logs.length);
+
+    let timeoutId; // Declare a variable to store the timeout ID
+
+    const queryNext = async () => {
+      // Only proceed if the condition is met to avoid unnecessary requests
+      if (itIsTimeToFetch) {
+        const newLogs = await queryLogs(logs[logs.length - 1]?.timestamp);
+        if (newLogs.length > 0) {
+          setIndex(0);
+          setLogs(newLogs);
+        } else {
+          setIndex(0);
+          timeoutId = setTimeout(queryNext, 1000);
+        }
+      }
+    };
+
+    // Initial call to queryNext
+    queryNext();
+
+    // Cleanup function to clear the timeout if the component unmounts
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [index, logs, isFinished]);
 
   useEffect(() => {
     if (isFinished) {

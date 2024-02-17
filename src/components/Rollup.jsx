@@ -5,7 +5,7 @@ import cuid from 'cuid';
 import rollupA from '../assets/images/rollupA.svg';
 import rollupB from '../assets/images/rollupB.svg';
 import axios from 'axios';
-const url = 'http://192.168.12.34:4000';
+import { URL } from '../assets/Data';
 
 const RollupContainer = styled.div`
   display: flex;
@@ -132,6 +132,10 @@ const BlockNumber = styled.span`
   font-style: normal;
   font-weight: 500;
   line-height: 12px; /* 85.714% */
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
 `;
 
 const Age = styled.div`
@@ -191,7 +195,7 @@ const Rollup = ({ id }) => {
     };
 
     try {
-      const response = await axios.post('http://sequencer.theradius.xyz:8000', data);
+      const response = await axios.post(URL, data);
       const result = response.data.result.block_height;
 
       return result;
@@ -212,8 +216,10 @@ const Rollup = ({ id }) => {
     };
 
     try {
-      const response = await axios.post(`http://sequencer.theradius.xyz:8000`, data);
-      const result = response.data;
+      const response = await axios.post(URL, data);
+      const result = response.data.result.block.timestamp;
+
+      console.log('timestamp', result);
 
       return result;
     } catch (error) {
@@ -225,14 +231,14 @@ const Rollup = ({ id }) => {
     const makeReqs = async () => {
       try {
         const height = await getHeight(id); // Assuming getHeight is defined elsewhere
-        const block0 = await getTimestamp(id, height); // Assuming getTimestamp is defined elsewhere
-        const block1 = await getTimestamp(id, height - 1);
-        const block2 = await getTimestamp(id, height - 2);
+        const timestamp0 = await getTimestamp(id, height); // Assuming getTimestamp is defined elsewhere
+        const timestamp1 = await getTimestamp(id, height - 1);
+        const timestamp2 = await getTimestamp(id, height - 2);
 
         const blocks = [
-          { height: height, age: Math.floor((Date.now() - block0.timestamp) / 1000) },
-          { height: height - 1, age: Math.floor((Date.now() - block1.timestamp) / 1000) },
-          { height: height - 2, age: Math.floor((Date.now() - block2.timestamp) / 1000) },
+          { height: height, age: Math.floor((Date.now() - timestamp0) / 1000) },
+          { height: height - 1, age: Math.floor((Date.now() - timestamp1) / 1000) },
+          { height: height - 2, age: Math.floor((Date.now() - timestamp2) / 1000) },
         ];
 
         setBlocks(blocks); // Assuming setBlocks is a state setter function defined elsewhere
@@ -264,7 +270,13 @@ const Rollup = ({ id }) => {
                   <img src={block} alt='cube' />
                   <BlockDesc>
                     <BlockText>Block</BlockText>
-                    <BlockNumber>{String(blockData.height).padStart(8, '0')}</BlockNumber>
+                    <BlockNumber
+                      onClick={() =>
+                        window.open(`http://rollup_${id}.theradius.xyz/blocks/${blockData.height}`, '_blank')
+                      }
+                    >
+                      {String(blockData.height).padStart(8, '0')}
+                    </BlockNumber>
                   </BlockDesc>
                 </IconBlock>
                 <Age>
@@ -273,7 +285,13 @@ const Rollup = ({ id }) => {
               </ListItem>
             ))}
           </BlockList>
-          <ViewAllBtn>View All</ViewAllBtn>
+          <ViewAllBtn
+            onClick={() => {
+              window.open(`http://rollup_${id}.theradius.xyz`, '_blank');
+            }}
+          >
+            View All
+          </ViewAllBtn>
         </Container>
       </Wrapper>
     </RollupContainer>

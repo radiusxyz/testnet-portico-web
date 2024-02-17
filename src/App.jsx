@@ -23,7 +23,7 @@ import {
   Txt,
   IconWrapper,
 } from './AppStyles';
-import Imports, { menuItems, views } from './components/Imports';
+import Imports, { menuItems, initialViews } from './components/Imports';
 
 // Links to redirect
 
@@ -32,11 +32,7 @@ import Imports, { menuItems, views } from './components/Imports';
 // Docs button => https://github.com/radiusxyz
 
 function App() {
-  const handleMenuItem = (e) => {
-    e.preventDefault();
-    setActive(false);
-    setView(views[e.target.id]);
-  };
+  const [views] = useState(initialViews);
   const [view, setView] = useState(views[0]);
   const [active, setActive] = useState(false);
 
@@ -106,6 +102,12 @@ function App() {
     };
   }, [views]);
 
+  const handleMenuItem = (e) => {
+    e.preventDefault();
+    setActive(false);
+    setView(views[e.target.id]);
+  };
+
   return (
     <Root>
       <Imports />
@@ -114,13 +116,12 @@ function App() {
         <Menu>
           {menuItems.map((item) => (
             <MenuItem key={cuid()}>
-              <Dot active={view.id === item.id} />
-              {/* <Beat /> */}
+              <Dot active={view.id == item.id} />
               <MenuText
                 id={item.id}
-                $active={+view.id === item.id}
+                $active={view.id == item.id}
                 onClick={(e) => {
-                  if (+view.id === item.id) return;
+                  if (view.id == item.id) return;
                   handleMenuItem(e);
                 }}
               >

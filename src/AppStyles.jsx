@@ -44,14 +44,9 @@ export const MenuText = styled.p`
   width: 100%;
   cursor: pointer;
   margin-left: 16px;
-  // TODO: fix the transitioning
-  // transition: all 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) 0s;
+  transition: all 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) 0s;
   color: #fff;
-  opacity: ${({ $active }) => {
-    console.log('is it active?', $active);
-    return $active ? '1' : '0.16';
-  }};
-  transition: opacity 10s ease;
+  opacity: ${({ $active }) => ($active ? 1 : 0.16)};
 
   @media (max-width: 1919px) {
     font-size: 14px;

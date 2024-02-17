@@ -16,7 +16,7 @@ export const menuItems = [
   { id: 3, text: 'Multi-Rollup Sequencing' },
 ];
 
-export const views = [
+export const initialViews = [
   {
     id: 0,
     header: 'Decentralized \n Shared Sequencing Layer',
@@ -45,15 +45,15 @@ export const views = [
     header: 'Leader-based \n Shared Sequencer Network',
     body: <Liveness />,
     linksAndButtons: [
-      { type: 1, text: 'View Real-Time Logs', link: 'https://mindful-subtasks-250940.framer.app/' },
-      { type: 0, text: 'Learn more', icon: to, link: 'https://mindful-subtasks-250940.framer.app/' },
+      { type: 1, text: 'View Real-Time Logs', link: 'https://portico-logs.theradius.xyz' },
+      { type: 0, text: 'Learn more', icon: to, link: 'https://docs.theradius.xyz/' },
     ],
   },
   {
     id: 3,
     header: 'Multi-Rollup Sequencing',
     body: <Roblox />,
-    linksAndButtons: [{ type: 0, text: 'Learn more', icon: to, link: 'https://mindful-subtasks-250940.framer.app/' }],
+    linksAndButtons: [{ type: 0, text: 'Learn more', icon: to, link: 'https://docs.theradius.xyz/' }],
   },
 ];
 

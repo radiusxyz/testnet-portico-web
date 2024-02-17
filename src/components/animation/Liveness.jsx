@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { pathColors, highlightColors, filters, paths, defaultMapping, messages, iLogs } from '../../assets/Data';
+import { pathColors, highlightColors, filters, paths, defaultMapping, messages } from '../../assets/Data';
 import Defs from './Defs';
 import U from './U';
 import F1 from './F1';
@@ -101,7 +101,6 @@ const Liveness = () => {
 
   useEffect(() => {
     if (isFinished) {
-      console.log(true);
       if (rawLog.data === 'ld') {
         setRoles(roleSetter);
       }

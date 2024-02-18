@@ -1,20 +1,20 @@
 import axios from 'axios';
-import { TEST_URL, TOKEN } from '../assets/Consts';
+import { URL, TOKEN } from '../assets/Consts';
 
 const parseLogs = (logs) => {
-  return logs;
-  // .split('\n')
-  // .slice(1, -2)
-  // .map((line) => {
-  //   const fields = line.split(',');
+  return logs
+    .split('\n')
+    .slice(1, -2)
+    .map((line) => {
+      const fields = line.split(',');
 
-  //   return {
-  //     data: fields[6]?.replace(/"/g, ''),
-  //     from: fields[10]?.replace(/"/g, ''),
-  //     to: fields[11]?.replace(/"/g, '').replace('\r', ''),
-  //     timestamp: fields[9],
-  //   };
-  // });
+      return {
+        data: fields[6]?.replace(/"/g, ''),
+        from: fields[10]?.replace(/"/g, ''),
+        to: fields[11]?.replace(/"/g, '').replace('\r', ''),
+        timestamp: fields[9],
+      };
+    });
 };
 
 export const useQueryLogs = async (timestamp) => {
@@ -30,8 +30,8 @@ export const useQueryLogs = async (timestamp) => {
   };
 
   try {
-    // const response = await axios.post(`${url}/api/v2/query?org=${org}`, data, { headers });
-    const response = await axios.post(`${TEST_URL}/mockLogs`, data, { headers });
+    // const response = await axios.post(`${URL}/mockLogs`, data, { headers });
+    const response = await axios.post(`${URL}/api/v2/query?org=${org}`, data, { headers });
     const result = parseLogs(response.data);
 
     return [...result];

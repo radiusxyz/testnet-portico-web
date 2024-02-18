@@ -15,7 +15,7 @@ export const Container = styled.div`
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.56);
   border-radius: 7px;
   margin: 50px;
-  gap: 20px;
+  gap: 10px;
 `;
 
 export const Circle = styled.div`
@@ -84,6 +84,7 @@ export const LogLand = styled.div`
   flex-direction: column;
   overflow-y: scroll;
   gap: 8px;
+  margin-bottom: 10px;
 `;
 
 export const Row = styled.div`
@@ -91,7 +92,7 @@ export const Row = styled.div`
   gap: 20px;
   align-items: center;
   width: 100%;
-  padding: 5px 10px;
+  padding: 3px 10px;
 `;
 
 export const HeadRow = styled(Row)`
@@ -100,11 +101,16 @@ export const HeadRow = styled(Row)`
 `;
 
 export const Cell = styled.p`
-  color: white;
   font-weight: 600;
-  font-size: 20px;
+  font-size: 18px;
   flex: 1;
   font-family: 'Source Code Pro', monospace;
+  color: ${({ data }) =>
+    (data === 'block' && '#189EFF') ||
+    (data === 'tx' && '#FF5656') ||
+    (data === 'oc' && '#24F6B7') ||
+    (data === 'lc' && '#FBFF42') ||
+    '#fff'};
 `;
 
 export const HeadCell = styled(Cell)`

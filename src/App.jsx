@@ -69,6 +69,7 @@ function App() {
             what: matching[log.data].what,
             event: matching[log.data].event,
             latency,
+            data: log.data,
             timestamp: log.timestamp,
           };
 
@@ -124,17 +125,17 @@ function App() {
           </HeadRow>
         </WindowBtnsTitleWrapper>
         <LogLand>
-          {displayedLogs.map((log, index) => (
-            <Row key={`row-${log.timestamp}`} ref={index === displayedLogs.length - 1 ? lastItemRef : null}>
-              <Cell>{log.what}</Cell>
-              <Cell>{log.event}</Cell>
-              <Cell>{log.from}</Cell>
-              <Cell>{log.to}</Cell>
-              <Cell>{log.latency}</Cell>
+          {displayedLogs.map((log) => (
+            <Row key={`row-${log.timestamp}`} r>
+              <Cell data={log.data}>{log.what}</Cell>
+              <Cell data={log.data}>{log.event}</Cell>
+              <Cell data={log.data}>{log.from}</Cell>
+              <Cell data={log.data}>{log.to}</Cell>
+              <Cell data={log.data}>{log.latency / 1000}</Cell>
             </Row>
           ))}
           <Row>
-            <BlinkingSquare />
+            <BlinkingSquare ref={lastItemRef} />
           </Row>
         </LogLand>{' '}
       </Container>{' '}

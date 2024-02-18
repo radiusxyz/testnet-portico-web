@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
+  Arrow,
+  ArrowTildeRow,
   BlinkingSquare,
   BtnsContainer,
   Cell,
@@ -10,6 +12,7 @@ import {
   LogLand,
   Red,
   Row,
+  Tilde,
   Title,
   WindowBtnsTitle,
   WindowBtnsTitleWrapper,
@@ -134,9 +137,11 @@ function App() {
               <Cell data={log.data}>{log.latency / 1000}</Cell>
             </Row>
           ))}
-          <Row>
+          <ArrowTildeRow>
+            <Arrow>➜</Arrow>
+            <Tilde>~</Tilde>
             <BlinkingSquare ref={lastItemRef} />
-          </Row>
+          </ArrowTildeRow>
         </LogLand>{' '}
       </Container>{' '}
     </WindowWrapper>

@@ -95,6 +95,18 @@ export const Row = styled.div`
   padding: 3px 10px;
 `;
 
+export const ArrowTildeRow = styled(Row)`
+  gap: 10px;
+`;
+
+export const Arrow = styled.span`
+  color: #55f95d;
+`;
+
+export const Tilde = styled.span`
+  color: #54f9fb;
+`;
+
 export const HeadRow = styled(Row)`
   padding: 2px 10px;
   background: #fff;

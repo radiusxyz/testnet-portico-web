@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { TOKEN, URL, ORG } from '../assets/Data';
+import { TOKEN, URL, ORG, TEST_URL } from '../assets/Data';
 
 export const PorticoCtx = createContext({
   queryRoles: async () => {},
@@ -52,7 +52,7 @@ export const ContextProvider = ({ children }) => {
     };
 
     try {
-      // const response = await axios.post(`${URL}/mockLogs`, data, { headers });
+      // const response = await axios.post(`${TEST_URL}/mockLogs`, data, { headers });
       const response = await axios.post(`${URL}/api/v2/query?org=${ORG}`, data, { headers });
       const result = response.data
         .split('\n')
@@ -95,7 +95,7 @@ export const ContextProvider = ({ children }) => {
       type: 'flux',
     };
     try {
-      // const response = await axios.post(`${URL}/mockRoles`, data, { headers });
+      // const response = await axios.post(`${TEST_URL}/mockRoles`, data, { headers });
       const response = await axios.post(`${URL}/api/v2/query?org=${ORG}`, data, { headers });
       const result = response.data
         .split('\n')

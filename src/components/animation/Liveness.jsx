@@ -23,6 +23,7 @@ import LR1 from './LR1';
 import Circle from './Circle';
 import Instructions from './Instructions';
 import { usePortico } from '../../contexts/PorticoCtx';
+import TestCircle from './TestCircle';
 
 const getLabels = (roles) => Object.fromEntries(Object.entries(roles).map(([id, role]) => [role, id]));
 
@@ -42,7 +43,7 @@ const Liveness = () => {
   } = usePortico();
 
   const [isFinished, setIsFinished] = useState(false);
-  const [logs, setLogs] = useState(globalLogs);
+  const [logs, setLogs] = useState(globalLogs || []);
   const [labels, setLabels] = useState(globalLabels);
   const [index, setIndex] = useState(globalIndex);
   const [roles, setRoles] = useState(globalRoles);
@@ -89,26 +90,62 @@ const Liveness = () => {
   };
 
   useEffect(() => {
-    if (index === logs.length) {
-      const queryNext = async () => {
-        const newLogs = await queryLogs(logs[logs.length - 1]?.timestamp);
-        setLogs(newLogs);
-        setIndex(0);
-      };
-      queryNext();
+    console.log(index, logs.length);
+  }, [index, logs.length]);
+
+  useEffect(() => {
+    console.log(logs);
+  }, [logs]);
+
+  useEffect(() => {
+    if (rawLog.data === 'ld') {
+      setRoles(roleSetter);
     }
   }, [index]);
 
   useEffect(() => {
-    if (isFinished) {
-      if (rawLog.data === 'ld') {
-        setRoles(roleSetter);
-      }
-
+    // If it finished and the index is lesser than the length of the array
+    if (isFinished && index < logs.length) {
+      // restart it, and
       setIsFinished(false);
+
+      // increase the index
       setIndex((prevIndex) => prevIndex + 1);
+
+      // If it is finished and the index is not lesser than the length of the array
+    } else if ((isFinished && index >= logs.length) || (!isFinished && logs.length === 0)) {
+      // then define a function for fetching new logs
+      const queryNext = async () => {
+        const newLogs = await queryLogs(logs[logs.length - 1]?.timestamp || roles.timestamp);
+
+        // if you get a non empty array, then
+        if (newLogs.length > 0) {
+          // set new logs, and
+          setLogs(newLogs);
+          // and set new index
+          setIndex(0);
+          // and start the animation again
+          setIsFinished(false);
+        } else {
+          queryNext();
+        }
+      };
+
+      // call that function
+      queryNext();
     }
-  }, [isFinished, rawLog]);
+  }, [isFinished, logs.length, index, roles]);
+
+  // useEffect(() => {
+  //   if (isFinished) {
+  //     if (rawLog.data === 'ld') {
+  //       setRoles(roleSetter);
+  //     }
+
+  //     setIsFinished(false);
+  //     setIndex((prevIndex) => prevIndex + 1);
+  //   }
+  // }, [isFinished, rawLog]);
 
   // Syncing the Portico context state values with local state values
 
@@ -146,17 +183,14 @@ const Liveness = () => {
       <LR1 stroke={mapping.paths.lr1} />
 
       {/* Dot moving along the path */}
-      {!isFinished && (
-        <Circle
-          color={mapping.entities.circle.color}
-          isFinished={isFinished}
-          motionPath={motionPath}
-          duration={3000}
-          data={data}
-          isReversed={isReversed}
-          setIsFinished={setIsFinished}
-        />
-      )}
+      <TestCircle
+        color={mapping.entities.circle.color}
+        isFinished={isFinished}
+        motionPath={motionPath}
+        duration={1000}
+        isReversed={isReversed}
+        setIsFinished={setIsFinished}
+      />
 
       {/* Entities themselves */}
 

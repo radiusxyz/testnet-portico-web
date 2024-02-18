@@ -1,8 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { Cell, Container, HeadCell, HeadRow, Row } from './Styles';
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  BlinkingSquare,
+  BtnsContainer,
+  Cell,
+  Container,
+  Green,
+  HeadCell,
+  HeadRow,
+  LogLand,
+  Red,
+  Row,
+  Title,
+  WindowBtnsTitle,
+  WindowBtnsTitleWrapper,
+  WindowWrapper,
+  Yellow,
+} from './Styles';
 import { useQueryLogs } from './hooks/useQueryLogs';
 import { useQueryRoles } from './hooks/useQueryRoles';
-import cuid from 'cuid';
 
 const matching = {
   lc: { what: 'leader', event: 'changed' },
@@ -16,6 +31,7 @@ function App() {
   const [index, setIndex] = useState(0);
   const [displayedLogs, setDisplayedLogs] = useState([]);
   const [timestamp, setTimestamp] = useState(0);
+  const lastItemRef = useRef(null);
 
   useEffect(() => {
     const fetchInitTimestamp = async () => {
@@ -38,9 +54,18 @@ function App() {
           // setting latency for each as the current tim minus the prev tim
           // console.log(log.timestamp, dynTimestamp);
           const latency = log.timestamp - dynTimestamp;
+          const from =
+            (log.from === 'A' && 'Rollup A') ||
+            (log.from === 'B' && 'Rollup B') ||
+            (log.from === 'u' && 'user') ||
+            log.from;
+
+          const to =
+            (log.to === 'A' && 'Rollup A') || (log.to === 'B' && 'Rollup B') || (log.to === 'u' && 'user') || log.to;
+
           const humanLog = {
-            from: log.from,
-            to: ['A', 'B'].includes(log.to) ? `Rollup ${log.to}` : log.to,
+            from,
+            to,
             what: matching[log.data].what,
             event: matching[log.data].event,
             latency,
@@ -71,25 +96,49 @@ function App() {
     }
   }, [index, logs]);
 
+  useEffect(() => {
+    if (lastItemRef.current) {
+      // Scroll the last item into view
+      lastItemRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+  }, [index]);
+
   return (
-    <Container>
-      <HeadRow>
-        <HeadCell>What?</HeadCell>
-        <HeadCell>What happened?</HeadCell>
-        <HeadCell>From</HeadCell>
-        <HeadCell>To</HeadCell>
-        <HeadCell>In (seconds)</HeadCell>
-      </HeadRow>
-      {displayedLogs.map((log) => (
-        <Row key={`row-${log.timestamp}`}>
-          <Cell>{log.what}</Cell>
-          <Cell>{log.event}</Cell>
-          <Cell>{log.from}</Cell>
-          <Cell>{log.to}</Cell>
-          <Cell>{log.latency}</Cell>
-        </Row>
-      ))}
-    </Container>
+    <WindowWrapper>
+      <Container>
+        <WindowBtnsTitleWrapper>
+          <WindowBtnsTitle>
+            <BtnsContainer>
+              <Red />
+              <Yellow />
+              <Green />
+            </BtnsContainer>
+            <Title>root@radius: ~/shared sequencer logs</Title>
+          </WindowBtnsTitle>
+          <HeadRow>
+            <HeadCell>What?</HeadCell>
+            <HeadCell>What happened?</HeadCell>
+            <HeadCell>From</HeadCell>
+            <HeadCell>To</HeadCell>
+            <HeadCell>In (seconds)</HeadCell>
+          </HeadRow>
+        </WindowBtnsTitleWrapper>
+        <LogLand>
+          {displayedLogs.map((log, index) => (
+            <Row key={`row-${log.timestamp}`} ref={index === displayedLogs.length - 1 ? lastItemRef : null}>
+              <Cell>{log.what}</Cell>
+              <Cell>{log.event}</Cell>
+              <Cell>{log.from}</Cell>
+              <Cell>{log.to}</Cell>
+              <Cell>{log.latency}</Cell>
+            </Row>
+          ))}
+          <Row>
+            <BlinkingSquare />
+          </Row>
+        </LogLand>{' '}
+      </Container>{' '}
+    </WindowWrapper>
   );
 }
 

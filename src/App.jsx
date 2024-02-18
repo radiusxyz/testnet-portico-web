@@ -75,7 +75,7 @@ function App() {
     if (logs.length > index) {
       appendLog(index);
     }
-  }, [logs]);
+  }, [logs, index]);
 
   return (
     <Container>

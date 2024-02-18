@@ -5,6 +5,8 @@ import { usePortico } from '../contexts/PorticoCtx';
 import { pathColors, highlightColors, filters, paths, defaultMapping, messages } from '../assets/Data';
 
 import TestCircle from './animation/TestCircle';
+import LR0 from './animation/LR0';
+import LR1 from './animation/LR1';
 
 const Test = () => {
   const {
@@ -69,8 +71,8 @@ We have an animation
 */
 
   useEffect(() => {
-    console.log(index);
-  }, [index]);
+    console.log(index, logs.length);
+  }, [index, logs.length]);
 
   const [isFinished, setIsFinished] = useState(false);
 
@@ -119,12 +121,11 @@ We have an animation
 
   return (
     <svg width='200' height='200' viewBox='0 0 200 200' fill='none' xmlns='http://www.w3.org/2000/svg'>
-      <path id='lr0' d='M10 50 L190 50' stroke='red' />
-      <path id='lr1' d='M10 150 L190 150' stroke='blue' />
+      <LR0 stroke={mapping.paths.lr0} />
+      <LR1 stroke={mapping.paths.lr1} />
       <TestCircle
         color={mapping.entities.circle.color}
         isFinished={isFinished}
-        ll={logs.length}
         motionPath={motionPath}
         duration={1000}
         setIsFinished={setIsFinished}

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import cuid from 'cuid';
 
-const TestCircle = ({ color, motionPath, duration, setIsFinished }) => {
+const TestCircle = ({ color, motionPath, duration, isFinished, setIsFinished }) => {
   const animateMotionRef = useRef(null);
 
   useEffect(() => {
@@ -26,13 +26,15 @@ const TestCircle = ({ color, motionPath, duration, setIsFinished }) => {
         animateMotionElement.removeEventListener('endEvent', () => setIsFinished(true));
       }
     };
-  }, [motionPath]);
+  }, [motionPath, isFinished]);
 
   return (
     <circle r={5} fill={color}>
-      <animateMotion ref={animateMotionRef} dur={`${duration}ms`} calcMode='linear'>
-        <mpath key={cuid()} href={`#${motionPath}`} />
-      </animateMotion>
+      {!isFinished && (
+        <animateMotion ref={animateMotionRef} dur={`${duration}ms`} calcMode='linear'>
+          <mpath key={cuid()} href={`#${motionPath}`} />
+        </animateMotion>
+      )}
     </circle>
   );
 };

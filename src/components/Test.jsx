@@ -121,14 +121,14 @@ We have an animation
     <svg width='200' height='200' viewBox='0 0 200 200' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <path id='lr0' d='M10 50 L190 50' stroke='red' />
       <path id='lr1' d='M10 150 L190 150' stroke='blue' />
-      {!isFinished && (
-        <TestCircle
-          color={mapping.entities.circle.color}
-          motionPath={motionPath}
-          duration={3000}
-          setIsFinished={setIsFinished}
-        />
-      )}
+      <TestCircle
+        color={mapping.entities.circle.color}
+        isFinished={isFinished}
+        ll={logs.length}
+        motionPath={motionPath}
+        duration={1000}
+        setIsFinished={setIsFinished}
+      />
     </svg>
   );
 };

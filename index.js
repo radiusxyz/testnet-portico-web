@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { iLogs, iRoles } from './data.js';
+import { iLogs, iRoles, mock2 } from './data.js';
 
 const app = express();
 app.use(cors());
@@ -49,10 +49,22 @@ app.post('/logs', (req, res) => {
   }
 });
 
-app.post('/mock', (req, res) => {
-  const { timestamp } = req.body;
-  console.log(timestamp);
-  const response = iLogs.filter((log) => log.timestamp > timestamp);
+const iRoles2 = {
+  '0x1': 'l',
+  '0x2': 'f0',
+  '0x3': 'f1',
+  '0x4': 'f2',
+  '0x5': 'f3',
+  A: 'r0',
+  B: 'r1',
+  u: 'u',
+  timestamp: Date.now(),
+};
+
+app.post('/mockRoles', (req, res) => {
+  // const response = iLogs.filter((log) => log.timestamp > timestamp);
+  iRoles2.timestamp = Date.now();
+  const response = { ...iRoles2 };
   console.log(response);
   res.json(response);
   // if (index < 3) {
@@ -65,6 +77,55 @@ app.post('/mock', (req, res) => {
   //     res.json(response);
   //   }, 5000);
   // }
+});
+
+app.post('/mockLogs', (req, res) => {
+  const { timestamp } = req.body;
+  console.log(timestamp);
+  // const response = iLogs.filter((log) => log.timestamp > timestamp);
+
+  // res.json(response);
+  // if (index < 3) {
+  //   res.json([]);
+  //   ++index;
+  // } else {
+  setTimeout(() => {
+    // roles.timestamp = response[response.length - 1]?.timestamp;
+    // index = 0;
+    iRoles2.timestamp = Date.now();
+
+    const iLogs2 = [
+      { from: '0x1', to: '0x2', data: 'lc' },
+      { from: '0x2', to: '0x1', data: 'lc' },
+      { from: 'u', to: '0x3', data: 'tx' },
+      { from: '0x3', to: '0x1', data: 'tx' },
+      { from: '0x1', to: '0x4', data: 'oc' },
+      { from: '0x1', to: '0x2', data: 'oc' },
+      { from: '0x1', to: '0x3', data: 'oc' },
+      { from: '0x3', to: 'u', data: 'oc' },
+      { from: '0x1', to: 'B', data: 'block' },
+
+      { from: '0x1', to: '0x2', data: 'lc' },
+
+      { from: 'u', to: '0x2', data: 'tx' },
+      { from: '0x2', to: '0x1', data: 'oc' },
+      { from: '0x2', to: '0x3', data: 'oc' },
+      { from: '0x2', to: '0x4', data: 'oc' },
+      { from: '0x2', to: 'u', data: 'oc' },
+      { from: '0x2', to: 'A', data: 'block' },
+
+      { from: '0x2', to: '0x1', data: 'lc' },
+      { from: '0x1', to: '0x3', data: 'lc' },
+      { from: '0x3', to: '0x4', data: 'lc' },
+      { from: 'u', to: '0x4', data: 'tx' },
+      { from: '0x4', to: '0x5', data: 'lc' },
+      { from: '0x5', to: '0x1', data: 'lc' },
+    ].map((log, index) => {
+      return { ...log, timestamp: iRoles2.timestamp + index * index + 1 };
+    });
+
+    res.json(iLogs2);
+  }, 1000);
 });
 
 const A = [];

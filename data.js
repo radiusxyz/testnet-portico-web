@@ -11,6 +11,8 @@ export const iRoles = {
 };
 
 export const iLogs = [
+  { from: '0x1', to: '0x2', data: 'lc' },
+  { from: '0x2', to: '0x1', data: 'lc' },
   { from: 'u', to: '0x3', data: 'tx' },
   { from: '0x3', to: '0x1', data: 'tx' },
   { from: '0x1', to: '0x4', data: 'oc' },
@@ -29,6 +31,18 @@ export const iLogs = [
   { from: '0x2', to: 'A', data: 'block' },
 
   { from: '0x2', to: '0x1', data: 'lc' },
+  { from: '0x1', to: '0x3', data: 'lc' },
+  { from: '0x3', to: '0x4', data: 'lc' },
+  { from: 'u', to: '0x4', data: 'tx' },
+  { from: '0x4', to: '0x5', data: 'lc' },
+  { from: '0x5', to: '0x1', data: 'lc' },
 ].map((log, index) => {
-  return { ...log, timestamp: iRoles.timestamp + index };
+  return { ...log, timestamp: iRoles.timestamp + index * index + 1 };
+});
+
+export const mock2 = [
+  { from: '0x1', to: 'A', data: 'block' },
+  { from: '0x1', to: 'B', data: 'block' },
+].map((log, index) => {
+  return { ...log, timestamp: iRoles.timestamp + index + 1 };
 });

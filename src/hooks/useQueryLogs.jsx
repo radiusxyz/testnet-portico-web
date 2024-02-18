@@ -2,7 +2,6 @@ import axios from 'axios';
 import { TEST_URL, TOKEN } from '../assets/Consts';
 
 const parseLogs = (logs) => {
-  console.log(logs);
   return logs;
   // .split('\n')
   // .slice(1, -2)

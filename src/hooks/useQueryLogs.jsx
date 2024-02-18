@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { URL, TOKEN } from '../assets/Consts';
+import { URL, TOKEN, ORG } from '../assets/Consts';
 
 const parseLogs = (logs) => {
   return logs
@@ -31,7 +31,7 @@ export const useQueryLogs = async (timestamp) => {
 
   try {
     // const response = await axios.post(`${URL}/mockLogs`, data, { headers });
-    const response = await axios.post(`${URL}/api/v2/query?org=${org}`, data, { headers });
+    const response = await axios.post(`${URL}/api/v2/query?org=${ORG}`, data, { headers });
     const result = parseLogs(response.data);
 
     return [...result];

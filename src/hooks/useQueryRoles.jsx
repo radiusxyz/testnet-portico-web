@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { URL, TOKEN } from '../assets/Consts';
+import { URL, TOKEN, ORG } from '../assets/Consts';
 
 const parseRoles = (roles) => {
   return roles
@@ -29,7 +29,7 @@ export const useQueryRoles = async () => {
   };
   try {
     // const response = await axios.post(`${URL}/mockRoles`, data, { headers });
-    const response = await axios.post(`${URL}/api/v2/query?org=${org}`, data, { headers });
+    const response = await axios.post(`${URL}/api/v2/query?org=${ORG}`, data, { headers });
     const result = parseRoles(response.data);
 
     return { ...result };

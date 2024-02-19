@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import to from './assets/images/to.svg';
 import cuid from 'cuid';
 import Dot from './components/Dot';
+import Terminal from './components/Terminal';
 
 import {
   Root,
@@ -24,6 +25,7 @@ import {
   IconWrapper,
 } from './AppStyles';
 import Imports, { menuItems, initialViews } from './components/Imports';
+import { Overlay } from './components/TerminalStyles';
 
 // Links to redirect
 
@@ -35,6 +37,11 @@ function App() {
   const [views] = useState(initialViews);
   const [view, setView] = useState(views[0]);
   const [active, setActive] = useState(false);
+  const [showTerminal, setShowTerminal] = useState(false);
+
+  const handleTerminal = () => {
+    setShowTerminal((prevState) => !prevState);
+  };
 
   useEffect(() => {
     // First, deactivate the class to reset the state
@@ -115,7 +122,7 @@ function App() {
       <Content>
         <Menu>
           {menuItems.map((item) => (
-            <MenuItem key={cuid()}>
+            <MenuItem key={item.id}>
               <Dot active={view.id == item.id} />
               <MenuText
                 id={item.id}
@@ -156,7 +163,16 @@ function App() {
                     )}
                   </BaseBtn>
                 ) : (
-                  <TransButton key={cuid()} onClick={() => window.open(btn.link, '_blank')}>
+                  <TransButton
+                    key={cuid()}
+                    onClick={() => {
+                      if (view.id === 2) {
+                        handleTerminal();
+                        return;
+                      }
+                      window.open(btn.link, '_blank');
+                    }}
+                  >
                     <Txt>{btn.text}</Txt>
                     {btn.icon && (
                       <IconWrapper>
@@ -168,6 +184,12 @@ function App() {
               )}
             </LinksButtons>
           </Main>
+          {showTerminal && (
+            <>
+              <Overlay onClick={handleTerminal} />
+              <Terminal handleTerminal={handleTerminal} />
+            </>
+          )}
         </MainWrapper>
       </Content>
     </Root>

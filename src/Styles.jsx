@@ -14,7 +14,7 @@ export const Container = styled.div`
   flex-direction: column;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.56);
   border-radius: 7px;
-  margin: 50px;
+  margin: ${({ expand }) => (expand ? 0 : 50)}px;
   gap: 10px;
 `;
 
@@ -22,6 +22,10 @@ export const Circle = styled.div`
   border-radius: 50%;
   width: 14px;
   height: 14px;
+  &:hover {
+    filter: invert(1);
+    cursor: pointer;
+  }
 `;
 
 export const WindowBtnsTitleWrapper = styled.div`
@@ -37,7 +41,7 @@ export const WindowBtnsTitleWrapper = styled.div`
 
 export const WindowBtnsTitle = styled.div`
   width: 100%;
-  display: flex;
+  display: ${({ expand }) => (expand ? 'none' : 'flex')};
   min-height: 40px;
   align-items: center;
   padding: 0 14px;

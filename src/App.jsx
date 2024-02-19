@@ -35,7 +35,16 @@ function App() {
   const [index, setIndex] = useState(0);
   const [displayedLogs, setDisplayedLogs] = useState([]);
   const [timestamp, setTimestamp] = useState(0);
+  const [expand, setExpand] = useState(false);
   const lastItemRef = useRef(null);
+
+  const handleExpand = () => {
+    setExpand(true);
+  };
+
+  const handleClose = () => {
+    window.close();
+  };
 
   useEffect(() => {
     const fetchInitTimestamp = async () => {
@@ -116,22 +125,22 @@ function App() {
 
   return (
     <WindowWrapper>
-      <Container>
+      <Container expand={expand}>
         <WindowBtnsTitleWrapper>
-          <WindowBtnsTitle>
+          <WindowBtnsTitle expand={expand}>
             <BtnsContainer>
-              <Red />
-              <Yellow />
-              <Green />
+              <Red onClick={handleClose} />
+              <Yellow onClick={handleClose} />
+              <Green onClick={handleExpand} />
             </BtnsContainer>
             <Title>root@radius: ~/shared sequencer logs</Title>
           </WindowBtnsTitle>
           <HeadRow>
-            <HeadCell>what?</HeadCell>
-            <HeadCell>what happened?</HeadCell>
+            <HeadCell>event</HeadCell>
+            <HeadCell>status</HeadCell>
             <HeadCell>from</HeadCell>
             <HeadCell>to</HeadCell>
-            <HeadCell>in (seconds)</HeadCell>
+            <HeadCell>latency (sec)</HeadCell>
             <HeadCell>timestamp</HeadCell>
           </HeadRow>
         </WindowBtnsTitleWrapper>

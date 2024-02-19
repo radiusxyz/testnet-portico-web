@@ -48,46 +48,50 @@ function App() {
 
   useEffect(() => {
     if (index >= logs.length && timestamp !== 0) {
-      const fetch = async () => {
-        // fetch logs by
-        const logs = await useQueryLogs(timestamp);
-        let dynTimestamp = timestamp;
-        // transform them
-        const humanLogs = logs.map((log, index) => {
-          // setting latency for each as the current tim minus the prev tim
+      let timeoutId;
+      const fetch = () => {
+        timeoutId = setTimeout(async () => {
+          // fetch logs by
+          const logs = await useQueryLogs(timestamp);
+          let dynTimestamp = timestamp;
+          // transform them
+          const humanLogs = logs.map((log, index) => {
+            // setting latency for each as the current tim minus the prev tim
 
-          const latency = (log.timestamp - dynTimestamp) / 1000000;
-          const from =
-            (log.from === 'A' && 'Rollup A') ||
-            (log.from === 'B' && 'Rollup B') ||
-            (log.from === 'u' && 'user') ||
-            log.from;
+            const latency = (log.timestamp - dynTimestamp) / 1000000;
+            const from =
+              (log.from === 'A' && 'Rollup A') ||
+              (log.from === 'B' && 'Rollup B') ||
+              (log.from === 'u' && 'user') ||
+              log.from;
 
-          const to =
-            (log.to === 'A' && 'Rollup A') || (log.to === 'B' && 'Rollup B') || (log.to === 'u' && 'user') || log.to;
+            const to =
+              (log.to === 'A' && 'Rollup A') || (log.to === 'B' && 'Rollup B') || (log.to === 'u' && 'user') || log.to;
 
-          const humanLog = {
-            from,
-            id: index + cuid(),
-            to,
-            what: matching[log.data].what,
-            event: matching[log.data].event,
-            latency,
-            data: log.data,
-            timestamp: new Date(log.timestamp / 1000000).toLocaleTimeString(),
-          };
+            const humanLog = {
+              from,
+              id: index + cuid(),
+              to,
+              what: matching[log.data].what,
+              event: matching[log.data].event,
+              latency: log.from.includes('0x') ? latency : 0,
+              data: log.data,
+              timestamp: new Date(log.timestamp / 1000000).toLocaleTimeString(),
+            };
 
-          // save the current log's timestamp for the next log
-          dynTimestamp = log.timestamp;
-          return humanLog;
-        });
+            // save the current log's timestamp for the next log
+            dynTimestamp = log.timestamp;
+            return humanLog;
+          });
 
-        // last log's timestamp is saved in the timestamp state for the next fetch
-        setLogs([...humanLogs]);
-        setIndex(0);
-        setTimestamp(dynTimestamp);
+          // last log's timestamp is saved in the timestamp state for the next fetch
+          setLogs([...humanLogs]);
+          setIndex(0);
+          setTimestamp(dynTimestamp);
+        }, 1000);
       };
       fetch();
+      return () => clearTimeout(timeoutId);
     }
   }, [timestamp, index, logs]);
 
@@ -138,7 +142,11 @@ function App() {
               <Cell data={log.data}>{log.event}</Cell>
               <Cell data={log.data}>{log.from}</Cell>
               <Cell data={log.data}>{log.to}</Cell>
-              <Cell data={log.data}>{Math.round((log.latency / 1000 + Number.EPSILON) * 1000) / 1000}</Cell>
+              <Cell data={log.data}>
+                {log.from === 'user' || log.data === 'block'
+                  ? ''
+                  : Math.round((log.latency / 1000 + Number.EPSILON) * 1000) / 1000}
+              </Cell>
               <Cell data={log.data}>{log.timestamp}</Cell>
             </Row>
           ))}

@@ -104,6 +104,7 @@ const Liveness = () => {
   }, [index]);
 
   useEffect(() => {
+    let id;
     // If it finished and the index is lesser than the length of the array
     if (isFinished && index < logs.length) {
       // restart it, and
@@ -116,24 +117,30 @@ const Liveness = () => {
     } else if ((isFinished && index >= logs.length) || (!isFinished && logs.length === 0)) {
       // then define a function for fetching new logs
       const queryNext = async () => {
-        const newLogs = await queryLogs(logs[logs.length - 1]?.timestamp || roles.timestamp);
+        id = setTimeout(async () => {
+          const newLogs = await queryLogs(logs[logs.length - 1]?.timestamp || roles.timestamp);
 
-        // if you get a non empty array, then
-        if (newLogs.length > 0) {
-          // set new logs, and
-          setLogs(newLogs);
-          // and set new index
-          setIndex(0);
-          // and start the animation again
-          setIsFinished(false);
-        } else {
-          queryNext();
-        }
+          // if you get a non empty array, then
+          if (newLogs.length > 0) {
+            // set new logs, and
+            setLogs(newLogs);
+            // and set new index
+            setIndex(0);
+            // and start the animation again
+            setIsFinished(false);
+          } else {
+            queryNext();
+          }
+        }, 1000);
       };
 
       // call that function
       queryNext();
     }
+
+    return () => {
+      clearTimeout(id);
+    };
   }, [isFinished, logs.length, index, roles]);
 
   // useEffect(() => {

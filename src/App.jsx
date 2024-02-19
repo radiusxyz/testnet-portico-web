@@ -53,10 +53,8 @@ function App() {
         const logs = await useQueryLogs(timestamp);
         let dynTimestamp = timestamp;
         // transform them
-        const humanLogs = logs.map((log) => {
+        const humanLogs = logs.map((log, index) => {
           // setting latency for each as the current tim minus the prev tim
-          // console.log(log.timestamp, dynTimestamp);
-          console.log(log.timestamp, timestamp, log.timestamp - timestamp);
 
           const latency = (log.timestamp - dynTimestamp) / 1000000;
           const from =
@@ -70,7 +68,7 @@ function App() {
 
           const humanLog = {
             from,
-            id: cuid(),
+            id: index + cuid(),
             to,
             what: matching[log.data].what,
             event: matching[log.data].event,
@@ -96,10 +94,11 @@ function App() {
   useEffect(() => {
     console.log(logs.length);
     if (index < logs.length) {
-      setTimeout(() => {
+      const timeoutId = setTimeout(() => {
         setDisplayedLogs((prevLogs) => [...prevLogs, logs[index]]);
         setIndex((prevIndex) => prevIndex + 1);
       }, logs[index].latency);
+      return () => clearTimeout(timeoutId);
     }
   }, [index, logs]);
 
@@ -124,12 +123,12 @@ function App() {
             <Title>root@radius: ~/shared sequencer logs</Title>
           </WindowBtnsTitle>
           <HeadRow>
-            <HeadCell>What?</HeadCell>
-            <HeadCell>What happened?</HeadCell>
-            <HeadCell>From</HeadCell>
-            <HeadCell>To</HeadCell>
-            <HeadCell>In (seconds)</HeadCell>
-            <HeadCell>Timestamp</HeadCell>
+            <HeadCell>what?</HeadCell>
+            <HeadCell>what happened?</HeadCell>
+            <HeadCell>from</HeadCell>
+            <HeadCell>to</HeadCell>
+            <HeadCell>in (seconds)</HeadCell>
+            <HeadCell>timestamp</HeadCell>
           </HeadRow>
         </WindowBtnsTitleWrapper>
         <LogLand>
@@ -148,8 +147,8 @@ function App() {
             <Tilde>~</Tilde>
             <BlinkingSquare ref={lastItemRef} />
           </ArrowTildeRow>
-        </LogLand>{' '}
-      </Container>{' '}
+        </LogLand>
+      </Container>
     </WindowWrapper>
   );
 }

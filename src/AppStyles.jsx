@@ -6,6 +6,7 @@ export const Root = styled.div`
   height: 100%;
   background: #090a0f;
   flex-direction: column;
+  position: relative;
 `;
 
 export const Content = styled.div`
@@ -44,7 +45,7 @@ export const MenuText = styled.p`
   width: 100%;
   cursor: pointer;
   margin-left: 16px;
-  transition: all 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) 0s;
+  transition: all 0.5s cubic-bezier(0.52, 0, 0.23, 1.02);
   color: #fff;
   opacity: ${({ $active }) => ($active ? 1 : 0.16)};
 
@@ -151,6 +152,7 @@ export const BaseBtn = styled.button`
   padding: 16px 30px;
   cursor: pointer;
   color: #fff;
+  transition: all 0.5s cubic-bezier(0.52, 0, 0.23, 1.02);
 
   &:hover {
     border: 1px solid var(--white-100, #fff);

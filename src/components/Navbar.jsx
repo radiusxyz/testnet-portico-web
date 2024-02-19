@@ -49,6 +49,7 @@ const FollowButton = styled.button`
   background: transparent;
   height: 46px;
   color: rgba(255, 255, 255, 0.8);
+  transition: all 0.5s cubic-bezier(0.52, 0, 0.23, 1.02);
 
   &:hover {
     border: 1px solid rgba(255, 255, 255, 0.6);
@@ -79,7 +80,7 @@ const IconContainer = styled.div`
   width: 46px;
   height: 46px;
   padding: 14px;
-  transition: width 0.3s ease-in-out, border-radius 0.3s ease-in-out;
+  transition: all 0.5s cubic-bezier(0.52, 0, 0.23, 1.02);
   overflow: hidden;
   cursor: pointer;
 

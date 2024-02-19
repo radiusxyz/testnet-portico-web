@@ -21,6 +21,7 @@ import {
 } from './Styles';
 import { useQueryLogs } from './hooks/useQueryLogs';
 import { useQueryRoles } from './hooks/useQueryRoles';
+import cuid from 'cuid';
 
 const matching = {
   lc: { what: 'leader', event: 'changed' },
@@ -51,12 +52,13 @@ function App() {
         // fetch logs by
         const logs = await useQueryLogs(timestamp);
         let dynTimestamp = timestamp;
-
         // transform them
         const humanLogs = logs.map((log) => {
           // setting latency for each as the current tim minus the prev tim
           // console.log(log.timestamp, dynTimestamp);
-          const latency = log.timestamp - dynTimestamp;
+          console.log(log.timestamp, timestamp, log.timestamp - timestamp);
+
+          const latency = (log.timestamp - dynTimestamp) / 1000000;
           const from =
             (log.from === 'A' && 'Rollup A') ||
             (log.from === 'B' && 'Rollup B') ||
@@ -68,12 +70,13 @@ function App() {
 
           const humanLog = {
             from,
+            id: cuid(),
             to,
             what: matching[log.data].what,
             event: matching[log.data].event,
             latency,
             data: log.data,
-            timestamp: log.timestamp,
+            timestamp: new Date(log.timestamp / 1000000).toLocaleTimeString(),
           };
 
           // save the current log's timestamp for the next log
@@ -101,6 +104,7 @@ function App() {
   }, [index, logs]);
 
   useEffect(() => {
+    console.log(logs);
     if (lastItemRef.current) {
       // Scroll the last item into view
       lastItemRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -125,16 +129,18 @@ function App() {
             <HeadCell>From</HeadCell>
             <HeadCell>To</HeadCell>
             <HeadCell>In (seconds)</HeadCell>
+            <HeadCell>Timestamp</HeadCell>
           </HeadRow>
         </WindowBtnsTitleWrapper>
         <LogLand>
           {displayedLogs.map((log) => (
-            <Row key={`row-${log.timestamp}`} r>
+            <Row key={`row-${log.id}`}>
               <Cell data={log.data}>{log.what}</Cell>
               <Cell data={log.data}>{log.event}</Cell>
               <Cell data={log.data}>{log.from}</Cell>
               <Cell data={log.data}>{log.to}</Cell>
-              <Cell data={log.data}>{log.latency / 1000}</Cell>
+              <Cell data={log.data}>{Math.round((log.latency / 1000 + Number.EPSILON) * 1000) / 1000}</Cell>
+              <Cell data={log.data}>{log.timestamp}</Cell>
             </Row>
           ))}
           <ArrowTildeRow>

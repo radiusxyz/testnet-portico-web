@@ -4,6 +4,10 @@ export const URL = import.meta.env.VITE_INFLUXDB_URL;
 export const ORG = import.meta.env.VITE_INFLUXDB_ORG;
 export const ROLLUP_URL = import.meta.env.VITE_ROLLUP_URL;
 
+export const println = (target) => {
+  console.log(target);
+};
+
 export const defaultMapping = {
   entities: {
     u: { highlight: 'none', filter: 'none' },

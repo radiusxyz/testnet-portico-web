@@ -40,6 +40,7 @@ const Liveness = () => {
     setGlobalIndex,
 
     queryLogs,
+    queryRoles,
   } = usePortico();
 
   const [isFinished, setIsFinished] = useState(false);
@@ -90,12 +91,10 @@ const Liveness = () => {
   };
 
   useEffect(() => {
-    console.log(index, logs.length);
-  }, [index, logs.length]);
-
-  useEffect(() => {
-    console.log(logs);
-  }, [logs]);
+    if (Object.keys(roles).length === 0) {
+      setRoles(globalRoles);
+    }
+  }, [globalRoles]);
 
   useEffect(() => {
     if (rawLog.data === 'ld') {
@@ -154,6 +153,15 @@ const Liveness = () => {
   //   }
   // }, [isFinished, rawLog]);
 
+  // Consolling
+  useEffect(() => {
+    console.log(index, logs.length, logs);
+  }, [logs, index]);
+
+  useEffect(() => {
+    console.log(roles);
+  }, [roles]);
+
   // Syncing the Portico context state values with local state values
 
   useEffect(() => {
@@ -194,7 +202,7 @@ const Liveness = () => {
         color={mapping.entities.circle.color}
         isFinished={isFinished}
         motionPath={motionPath}
-        duration={1000}
+        duration={3000}
         isReversed={isReversed}
         setIsFinished={setIsFinished}
       />

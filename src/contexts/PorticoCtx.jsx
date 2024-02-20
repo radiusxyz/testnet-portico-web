@@ -25,18 +25,16 @@ export const ContextProvider = ({ children }) => {
   const [index, setIndex] = useState(0);
   const [logs, setLogs] = useState([]);
 
-  const [logsReady, setLogsReady] = useState(false);
   const [roles, setRoles] = useState({});
   const [labels, setLabels] = useState({});
 
-  // useEffect(() => {
-  //   // Set the initial labels
-  //   const swapped = {};
-  //   Object.entries(roles).forEach(([key, value]) => {
-  //     swapped[value] = key;
-  //   });
-  //   setLabels(swapped);
-  // }, [roles]);
+  useEffect(() => {
+    const swapped = {};
+    Object.entries(roles).forEach(([key, value]) => {
+      swapped[value] = key;
+    });
+    setLabels(swapped);
+  }, [roles]);
 
   async function queryLogs(timestamp) {
     const query = `from(bucket: "sequencer") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> filter(fn: (r) => r["at"] > "${timestamp}") |> sort(columns: ["at"])`;
@@ -117,42 +115,50 @@ export const ContextProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    const runReqs = async () => {
-      const roles = (await queryRoles()) || {};
-      console.log('Initial roles: ', roles);
+    let timeoutId0;
+    let timeoutId1;
 
-      // Set the initial roles
-      setRoles(roles);
-
-      // Set the initial labels
-      const swapped = {};
-      Object.entries(roles).forEach(([key, value]) => {
-        swapped[value] = key;
-      });
-      setLabels(swapped);
-
-      // Get the initial logs
-      if (!logsReady) {
-        const checkLogs = async () => {
-          const logs = await queryLogs(roles.timestamp);
-          console.log(logs);
-          if (logs.length) {
-            console.log('Logs are ready');
-
-            // Set the initial logs
-            setLogs(logs);
-            setLogsReady(true);
-          } else {
-            console.log('Logs are not ready, checking again...');
-            setTimeout(checkLogs, 1000);
-          }
-        };
-        setTimeout(checkLogs, 1000);
+    // Function to fetch roles
+    const fetchRoles = async () => {
+      if (Object.keys(roles).length === 0) {
+        // Check if roles are not yet fetched
+        const fetchedRoles = (await queryRoles()) || {};
+        if (fetchedRoles && Object.keys(fetchedRoles).length) {
+          setRoles(fetchedRoles); // Set roles if fetched successfully
+          // Once roles are set, start fetching logs
+          console.log('hello1');
+          console.log(fetchedRoles);
+          fetchLogs(fetchedRoles);
+        } else {
+          // Retry fetching roles if not successful
+          timeoutId0 = setTimeout(fetchRoles, 1000);
+        }
       }
     };
-    console.log('Checking for logs...');
-    runReqs();
-  }, [logsReady]);
+
+    // Function to fetch logs
+    const fetchLogs = async (fetchedRoles) => {
+      if (Object.keys(fetchedRoles).length !== 0) {
+        // Ensure roles are set before fetching logs
+        const logs = await queryLogs(fetchedRoles.timestamp);
+        console.log('hello2');
+        if (logs && logs.length) {
+          setLogs(logs);
+        }
+        // Continue to fetch logs every 1 second as long as roles are set
+        timeoutId1 = setTimeout(() => {
+          fetchLogs(fetchedRoles);
+        }, 1000);
+      }
+    };
+
+    fetchRoles();
+
+    return () => {
+      clearTimeout(timeoutId0); // Cleanup timeout on component unmount
+      clearTimeout(timeoutId1); // Cleanup timeout on component unmount
+    };
+  }, []);
 
   return (
     <PorticoCtx.Provider

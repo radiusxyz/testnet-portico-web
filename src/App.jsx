@@ -115,7 +115,7 @@ function App() {
       <Content>
         <Menu>
           {menuItems.map((item) => (
-            <MenuItem key={cuid()}>
+            <MenuItem key={item.text}>
               <Dot active={view.id == item.id} />
               <MenuText
                 id={item.id}

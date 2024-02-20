@@ -39,7 +39,7 @@ function App() {
   const lastItemRef = useRef(null);
 
   const handleExpand = () => {
-    setExpand(true);
+    setExpand((prevState) => !prevState);
   };
 
   const handleClose = () => {
@@ -125,7 +125,7 @@ function App() {
 
   return (
     <WindowWrapper>
-      <Container expand={expand}>
+      <Container expand={expand} onDoubleClick={handleExpand}>
         <WindowBtnsTitleWrapper>
           <WindowBtnsTitle expand={expand}>
             <BtnsContainer>

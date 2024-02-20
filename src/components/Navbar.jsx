@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   top: 0;
   justify-content: space-between;
   align-items: center;
-  height: 74px;
+  min-height: 74px;
   padding: 0 48px;
   border-bottom: 1px solid rgba(92, 91, 94, 0.4);
 `;

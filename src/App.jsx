@@ -132,14 +132,14 @@ function App() {
         </Menu>
         <MainWrapper>
           <Main key={view.id} className={active ? 'active' : ''}>
-            {view.tag && (
+            {/* {view.tag && (
               <TagContainer>
                 <Tag>
                   <img src={view.tag.icon} />
                   {view.tag.text}
                 </Tag>
               </TagContainer>
-            )}
+            )} */}
             <Head>{view.header}</Head>
             <Body>
               <ImgWrapper>{view.body}</ImgWrapper>

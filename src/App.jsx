@@ -48,7 +48,7 @@ function App() {
 
   useEffect(() => {
     let isThrottled = false;
-    const throttleDuration = 300; // Time in milliseconds
+    const throttleDuration = 1500; // Time in milliseconds
 
     const changeView = (direction) => {
       if (!isThrottled) {

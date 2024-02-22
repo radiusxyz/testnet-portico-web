@@ -47,7 +47,7 @@ export const initialViews = [
       icon: asterisk,
       text: 'Liveness',
     },
-    header: 'RAFT for Sequencing Liveness \n of Rollups',
+    header: 'Leader-Based Sequencing Liveness',
     body: <Liveness />,
     linksAndButtons: [
       { type: 1, text: 'View Real-Time', link: 'https://portico-logs.theradius.xyz' },

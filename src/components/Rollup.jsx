@@ -261,7 +261,7 @@ const Rollup = ({ id }) => {
 
   return (
     <RollupContainer>
-      <RollupTitle src={id === 0 ? rollupA : rollupB} alt='rollup-icon-with-rollups-title' />
+      <RollupTitle src={id === 'A' ? rollupA : rollupB} alt='rollup-icon-with-rollups-title' />
       <Wrapper>
         <Container>
           <ListTitle>Latest Blocks</ListTitle>

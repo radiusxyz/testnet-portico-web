@@ -41,7 +41,7 @@ const Roblox = () => {
         <Rollup id={'A'} />
         <Rollup id={'B'} />
       </RollupsWrapper>
-      <BottomText>Shared sequencing layer is ordering transactions for Rollup A and B</BottomText>
+      <BottomText>Shared sequencer sends blocks to rollup operators</BottomText>
     </ContentWrapper>
   );
 };

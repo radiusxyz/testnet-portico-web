@@ -11,8 +11,8 @@ import PreloadVideo from './PreloadVideo';
 
 export const menuItems = [
   { id: 0, text: 'Decentralized Shared Sequencing Layer' },
-  { id: 1, text: 'MEV and Censorship Resistance' },
-  { id: 2, text: 'Liveness' },
+  { id: 1, text: 'Trustless Sequencing' },
+  { id: 2, text: 'Sequencing Liveness' },
   { id: 3, text: 'Multi-Rollup Sequencing' },
 ];
 
@@ -33,7 +33,12 @@ export const initialViews = [
     body: <MevCenRes src={mev} />,
     linksAndButtons: [
       { type: 1, text: 'See Demo', link: 'https://twitter.com/radius_xyz/status/1724082176818573399' },
-      { type: 0, text: 'Learn more', icon: to, link: 'https://docs.theradius.xyz/testnet/curie-testnet' },
+      {
+        type: 0,
+        text: 'Learn more',
+        icon: to,
+        link: 'https://mirror.xyz/0x957084A1F20AB33cfA0cE07ed57F50c05954999C/I77x90l_fyMjSnKjPuFtPymy153xlQXTjCeboQd08vA',
+      },
     ],
   },
   {
@@ -42,10 +47,10 @@ export const initialViews = [
       icon: asterisk,
       text: 'Liveness',
     },
-    header: 'Leader-based \n Shared Sequencer Network',
+    header: 'RAFT for Sequencing Liveness \n of Rollups',
     body: <Liveness />,
     linksAndButtons: [
-      { type: 1, text: 'View Real-Time Logs', link: 'https://portico-logs.theradius.xyz' },
+      { type: 1, text: 'View Real-Time', link: 'https://portico-logs.theradius.xyz' },
       { type: 0, text: 'Learn more', icon: to, link: 'https://docs.theradius.xyz/' },
     ],
   },

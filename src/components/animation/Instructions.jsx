@@ -30,7 +30,7 @@ const Instructions = () => {
       <path d='m292.833 493.833 2.5 2.5 5.834-5.833' stroke='#fff' strokeLinecap='round' strokeLinejoin='round' />
       <text fill='#fff' fillOpacity='.4' fontFamily='area-normal' fontSize='12' letterSpacing='0em'>
         <tspan x='309' y='498.86'>
-          Forwards order commitment
+          Forwards order commitment to user
         </tspan>
       </text>
       <path d='m824 415.5v116h2v-116z' fill='#5c5b5e' fillOpacity='.6' mask='url(#g)' />
@@ -53,7 +53,7 @@ const Instructions = () => {
       </text>
       <text fill='#fff' fontFamily='area-normal' fontSize='16' fontWeight='bold' letterSpacing='0em'>
         <tspan x='929' y='446.412'>
-          ROLLUP
+          OPERATOR
         </tspan>
       </text>
       <path d='m873.833 471.833 2.5 2.5 5.834-5.833' stroke='#fff' strokeLinecap='round' strokeLinejoin='round' />

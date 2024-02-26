@@ -37,7 +37,7 @@ export const ContextProvider = ({ children }) => {
   }, [roles]);
 
   async function queryLogs(timestamp) {
-    const query = `from(bucket: "sequencer") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> filter(fn: (r) => r["at"] > "${timestamp}") |> sort(columns: ["at"])`;
+    const query = `from(bucket: "sequencer") |> range(start: -10m) |> filter(fn: (r) => r["_measurement"] == "log") |> filter(fn: (r) => r["at"] > "${timestamp}") |> sort(columns: ["at"])`;
     const headers = {
       Authorization: `Token ${TOKEN}`,
       'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ export const ContextProvider = ({ children }) => {
   }
 
   async function queryRoles() {
-    const query = `from(bucket: "sequencer_table") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> group(columns: ["id"]) |> last()`;
+    const query = `from(bucket: "sequencer_table") |> range(start: -10m) |> filter(fn: (r) => r["_measurement"] == "log") |> group(columns: ["id"]) |> last()`;
     const headers = {
       Authorization: `Token ${TOKEN}`,
       'Content-Type': 'application/json',

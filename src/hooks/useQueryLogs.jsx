@@ -22,7 +22,7 @@ export const useQueryLogs = async (timestamp) => {
     Authorization: `Token ${TOKEN}`,
     'Content-Type': 'application/json',
   };
-  const query = `from(bucket: "sequencer") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> filter(fn: (r) => r["at"] > "${timestamp}") |> sort(columns: ["at"])`;
+  const query = `from(bucket: "sequencer") |> range(start: -10m) |> filter(fn: (r) => r["_measurement"] == "log") |> filter(fn: (r) => r["at"] > "${timestamp}") |> sort(columns: ["at"])`;
   const data = {
     query: query,
     type: 'flux',

@@ -21,7 +21,7 @@ export const useQueryRoles = async () => {
     Authorization: `Token ${TOKEN}`,
     'Content-Type': 'application/json',
   };
-  const query = `from(bucket: "sequencer_table") |> range(start: -7d) |> filter(fn: (r) => r["_measurement"] == "log") |> group(columns: ["id"]) |> last()`;
+  const query = `from(bucket: "sequencer_table") |> range(start: -10m) |> filter(fn: (r) => r["_measurement"] == "log") |> group(columns: ["id"]) |> last()`;
 
   const data = {
     query: query,

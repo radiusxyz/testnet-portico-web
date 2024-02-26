@@ -229,12 +229,21 @@ const Rollup = ({ id }) => {
   }
 
   useEffect(() => {
+    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
     const makeReqs = async () => {
       try {
-        const height = await getHeight(id); // Assuming getHeight is defined elsewhere
-        const timestamp0 = await getTimestamp(id, height - 2); // Assuming getTimestamp is defined elsewhere
+        const height = await getHeight(id);
+
+        const timestamp0 = await getTimestamp(id, height - 2);
+        await delay(1000); // Wait for 1 second
+
         const timestamp1 = await getTimestamp(id, height - 3);
+        await delay(1000); // Wait for 1 second
+
         const timestamp2 = await getTimestamp(id, height - 4);
+        // No delay needed here as it's the last request
+
         console.log(Date.now(), timestamp2);
 
         const blocks = [
@@ -243,7 +252,7 @@ const Rollup = ({ id }) => {
           { height: height - 4, age: Math.floor(Date.now() / 1000 - timestamp2) },
         ];
 
-        setBlocks(blocks); // Assuming setBlocks is a state setter function defined elsewhere
+        setBlocks(blocks);
       } catch (error) {
         console.error('Failed to fetch data:', error);
       }
@@ -252,7 +261,7 @@ const Rollup = ({ id }) => {
     // Call makeReqs immediately on component mount
     makeReqs();
 
-    // Set up an interval to call makeReqs every 5 seconds
+    // Set up an interval to call makeReqs every 7 seconds (as per your existing setup)
     const intervalId = setInterval(makeReqs, 7000);
 
     // Clear the interval on component unmount

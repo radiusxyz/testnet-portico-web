@@ -138,7 +138,7 @@ export const ContextProvider = ({ children }) => {
 
     // Function to fetch logs
     const fetchLogs = async (fetchedRoles) => {
-      if (Object.keys(fetchedRoles).length !== 0) {
+      if (Object.keys(fetchedRoles).length !== 0 && logs.length === 0) {
         // Ensure roles are set before fetching logs
         const logs = await queryLogs(fetchedRoles.timestamp);
         console.log('hello2');
@@ -158,6 +158,10 @@ export const ContextProvider = ({ children }) => {
       clearTimeout(timeoutId0); // Cleanup timeout on component unmount
       clearTimeout(timeoutId1); // Cleanup timeout on component unmount
     };
+  }, []);
+
+  useEffect(() => {
+    console.log('logging');
   }, []);
 
   return (

@@ -22,6 +22,7 @@ import {
 import { useQueryLogs } from './hooks/useQueryLogs';
 import { useQueryRoles } from './hooks/useQueryRoles';
 import cuid from 'cuid';
+import Loader from './Loader';
 
 const matching = {
   lc: { what: 'leader', event: 'changed' },
@@ -123,6 +124,10 @@ function App() {
     }
   }, [index]);
 
+  // useEffect(() => {
+  //   console.log(index, displayedLogs.length);
+  // }, [index, displayedLogs.length]);
+
   return (
     <WindowWrapper>
       <Container expand={expand} onDoubleClick={handleExpand}>
@@ -162,6 +167,7 @@ function App() {
           <ArrowTildeRow>
             <Arrow>➜</Arrow>
             <Tilde>~</Tilde>
+            {index === displayedLogs.length ? <Loader /> : <></>}
             <BlinkingSquare ref={lastItemRef} />
           </ArrowTildeRow>
         </LogLand>

@@ -144,5 +144,5 @@ export const BlinkingSquare = styled.div`
   width: 15px; // Size of the square
   height: 25px; // Size of the square
   background-color: white; // Color of the square
-  animation: ${blinkAnimation} 0.5s linear infinite;
+  animation: ${blinkAnimation} 1s linear infinite;
 `;

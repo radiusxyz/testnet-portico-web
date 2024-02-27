@@ -30,11 +30,19 @@ import Imports, { menuItems, initialViews } from './components/Imports';
 // globe icon => https://www.theradius.xyz/
 // twitter => https://twitter.com/radius_xyz
 // Docs button => https://github.com/radiusxyz
+const routes = {
+  '/': initialViews[0],
+  '/decentralized-shared-sequencing-layer': initialViews[0],
+  '/trustless-sequencing': initialViews[1],
+  '/sequencing-liveness': initialViews[2],
+  '/multi-rollup-sequencing': initialViews[3],
+};
 
 function App() {
   const [views] = useState(initialViews);
-  const [view, setView] = useState(views[0]);
+  const [view, setView] = useState(routes[window.location.pathname]);
   const [active, setActive] = useState(false);
+  console.log(window.location.pathname);
 
   useEffect(() => {
     // First, deactivate the class to reset the state

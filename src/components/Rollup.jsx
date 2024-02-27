@@ -6,6 +6,7 @@ import rollupA from '../assets/images/rollupA.svg';
 import rollupB from '../assets/images/rollupB.svg';
 import axios from 'axios';
 import { ROLLUP_URL } from '../assets/Data';
+import Loader from './Loader';
 
 const RollupContainer = styled.div`
   display: flex;
@@ -58,10 +59,11 @@ const BlockList = styled.div`
   gap: 2px;
   align-self: stretch;
   margin-bottom: 20px;
-
+  min-height: 223px;
   border-radius: 6px;
   border: 1px solid rgba(9, 10, 15, 0.08);
   background: var(--white-100, #fff);
+  position: relative;
 `;
 
 const topBorderAnimation = keyframes`
@@ -275,6 +277,7 @@ const Rollup = ({ id }) => {
         <Container>
           <ListTitle>Latest Blocks</ListTitle>
           <BlockList>
+            {!blocks.length && <Loader />}
             {blocks.map((blockData) => (
               <ListItem key={cuid()}>
                 <IconBlock>

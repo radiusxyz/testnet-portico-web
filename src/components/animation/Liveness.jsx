@@ -1,29 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { pathColors, highlightColors, filters, paths, defaultMapping, messages } from '../../assets/Data';
-import Defs from './Defs';
-import U from './U';
-import F1 from './F1';
-import F2 from './F2';
-import F3 from './F3';
-import L from './L';
-import F0 from './F0';
-import F0L from './F0L';
-import F1L from './F1L';
-import F2L from './F2L';
-import F3L from './F3L';
-import R0 from './R0';
-import R1 from './R1';
-import UF0 from './UF0';
-import UF1 from './UF1';
-import UF2 from './UF2';
-import UF3 from './UF3';
-import UL from './UL';
-import LR0 from './LR0';
-import LR1 from './LR1';
-import Circle from './Circle';
-import Instructions from './Instructions';
-import { usePortico } from '../../contexts/PorticoCtx';
-import TestCircle from './TestCircle';
+import React, { useEffect, useState } from "react";
+import { pathColors, highlightColors, filters, paths, defaultMapping, messages } from "../../assets/Data";
+import Defs from "./Defs";
+import U from "./U";
+import F1 from "./F1";
+import F2 from "./F2";
+import F3 from "./F3";
+import L from "./L";
+import F0 from "./F0";
+import F0L from "./F0L";
+import F1L from "./F1L";
+import F2L from "./F2L";
+import F3L from "./F3L";
+import R0 from "./R0";
+import R1 from "./R1";
+import UF0 from "./UF0";
+import UF1 from "./UF1";
+import UF2 from "./UF2";
+import UF3 from "./UF3";
+import UL from "./UL";
+import LR0 from "./LR0";
+import LR1 from "./LR1";
+import Circle from "./Circle";
+import Instructions from "./Instructions";
+import { usePortico } from "../../contexts/PorticoCtx";
+import TestCircle from "./TestCircle";
 
 const getLabels = (roles) => Object.fromEntries(Object.entries(roles).map(([id, role]) => [role, id]));
 
@@ -60,7 +60,7 @@ const Liveness = () => {
   const [from, to, data] = [log.from, log.to, log.data];
 
   const motionPath = paths[from + to];
-  const isReversed = ['l', 'u'].includes(to) && ['f0', 'f1', 'f2', 'f3', 'l'].includes(from);
+  const isReversed = ["l", "u"].includes(to) && ["f0", "f1", "f2", "f3", "l"].includes(from);
 
   const mapping =
     from && to && data
@@ -86,7 +86,7 @@ const Liveness = () => {
     return {
       ...prevState,
       [oldLeader]: newRole,
-      [rawLog.to]: 'l',
+      [rawLog.to]: "l",
     };
   };
 
@@ -97,7 +97,7 @@ const Liveness = () => {
   }, [globalRoles]);
 
   useEffect(() => {
-    if (rawLog.data === 'ld') {
+    if (rawLog.data === "ld") {
       setRoles(roleSetter);
     }
   }, [index]);
@@ -154,13 +154,13 @@ const Liveness = () => {
   // }, [isFinished, rawLog]);
 
   // Consolling
-  useEffect(() => {
-    console.log(index, logs.length, logs);
-  }, [logs, index]);
+  // useEffect(() => {
+  //   console.log(index, logs.length, logs);
+  // }, [logs, index]);
 
-  useEffect(() => {
-    console.log(roles);
-  }, [roles]);
+  // useEffect(() => {
+  //   console.log(roles);
+  // }, [roles]);
 
   // Syncing the Portico context state values with local state values
 
@@ -229,7 +229,7 @@ const Liveness = () => {
         id={labels.l}
         filterColor={mapping.entities.l.filter}
         highlightColor={mapping.entities.l.highlight}
-        livenessColor={data === 'ld' ? '#5C5B5E' : '#FFD875'}
+        livenessColor={data === "ld" ? "#5C5B5E" : "#FFD875"}
       />
 
       {/* Rollup 0 */}

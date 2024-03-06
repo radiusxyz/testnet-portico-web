@@ -23,7 +23,7 @@ const Pulse = styled.div`
   top: 18%;
   width: 18.909%;
   height: 7%;
-  border-radius: 2% 2% 2% 2%/10% 10% 10% 10%;
+  border-radius: 4% 4% 4% 4%/17% 17% 17% 17%;
   border: 1px solid #8cf900;
   background: transparent;
   transform-origin: left center;

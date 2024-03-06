@@ -1,13 +1,14 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import Rollup from './Rollup.jsx';
+import Rollup from "./Rollup.jsx";
 
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 632px;
+  height: 575px;
+  padding: 20px 20px;
   justify-content: center;
   align-items: center;
   gap: 44px;
@@ -27,7 +28,7 @@ const RollupsWrapper = styled.div`
 `;
 
 const BottomText = styled.p`
-  font-family: 'area-normal';
+  font-family: "area-normal";
   color: rgba(255, 255, 255, 0.88);
   font-size: 16px;
   font-weight: 600;
@@ -38,8 +39,8 @@ const Roblox = () => {
   return (
     <ContentWrapper>
       <RollupsWrapper>
-        <Rollup id={'A'} />
-        <Rollup id={'B'} />
+        <Rollup id={"A"} />
+        <Rollup id={"B"} />
       </RollupsWrapper>
       <BottomText>Shared sequencer sends blocks to rollup operators</BottomText>
     </ContentWrapper>

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import Navbar from './components/Navbar';
-import to from './assets/images/to.svg';
-import cuid from 'cuid';
-import Dot from './components/Dot';
+import React, { useEffect, useState } from "react";
+import Navbar from "./components/Navbar";
+import to from "./assets/images/to.svg";
+import cuid from "cuid";
+import Dot from "./components/Dot";
 
 import {
   Root,
@@ -22,8 +22,8 @@ import {
   TransButton,
   Txt,
   IconWrapper,
-} from './AppStyles';
-import Imports, { menuItems, initialViews } from './components/Imports';
+} from "./AppStyles";
+import Imports, { menuItems, initialViews } from "./components/Imports";
 
 // Links to redirect
 
@@ -31,11 +31,11 @@ import Imports, { menuItems, initialViews } from './components/Imports';
 // twitter => https://twitter.com/radius_xyz
 // Docs button => https://github.com/radiusxyz
 const routes = {
-  '/': initialViews[0],
-  '/decentralized-shared-sequencing-layer': initialViews[0],
-  '/trustless-sequencing': initialViews[1],
-  '/sequencing-liveness': initialViews[2],
-  '/multi-rollup-sequencing': initialViews[3],
+  "/": initialViews[0],
+  "/decentralized-shared-sequencing-layer": initialViews[0],
+  "/trustless-sequencing": initialViews[1],
+  "/sequencing-liveness": initialViews[2],
+  "/multi-rollup-sequencing": initialViews[3],
 };
 
 function App() {
@@ -65,9 +65,9 @@ function App() {
           const currentIndex = views.findIndex((view) => prevView.id === view.id);
           let newIndex = currentIndex;
 
-          if (direction === 'up' && currentIndex > 0) {
+          if (direction === "up" && currentIndex > 0) {
             newIndex = currentIndex - 1;
-          } else if (direction === 'down' && currentIndex < views.length - 1) {
+          } else if (direction === "down" && currentIndex < views.length - 1) {
             newIndex = currentIndex + 1;
           }
 
@@ -86,27 +86,27 @@ function App() {
     };
 
     const handleKeyDown = (event) => {
-      if (event.key === 'ArrowUp') {
-        changeView('up');
-      } else if (event.key === 'ArrowDown') {
-        changeView('down');
+      if (event.key === "ArrowUp") {
+        changeView("up");
+      } else if (event.key === "ArrowDown") {
+        changeView("down");
       }
     };
 
     const handleScroll = (event) => {
       if (event.deltaY < 0) {
-        changeView('up');
+        changeView("up");
       } else if (event.deltaY > 0) {
-        changeView('down');
+        changeView("down");
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('wheel', handleScroll);
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("wheel", handleScroll);
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('wheel', handleScroll);
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("wheel", handleScroll);
     };
   }, [views]);
 
@@ -139,7 +139,7 @@ function App() {
           ))}
         </Menu>
         <MainWrapper>
-          <Main key={view.id} className={active ? 'active' : ''}>
+          <Main key={view.id} className={active ? "active" : ""}>
             {/* {view.tag && (
               <TagContainer>
                 <Tag>
@@ -150,12 +150,13 @@ function App() {
             )} */}
             <Head>{view.header}</Head>
             <Body>
+              {/* {view.body} */}
               <ImgWrapper>{view.body}</ImgWrapper>
             </Body>
             <LinksButtons>
               {view.linksAndButtons.map((btn) =>
                 btn.type === 0 ? (
-                  <BaseBtn key={cuid()} onClick={() => window.open(btn.link, '_blank')}>
+                  <BaseBtn key={cuid()} onClick={() => window.open(btn.link, "_blank")}>
                     <Txt>{btn.text}</Txt>
                     {btn.icon && (
                       <IconWrapper>
@@ -164,7 +165,7 @@ function App() {
                     )}
                   </BaseBtn>
                 ) : (
-                  <TransButton key={cuid()} onClick={() => window.open(btn.link, '_blank')}>
+                  <TransButton key={cuid()} onClick={() => window.open(btn.link, "_blank")}>
                     <Txt>{btn.text}</Txt>
                     {btn.icon && (
                       <IconWrapper>

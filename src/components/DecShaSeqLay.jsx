@@ -1,6 +1,6 @@
-import React from 'react';
-import styled, { keyframes } from 'styled-components';
-import { usePortico } from '../contexts/PorticoCtx';
+import React from "react";
+import styled, { keyframes } from "styled-components";
+import { usePortico } from "../contexts/PorticoCtx";
 
 const Wrapper = styled.div`
   position: relative;
@@ -19,15 +19,31 @@ const pulseAnimation = keyframes`
 
 const Pulse = styled.div`
   position: absolute;
-  left: 589px;
-  top: 112px;
-  width: 208px;
-  height: 42px;
-  border-radius: 6px;
+  left: 53.5%;
+  top: 18%;
+  width: 18.909%;
+  height: 7%;
+  border-radius: 2% 2% 2% 2%/10% 10% 10% 10%;
   border: 1px solid #8cf900;
   background: transparent;
   transform-origin: left center;
   animation: ${pulseAnimation} 1.5s ease infinite;
+
+  // @media (max-width: 1800px) {
+  //   border-radius: 7px;
+  // }
+  // @media (max-width: 1700px) {
+  //   border-radius: 6px;
+  // }
+  // @media (max-width: 1600px) {
+  //   border-radius: 5px;
+  // }
+  // @media (max-width: 1500px) {
+  //   border-radius: 4px;
+  // }
+  // @media (max-width: 1400px) {
+  //   border-radius: 3px;
+  // }
 `;
 
 const DecShaSeqLay = () => {
@@ -36,7 +52,7 @@ const DecShaSeqLay = () => {
   return (
     <Wrapper>
       <Pulse />
-      <svg width='1100' height='610' viewBox='0 0 1100 610' fill='none' xmlns='http://www.w3.org/2000/svg'>
+      <svg viewBox='0 0 1100 610' fill='none' xmlns='http://www.w3.org/2000/svg'>
         <rect x='431' y='119.5' width='315' height='391' rx='11.5' stroke='#222222' />
         <rect x='419' y='107.5' width='339' height='415' rx='15.5' stroke='#222222' strokeOpacity='0.8' />
         <rect x='407' y='95.5' width='363' height='439' rx='15.5' stroke='#222222' strokeOpacity='0.6' />
@@ -79,7 +95,7 @@ const DecShaSeqLay = () => {
         <text
           fill='white'
           xmlSpace='preserve'
-          style={{ whiteSpace: 'pre' }}
+          style={{ whiteSpace: "pre" }}
           fontFamily='area-normal'
           fontSize='16'
           letterSpacing='0em'
@@ -154,7 +170,7 @@ const DecShaSeqLay = () => {
           <text
             fill='white'
             xmlSpace='preserve'
-            style={{ whiteSpace: 'pre' }}
+            style={{ whiteSpace: "pre" }}
             fontFamily='area-normal'
             fontSize='12'
             letterSpacing='0em'
@@ -168,7 +184,7 @@ const DecShaSeqLay = () => {
           <text
             fill='white'
             xmlSpace='preserve'
-            style={{ whiteSpace: 'pre' }}
+            style={{ whiteSpace: "pre" }}
             fontFamily='area-normal'
             fontSize='12'
             letterSpacing='0em'
@@ -204,7 +220,7 @@ const DecShaSeqLay = () => {
           <text
             fill='white'
             xmlSpace='preserve'
-            style={{ whiteSpace: 'pre' }}
+            style={{ whiteSpace: "pre" }}
             fontFamily='area-normal'
             fontSize='12'
             letterSpacing='0em'
@@ -238,7 +254,7 @@ const DecShaSeqLay = () => {
           <text
             fill='white'
             xmlSpace='preserve'
-            style={{ whiteSpace: 'pre' }}
+            style={{ whiteSpace: "pre" }}
             fontFamily='area-normal'
             fontSize='12'
             letterSpacing='0em'
@@ -272,7 +288,7 @@ const DecShaSeqLay = () => {
           <text
             fill='white'
             xmlSpace='preserve'
-            style={{ whiteSpace: 'pre' }}
+            style={{ whiteSpace: "pre" }}
             fontFamily='area-normal'
             fontSize='12'
             letterSpacing='0em'
@@ -306,7 +322,7 @@ const DecShaSeqLay = () => {
           <text
             fill='white'
             xmlSpace='preserve'
-            style={{ whiteSpace: 'pre' }}
+            style={{ whiteSpace: "pre" }}
             fontFamily='area-normal'
             fontSize='12'
             letterSpacing='0em'
@@ -320,7 +336,7 @@ const DecShaSeqLay = () => {
           <text
             fill='white'
             xmlSpace='preserve'
-            style={{ whiteSpace: 'pre' }}
+            style={{ whiteSpace: "pre" }}
             fontFamily='area-normal'
             fontSize='12'
             letterSpacing='0em'
@@ -345,7 +361,7 @@ const DecShaSeqLay = () => {
           <text
             fill='white'
             xmlSpace='preserve'
-            style={{ whiteSpace: 'pre' }}
+            style={{ whiteSpace: "pre" }}
             fontFamily='area-normal'
             fontSize='16'
             letterSpacing='0em'
@@ -370,7 +386,7 @@ const DecShaSeqLay = () => {
           <text
             fill='white'
             xmlSpace='preserve'
-            style={{ whiteSpace: 'pre' }}
+            style={{ whiteSpace: "pre" }}
             fontFamily='area-normal'
             fontSize='16'
             letterSpacing='0em'
@@ -394,7 +410,7 @@ const DecShaSeqLay = () => {
           <text
             fill='white'
             xmlSpace='preserve'
-            style={{ whiteSpace: 'pre' }}
+            style={{ whiteSpace: "pre" }}
             fontFamily='area-normal'
             fontSize='12'
             fontWeight='bold'
@@ -437,7 +453,7 @@ const DecShaSeqLay = () => {
           <text
             fill='white'
             xmlSpace='preserve'
-            style={{ whiteSpace: 'pre' }}
+            style={{ whiteSpace: "pre" }}
             fontFamily='area-normal'
             fontSize='12'
             fontWeight='bold'
@@ -462,7 +478,7 @@ const DecShaSeqLay = () => {
           <text
             fill='white'
             xmlSpace='preserve'
-            style={{ whiteSpace: 'pre' }}
+            style={{ whiteSpace: "pre" }}
             fontFamily='area-normal'
             fontSize='12'
             fontWeight='bold'
@@ -491,7 +507,7 @@ const DecShaSeqLay = () => {
           fill='white'
           fillOpacity='0.6'
           xmlSpace='preserve'
-          style={{ whiteSpace: 'pre' }}
+          style={{ whiteSpace: "pre" }}
           fontFamily='area-normal'
           fontSize='14'
           letterSpacing='0em'
@@ -503,7 +519,7 @@ const DecShaSeqLay = () => {
         <text
           fill='white'
           xmlSpace='preserve'
-          style={{ whiteSpace: 'pre' }}
+          style={{ whiteSpace: "pre" }}
           fontFamily='area-normal'
           fontSize='16'
           letterSpacing='0em'
@@ -517,7 +533,7 @@ const DecShaSeqLay = () => {
           fill='white'
           fillOpacity='0.6'
           xmlSpace='preserve'
-          style={{ whiteSpace: 'pre' }}
+          style={{ whiteSpace: "pre" }}
           fontFamily='area-normal'
           fontSize='14'
           letterSpacing='0em'
@@ -529,7 +545,7 @@ const DecShaSeqLay = () => {
         <text
           fill='white'
           xmlSpace='preserve'
-          style={{ whiteSpace: 'pre' }}
+          style={{ whiteSpace: "pre" }}
           fontFamily='area-normal'
           fontSize='16'
           letterSpacing='0em'
@@ -638,7 +654,7 @@ const DecShaSeqLay = () => {
             <rect width='17' height='18' fill='white' transform='translate(502.5 124)' />
           </clipPath>
         </defs>
-      </svg>
+      </svg>{" "}
     </Wrapper>
   );
 };

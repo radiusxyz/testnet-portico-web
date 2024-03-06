@@ -182,7 +182,7 @@ const Liveness = () => {
   }, [roles]);
 
   return (
-    <svg width='1100' height='548' viewBox='0 0 1100 548' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg preserveAspectRatio='xMidYMid meet' viewBox='0 0 1100 548' fill='none' xmlns='http://www.w3.org/2000/svg'>
       {/* The following are the paths from one node to another, i.e. UF0 is the path from 'User' to 'Follower 0' */}
 
       <UF0 stroke={mapping.paths.uf0} />

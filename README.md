@@ -1,45 +1,51 @@
-# Liveness animation based on the logs emitted from the Radius shared sequencing layer
+# Liveness Animation Based on Logs from the Radius Shared Sequencing Layer
 
 ## Description
 
-The given code displays the work of the sequencers based on the RAFT algorithm. There are 8 entities:
+This project visualizes the operation of sequencers within the RAFT algorithm framework. The animation showcases interactions among 8 key entities:
 
-- user
-- 4 follower sequencers
-- 1 leader sequencer
-- 2 rollups
+- 1 User
+- 4 Follower Sequencers
+- 1 Leader Sequencer
+- 2 Rollups
 
 ### Steps
 
-1. User send encrypted transaction to one of the sequencers (including the leader)
-2. The follower sequencers redirect the encrypted transaction to the leader
-3. The leader orders the transaction and shares the order commitment with the followers
-4. The follower that initially received the encrypted transaction shares the order commitment with user that sent it
-5. The sequencer shares the block with the corresponding the respective rollup
-6. In case of the leader's death, one of the followers becomes the leader, thus ensuring the liveness of the sequencing layer
+1. **User Transaction**: The user sends an encrypted transaction to one of the sequencers (this could be the leader or a follower).
+2. **Forwarding**: Follower sequencers forward the encrypted transaction to the leader.
+3. **Ordering**: The leader orders the transaction and shares the order commitment with the followers.
+4. **Confirmation**: The follower that initially received the encrypted transaction shares the order commitment with the user who sent it.
+5. **Block Sharing**: The sequencer distributes the block to the respective rollup.
+6. **Leader Election**: If the leader fails, one of the followers takes over as the leader, ensuring the liveness of the sequencing layer.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This template offers a minimal setup for running a React project with Vite, featuring Hot Module Replacement (HMR) and some ESLint configurations.
 
-## Running
+## Running the Project
 
-```
-git clone https://github.com/gylman/svgs
-```
+To get started with the project:
 
-```
-cd svgs
-```
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/gylman/svgs
+    ```
 
-```
-npm i
-```
+2. Navigate to the project directory:
+    ```bash
+    cd svgs
+    ```
 
-```
-npm run dev
-```
+3. Install the necessary dependencies:
+    ```bash
+    npm i
+    ```
 
-## Stack
+4. Start the development server:
+    ```bash
+    npm run dev
+    ```
 
-- Vite
-- React
-- JavaScript
+## Tech Stack
+
+- **Vite**
+- **React**
+- **JavaScript**
